@@ -52,4 +52,11 @@ class WeddingInvitation extends Model
 		'bat' => 'numeric',
 		'dong' => 'numeric'
     ];
+
+	/**
+	 * @return mixed
+	 */
+	public function wedding() {
+		return $this->belongsTo('App\Models\Wedding');
+	}
 }

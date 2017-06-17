@@ -47,9 +47,4 @@ class User extends Authenticatable
 		'email' => 'required',
 		'role' => 'required'
 	];
-
-
-	public function accounts() {
-		return $this->hasMany('App\Models\Account');
-	}
 }

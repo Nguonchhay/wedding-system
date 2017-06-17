@@ -11,6 +11,7 @@ class Expense extends Model
     public $table = 'expenses';
 
     public $fillable = [
+		'wedding_id',
         'title',
         'dollar',
         'khmer',
@@ -24,6 +25,7 @@ class Expense extends Model
      */
     protected $casts = [
         'id' => 'string',
+		'wedding_id' => 'string',
         'dollar' => 'float',
         'khmer' => 'float'
     ];
@@ -34,6 +36,14 @@ class Expense extends Model
      * @var array
      */
     public static $rules = [
+		'wedding_id' => 'required',
         'title' => 'required'
     ];
+
+	/**
+	 * @return mixed
+	 */
+	public function wedding() {
+		return $this->belongsTo('App\Models\Wedding');
+	}
 }

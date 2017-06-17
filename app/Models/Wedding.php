@@ -43,4 +43,18 @@ class Wedding extends Model
 		'start_date' => 'required',
 		'end_date' => 'required'
     ];
+
+	/**
+	 * @return mixed
+	 */
+	public function wedding_invitations() {
+		return $this->hasMany('App\Models\WeddingInvitation');
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function expenses() {
+		return $this->hasMany('App\Models\Expense');
+	}
 }
