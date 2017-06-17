@@ -38,7 +38,6 @@ class WeddingController extends AppBaseController
     {
         $this->weddingRepository->pushCriteria(new RequestCriteria($request));
         $weddings = $this->weddingRepository->all();
-		var_dump(empty($weddings));
 
 		return $this->assignToView('Wedding List', 'index', [
 			'weddings' => $weddings
@@ -145,24 +144,23 @@ class WeddingController extends AppBaseController
     /**
      * Remove the specified Wedding from storage.
      *
-     * @param  int $id
+     * @param string $id
      *
      * @return Response
      */
     public function destroy($id)
     {
-        $guest = $this->weddingRepository->findWithoutFail($id);
-
-        if (empty($guest)) {
+		$wedding = $this->weddingRepository->findWithoutFail($id);
+        if (empty($wedding)) {
             Flash::error('Wedding not found');
-
-            return redirect(route('guests.index'));
+            return redirect(route('weddings.index'));
         }
 
         $this->weddingRepository->delete($id);
+		Files::delete($wedding->groom_image);
+		Files::delete($wedding->bride_image);
 
         Flash::success('Wedding deleted successfully.');
-
-        return redirect(route('guests.index'));
+        return redirect(route('weddings.index'));
     }
 }

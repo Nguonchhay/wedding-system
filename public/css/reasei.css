@@ -18,17 +18,21 @@ textarea {
 
 /* line 1, ../../../resources/assets/sass/components/_wedding.scss */
 .weddings {
-  padding: 30px;
+  padding: 15px;
   width: 100%;
 }
-/* line 6, ../../../resources/assets/sass/components/_wedding.scss */
+/* line 5, ../../../resources/assets/sass/components/_wedding.scss */
+.weddings .item {
+  padding: 15px;
+}
+/* line 8, ../../../resources/assets/sass/components/_wedding.scss */
 .weddings .item .date {
   font-size: 24px;
   margin-bottom: 30px;
   text-align: center;
   width: 100%;
 }
-/* line 13, ../../../resources/assets/sass/components/_wedding.scss */
+/* line 15, ../../../resources/assets/sass/components/_wedding.scss */
 .weddings .item .heart {
   color: red;
   margin-top: 50%;
@@ -36,35 +40,35 @@ textarea {
   text-align: center;
   width: 100%;
 }
-/* line 20, ../../../resources/assets/sass/components/_wedding.scss */
+/* line 22, ../../../resources/assets/sass/components/_wedding.scss */
 .weddings .item .heart i {
   font-size: 120px;
 }
-/* line 24, ../../../resources/assets/sass/components/_wedding.scss */
+/* line 26, ../../../resources/assets/sass/components/_wedding.scss */
 .weddings .item .heart span {
   font-size: 25px;
   font-weight: bold;
 }
-/* line 30, ../../../resources/assets/sass/components/_wedding.scss */
+/* line 32, ../../../resources/assets/sass/components/_wedding.scss */
 .weddings .item .preview {
   text-align: center;
 }
-/* line 33, ../../../resources/assets/sass/components/_wedding.scss */
+/* line 35, ../../../resources/assets/sass/components/_wedding.scss */
 .weddings .item .preview .image {
   width: 100%;
 }
-/* line 36, ../../../resources/assets/sass/components/_wedding.scss */
+/* line 38, ../../../resources/assets/sass/components/_wedding.scss */
 .weddings .item .preview .image img {
   height: auto;
   width: 300px;
 }
-/* line 42, ../../../resources/assets/sass/components/_wedding.scss */
+/* line 44, ../../../resources/assets/sass/components/_wedding.scss */
 .weddings .item .preview .name {
   font-size: 20px;
   font-weight: bold;
   margin-top: 15px;
 }
-/* line 49, ../../../resources/assets/sass/components/_wedding.scss */
+/* line 51, ../../../resources/assets/sass/components/_wedding.scss */
 .weddings .item .description {
   margin-top: 30px;
 }

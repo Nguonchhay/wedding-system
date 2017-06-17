@@ -1,5 +1,5 @@
 <div class="weddings">
-    @if (!empty($weddings))
+    @if (count($weddings))
         @foreach($weddings as $wedding)
             <div class="item">
                 <div class="action">
@@ -47,6 +47,8 @@
                     {!! $wedding->note !!}
                 </div>
             </div>
+
+            <hr>
         @endforeach
     @else
         <strong>There is no wedding part yet.</strong>
