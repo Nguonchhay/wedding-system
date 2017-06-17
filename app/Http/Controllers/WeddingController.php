@@ -117,6 +117,25 @@ class WeddingController extends AppBaseController
 		$input['groom_image'] = Files::saveEditUploadImage($input, $wedding->groom_image, 'groom_image', $imagePrefix, $imageBasePath, 'imageIsDelete');
 		$input['bride_image'] = Files::saveEditUploadImage($input, $wedding->bride_image, 'bride_image', $imagePrefix, $imageBasePath, 'welcomeImageIsDelete');
 
+		/**
+		 * Clean update the uploaded image
+		 */
+		if (intval($input['groomImageIsDelete']) == 1) {
+			Files::delete($wedding->groom_image);
+		} else {
+			if ($input['groom_image'] !== $wedding->groom_image) {
+				Files::delete($wedding->groom_image);
+			}
+		}
+
+		if (intval($input['brideImageIsDelete']) == 1) {
+			Files::delete($wedding->groom_image);
+		} else {
+			if ($input['bride_image'] !== $wedding->bride_image) {
+				Files::delete($wedding->bride_image);
+			}
+		}
+
 		$wedding = $this->weddingRepository->update($input, $id);
         Flash::success('Wedding updated successfully.');
 
