@@ -38,8 +38,8 @@ class Wedding extends Model
      * @var array
      */
     public static $rules = [
-        'groom' => 'required|min:3',
-		'bride' => 'required|min:3',
+        'groom_name' => 'required|min:3',
+		'bride_name' => 'required|min:3',
 		'start_date' => 'required',
 		'end_date' => 'required'
     ];
@@ -56,5 +56,19 @@ class Wedding extends Model
 	 */
 	public function expenses() {
 		return $this->hasMany('App\Models\Expense');
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getBaseImagePath() {
+		return config('settings.assets.image');
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getPrefixImage() {
+		return date('GdYsmi');
 	}
 }

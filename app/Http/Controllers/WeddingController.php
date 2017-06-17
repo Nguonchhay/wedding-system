@@ -1,10 +1,11 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateWeddingRequest;
 use App\Http\Requests\UpdateWeddingRequest;
+use App\Models\Wedding;
 use App\Repositories\WeddingRepository;
+use App\Utility\Files;
 use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -16,9 +17,8 @@ class WeddingController extends AppBaseController
     private $weddingRepository;
 
 
-
 	/**
-	 * @param WeddingRepository $guestRepository
+	 * @param WeddingRepository $weddingRepository
 	 */
     public function __construct(WeddingRepository $weddingRepository) {
 		parent::__construct();
@@ -38,6 +38,7 @@ class WeddingController extends AppBaseController
     {
         $this->weddingRepository->pushCriteria(new RequestCriteria($request));
         $weddings = $this->weddingRepository->all();
+		var_dump(empty($weddings));
 
 		return $this->assignToView('Wedding List', 'index', [
 			'weddings' => $weddings
@@ -64,12 +65,13 @@ class WeddingController extends AppBaseController
     public function store(CreateWeddingRequest $request)
     {
         $input = $request->all();
+		$input['groom_image'] = Files::saveUploadImage('groom_image', Wedding::getPrefixImage(), Wedding::getBaseImagePath());
+		$input['bride_image'] = Files::saveUploadImage('bride_image', Wedding::getPrefixImage(), Wedding::getBaseImagePath());
 
-        $guest = $this->weddingRepository->create($input);
-
+        $wedding = $this->weddingRepository->create($input);
         Flash::success('Wedding saved successfully.');
 
-        return redirect(route('guests.index'));
+        return redirect(route('weddings.index'));
     }
 
     /**

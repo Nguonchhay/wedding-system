@@ -34,7 +34,7 @@ module.exports = (grunt) ->
 		concat:
 			jsFooter:
 				src: [
-					'<%= dirs.coffee.dest %>//build/*.js'
+					'<%= dirs.coffee.dest %>/build/*.js'
 				],
 				dest: '<%= dirs.script.dest %>/reasei.js',
 				options:

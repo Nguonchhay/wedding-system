@@ -19,8 +19,8 @@ class CreateWeddingsTable extends Migration
 			$table->string('bride_name', 60);
 			$table->string('groom_image', 255)->nullable();
 			$table->string('bride_image', 255)->nullable();
-			$table->dateTime('start_date');
-			$table->dateTime('end_date');
+			$table->date('start_date');
+			$table->date('end_date');
 			$table->string('note')->nullable();
             $table->softDeletes();
         });

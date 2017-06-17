@@ -9,6 +9,9 @@ return [
 	'record_from' => [
 		'input', 'mobile'
 	],
+	'assets' => [
+		'image' => 'uploads/images'
+	],
 	'gifts' => [
 		'dollar' => true,
 		'khmer' => true,

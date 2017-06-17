@@ -11,7 +11,7 @@
        <div class="box box-primary">
            <div class="box-body">
                <div class="row">
-                   {!! Form::model($guest, ['route' => ['guests.update', $guest->id], 'method' => 'patch']) !!}
+                   {!! Form::model($guest, ['route' => ['guests.update', $guest->id], 'method' => 'patch', 'enctype' => 'multipart/form-data']) !!}
 
                         @include('guests.partials.fields')
 

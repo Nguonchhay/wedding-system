@@ -128,6 +128,8 @@
     <script src="{!! asset('/theme/js/select2.min.js') !!}"></script>
     <script src="{!! asset('/theme/js/icheck.min.js') !!}"></script>
 
+    <script src="{!! asset('/theme/plugins/datepicker/bootstrap-datepicker.js') !!}"></script>
+
     <!-- AdminLTE App -->
     <script src="{!! asset('/theme/js/app.min.js') !!}"></script>
 

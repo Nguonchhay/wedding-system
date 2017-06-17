@@ -8,13 +8,11 @@
         @include('adminlte-templates::common.errors')
         <div class="box box-primary">
             <div class="box-body">
-                <div class="row">
-                    {!! Form::open(['route' => 'weddings.store']) !!}
+                {!! Form::open(['route' => 'weddings.store', 'enctype' => 'multipart/form-data']) !!}
 
-                        @include('weddings.partials.fields')
+                @include('weddings.partials.fields')
 
-                    {!! Form::close() !!}
-                </div>
+                {!! Form::close() !!}
             </div>
         </div>
     </div>

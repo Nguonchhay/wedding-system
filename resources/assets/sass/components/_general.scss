@@ -1,0 +1,17 @@
+form {
+  .required {
+    &:after {
+      content: '*';
+    }
+  }
+}
+
+textarea {
+  resize: vertical;
+  width: 100%;
+}
+
+.image-preview {
+  height: auto;
+  width: 300px;
+}

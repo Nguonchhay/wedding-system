@@ -1,7 +1,6 @@
 /node_modules
 /.sass-cache
 /public/storage
-/public/hot
 /storage/*.key
 /vendor
 /.idea
@@ -10,3 +9,4 @@ Homestead.yaml
 .env
 /build
 /compiled
+/public/uploads/images/

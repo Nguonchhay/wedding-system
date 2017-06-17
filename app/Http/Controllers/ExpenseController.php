@@ -1,11 +1,9 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateExpenseRequest;
 use App\Http\Requests\UpdateExpenseRequest;
 use App\Repositories\ExpenseRepository;
-use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -13,11 +11,12 @@ use Response;
 
 class ExpenseController extends AppBaseController
 {
-    /** @var  ExpenseRepository */
+    /** @var ExpenseRepository */
     private $expenseRepository;
 
     public function __construct(ExpenseRepository $expenseRepo)
     {
+		parent::__construct();
         $this->expenseRepository = $expenseRepo;
     }
 

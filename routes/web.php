@@ -29,6 +29,5 @@ Route::group([
 
 	Route::resource('guests', 'GuestController');
 	Route::resource('weddings', 'WeddingController');
+	Route::resource('expenses', 'ExpenseController');
 });
-
-Route::resource('expenses', 'ExpenseController');
