@@ -1,0 +1,38 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+
+class CreateWeddingsTable extends Migration
+{
+
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('weddings', function (Blueprint $table) {
+            $table->string('id', 60);
+            $table->string('groom_name', 60);
+			$table->string('bride_name', 60);
+			$table->string('groom_image', 255)->nullable();
+			$table->string('bride_image', 255)->nullable();
+			$table->dateTime('start_date');
+			$table->dateTime('end_date');
+			$table->string('note')->nullable();
+            $table->softDeletes();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('weddings');
+    }
+}
