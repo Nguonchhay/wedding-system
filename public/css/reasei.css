@@ -10,7 +10,8 @@ textarea {
 }
 
 /* line 14, ../../../resources/assets/sass/components/_general.scss */
-.image-preview {
+.image-preview,
+.new-image-preview {
   height: auto;
   width: 300px;
 }

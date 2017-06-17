@@ -37,7 +37,7 @@
         <label>Groom image</label>
         @if(isset($wedding) && $wedding->groom_image)
             <div class="existImage">
-                <button class="btn btn-default groom-delete-image" type="button"><i class="fa fa-times"></i></button><br>
+                <button class="btn btn-default btn-delete-image" type="button"><i class="fa fa-times"></i></button><br>
                 <input type="hidden" class="store-delete" name="groomImageIsDelete" value="0">
                 <img class="image-preview" src="{{ asset('/') . $wedding->groom_image }}" >
             </div><br>
@@ -53,7 +53,7 @@
         <label>Bride image</label>
         @if(isset($wedding) && $wedding->bride_image)
             <div class="existImage">
-                <button class="btn btn-default bride-delete-image" type="button"><i class="fa fa-times"></i></button><br>
+                <button class="btn btn-default btn-delete-image" type="button"><i class="fa fa-times"></i></button><br>
                 <input type="hidden" class="store-delete" name="brideImageIsDelete" value="0">
                 <img class="image-preview" src="{{ asset('/') . $wedding->bride_image }}" >
             </div><br>

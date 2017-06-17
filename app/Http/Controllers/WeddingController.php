@@ -65,33 +65,15 @@ class WeddingController extends AppBaseController
     public function store(CreateWeddingRequest $request)
     {
         $input = $request->all();
-		$input['groom_image'] = Files::saveUploadImage('groom_image', Wedding::getPrefixImage(), Wedding::getBaseImagePath());
-		$input['bride_image'] = Files::saveUploadImage('bride_image', Wedding::getPrefixImage(), Wedding::getBaseImagePath());
+		$imagePrefix = Wedding::getPrefixImage();
+		$imageBasePath = Wedding::getBaseImagePath();
+		$input['groom_image'] = Files::saveUploadImage('groom_image', $imagePrefix, $imageBasePath);
+		$input['bride_image'] = Files::saveUploadImage('bride_image', $imagePrefix, $imageBasePath);
 
         $wedding = $this->weddingRepository->create($input);
         Flash::success('Wedding saved successfully.');
 
         return redirect(route('weddings.index'));
-    }
-
-    /**
-     * Display the specified Wedding.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
-    public function show($id)
-    {
-        $guest = $this->weddingRepository->findWithoutFail($id);
-
-        if (empty($guest)) {
-            Flash::error('Wedding not found');
-
-            return redirect(route('guests.index'));
-        }
-
-        return view('guests.show')->with('guest', $guest);
     }
 
     /**
@@ -103,40 +85,42 @@ class WeddingController extends AppBaseController
      */
     public function edit($id)
     {
-        $guest = $this->weddingRepository->findWithoutFail($id);
-
-        if (empty($guest)) {
+        $wedding = $this->weddingRepository->findWithoutFail($id);
+        if (empty($wedding)) {
             Flash::error('Wedding not found');
-
-            return redirect(route('guests.index'));
+            return redirect(route('weddings.index'));
         }
-
-        return view('guests.edit')->with('guest', $guest);
+		return $this->assignToView('Edit Wedding', 'edit', [
+			'wedding' => $wedding
+		]);
     }
 
     /**
      * Update the specified Wedding in storage.
      *
-     * @param  int              $id
+     * @param string $id
      * @param UpdateWeddingRequest $request
      *
      * @return Response
      */
     public function update($id, UpdateWeddingRequest $request)
     {
-        $guest = $this->weddingRepository->findWithoutFail($id);
-
-        if (empty($guest)) {
+        $wedding = $this->weddingRepository->findWithoutFail($id);
+        if (empty($wedding)) {
             Flash::error('Wedding not found');
-
-            return redirect(route('guests.index'));
+            return redirect(route('weddings.index'));
         }
 
-        $guest = $this->weddingRepository->update($request->all(), $id);
+		$input = $request->all();
+		$imagePrefix = Wedding::getPrefixImage();
+		$imageBasePath = Wedding::getBaseImagePath();
+		$input['groom_image'] = Files::saveEditUploadImage($input, $wedding->groom_image, 'groom_image', $imagePrefix, $imageBasePath, 'imageIsDelete');
+		$input['bride_image'] = Files::saveEditUploadImage($input, $wedding->bride_image, 'bride_image', $imagePrefix, $imageBasePath, 'welcomeImageIsDelete');
 
+		$wedding = $this->weddingRepository->update($input, $id);
         Flash::success('Wedding updated successfully.');
 
-        return redirect(route('guests.index'));
+        return redirect(route('weddings.index'));
     }
 
     /**
