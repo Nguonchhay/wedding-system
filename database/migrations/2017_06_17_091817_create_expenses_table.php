@@ -15,9 +15,10 @@ class CreateExpensesTable extends Migration
     {
         Schema::create('expenses', function (Blueprint $table) {
             $table->string('id', 100);
-            $table->text('title');
+            $table->string('title', 255);
             $table->float('dollar')->default(0);
             $table->float('khmer')->default(0);
+			$table->text('note');
             $table->timestamps();
         });
     }

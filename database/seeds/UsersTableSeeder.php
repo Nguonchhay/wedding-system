@@ -1,8 +1,5 @@
 <?php
 
-use App\Models\AccountType;
-use App\Repositories\AccountRepository;
-use App\Repositories\AccountTypeRepository;
 use App\Repositories\UserRepository;
 use App\User;
 use Illuminate\Database\Seeder;
@@ -14,26 +11,12 @@ class UsersTableSeeder extends Seeder {
 	 */
 	private $userRepository;
 
-	/**
-	 * @var AccountRepository
-	 */
-	private $accountRepository;
-
-	/**
-	 * @var AccountTypeRepository
-	 */
-	private $accountTypeRepository;
-
 
 	/**
 	 * @param UserRepository $userRepository
-	 * @param AccountRepository $accountRepository
-	 * @param AccountTypeRepository $accountTypeRepository
 	 */
-	public function __construct(UserRepository $userRepository, AccountRepository $accountRepository, AccountTypeRepository $accountTypeRepository) {
+	public function __construct(UserRepository $userRepository) {
 		$this->userRepository = $userRepository;
-		$this->accountRepository = $accountRepository;
-		$this->accountTypeRepository = $accountTypeRepository;
 	}
 
 	/**
@@ -42,13 +25,6 @@ class UsersTableSeeder extends Seeder {
      * @return void
      */
     public function run() {
-		/** @var AccountType $basicAccount */
-		$basicAccount = $this->accountTypeRepository->findWhere(['name' => 'Basic'])->first();
-		if (empty($basicAccount)) {
-			echo "\n- No account type is found in the system. System cannot operate. \n";
-			exit(1);
-		}
-
         $users = [
             [
 				'role' => 'admin',
@@ -72,16 +48,6 @@ class UsersTableSeeder extends Seeder {
 				$queryUser = $this->userRepository->create($user);
 				$message = "\n- Initialize user: " . $user['name'] . "\n";
 			}
-
-			if (empty($queryUser->account)) {
-				$accountData = [
-					'user_id' => $queryUser->id,
-					'account_type_id' => $basicAccount->id
-				];
-				$account = $this->accountRepository->create($accountData);
-				$message = "   - Initialize account name: " . $user['name'] . "\n";
-			}
-
 		}
 		echo $message . "\n";
     }

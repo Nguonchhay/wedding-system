@@ -1,17 +1,14 @@
 <?php
-
 namespace App\Models;
 
 use App\Traits\IdTrait;
 use Eloquent as Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class WeddingInvitation extends Model
 {
-    use SoftDeletes, IdTrait;
+    use IdTrait;
 
     public $table = 'wedding_invitations';
-    protected $dates = ['deleted_at'];
 	public $timestamps = FALSE;
 
     public $fillable = [
@@ -50,7 +47,6 @@ class WeddingInvitation extends Model
     public static $rules = [
 		'guest_id' => 'required',
 		'wedding_id' => 'required',
-		'user_id' => 'required',
         'dollar' => 'numeric',
         'khmer' => 'numeric',
 		'bat' => 'numeric',
