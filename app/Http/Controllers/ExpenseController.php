@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateExpenseRequest;
 use App\Http\Requests\UpdateExpenseRequest;
 use App\Repositories\ExpenseRepository;
+use App\Repositories\WeddingRepository;
 use Illuminate\Http\Request;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -11,13 +12,28 @@ use Response;
 
 class ExpenseController extends AppBaseController
 {
-    /** @var ExpenseRepository */
+	/**
+	 * @var ExpenseRepository
+	 */
     private $expenseRepository;
 
-    public function __construct(ExpenseRepository $expenseRepo)
+	/**
+	 * @var WeddingRepository
+	 */
+	private $weddingRepository;
+
+	/**
+	 * @param ExpenseRepository $expenseRepository
+	 * @param WeddingRepository $weddingRepository
+	 */
+    public function __construct(ExpenseRepository $expenseRepository, WeddingRepository $weddingRepository)
     {
 		parent::__construct();
-        $this->expenseRepository = $expenseRepo;
+        $this->expenseRepository = $expenseRepository;
+		$this->weddingRepository = $weddingRepository;
+		$this->activeMenu = ['active' => 'guest', 'subMenu' => ''];
+		$this->viewPath = 'expenses.';
+		$this->routePath = 'expenses.';
     }
 
     /**
@@ -29,10 +45,18 @@ class ExpenseController extends AppBaseController
     public function index(Request $request)
     {
         $this->expenseRepository->pushCriteria(new RequestCriteria($request));
-        $expenses = $this->expenseRepository->all();
+        $expenses = $this->expenseRepository->orderBy('wedding_id')->all();
 
-        return view('expenses.index')
-            ->with('expenses', $expenses);
+		$weddingIds = $this->weddingRepository->all(['id', 'groom_name']);
+		$weddingExpenses = [];
+		foreach ($weddingIds as $weddingId) {
+			$weddingExpenses[$weddingId->groom_name] = $this->expenseRepository->getTotalExpenseByWedding($weddingId->id);
+		}
+
+		return $this->assignToView('Guest List', 'index', [
+			'expenses' => $expenses,
+			'weddingExpenses' => $weddingExpenses
+		]);
     }
 
     /**
@@ -42,7 +66,11 @@ class ExpenseController extends AppBaseController
      */
     public function create()
     {
-        return view('expenses.create');
+		$weddings = $this->weddingRepository->pluck('groom_name', 'id');
+		return $this->assignToView('Expense List', 'create', [
+			'weddings' => $weddings,
+			'selectedWedding' => null
+		]);
     }
 
     /**
@@ -55,58 +83,34 @@ class ExpenseController extends AppBaseController
     public function store(CreateExpenseRequest $request)
     {
         $input = $request->all();
-
         $expense = $this->expenseRepository->create($input);
-
         Flash::success('Expense saved successfully.');
-
         return redirect(route('expenses.index'));
     }
 
     /**
-     * Display the specified Expense.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
-    public function show($id)
-    {
-        $expense = $this->expenseRepository->findWithoutFail($id);
-
-        if (empty($expense)) {
-            Flash::error('Expense not found');
-
-            return redirect(route('expenses.index'));
-        }
-
-        return view('expenses.show')->with('expense', $expense);
-    }
-
-    /**
-     * Show the form for editing the specified Expense.
-     *
-     * @param  int $id
+     * @param string $id
      *
      * @return Response
      */
     public function edit($id)
     {
         $expense = $this->expenseRepository->findWithoutFail($id);
-
         if (empty($expense)) {
             Flash::error('Expense not found');
-
             return redirect(route('expenses.index'));
         }
 
-        return view('expenses.edit')->with('expense', $expense);
+		$weddings = $this->weddingRepository->pluck('groom_name', 'id');
+		return $this->assignToView('Edit expense', 'edit', [
+			'expense' => $expense,
+			'weddings' => $weddings,
+			'selectedWedding' => $expense->wedding_id
+		]);
     }
 
     /**
-     * Update the specified Expense in storage.
-     *
-     * @param  int              $id
+     * @param string $id
      * @param UpdateExpenseRequest $request
      *
      * @return Response
@@ -114,41 +118,31 @@ class ExpenseController extends AppBaseController
     public function update($id, UpdateExpenseRequest $request)
     {
         $expense = $this->expenseRepository->findWithoutFail($id);
-
         if (empty($expense)) {
             Flash::error('Expense not found');
-
             return redirect(route('expenses.index'));
         }
 
         $expense = $this->expenseRepository->update($request->all(), $id);
-
         Flash::success('Expense updated successfully.');
-
         return redirect(route('expenses.index'));
     }
 
     /**
-     * Remove the specified Expense from storage.
-     *
-     * @param  int $id
+     * @param string $id
      *
      * @return Response
      */
     public function destroy($id)
     {
         $expense = $this->expenseRepository->findWithoutFail($id);
-
         if (empty($expense)) {
             Flash::error('Expense not found');
-
             return redirect(route('expenses.index'));
         }
 
         $this->expenseRepository->delete($id);
-
         Flash::success('Expense deleted successfully.');
-
         return redirect(route('expenses.index'));
     }
 }

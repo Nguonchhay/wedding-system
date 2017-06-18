@@ -1,9 +1,34 @@
+#############################################
+### Jquery plug in
+#############################################
+
+###
+  Only digit
+###
+jQuery.fn.onlyDigit = ->
+  return this.each( ->
+    $(this).on('keypress', (e) ->
+      input = String.fromCharCode(e.which)
+      return /^[\d\.]$/.test(input)
+    )
+  )
+
 ###
   DatePicker
 ###
 $('.date-picker').datepicker({
   format: 'yyyy-mm-dd'
 })
+
+###
+  Apply global format
+###
+$('.only-digit').onlyDigit()
+
+###
+  List jquery datatable
+###
+$('.list-data').DataTable()
 
 ###
   Add preview image before uploading

@@ -16,8 +16,8 @@
     </a>
 </li>
 
-<li class="@if($activeMenu['active'] == 'guests') active @endif">
-    <a href="{!! url('/guests') !!}">
+<li class="@if($activeMenu['active'] == 'expense') active @endif">
+    <a href="{!! url('/expenses') !!}">
         <i class="fa fa-users" aria-hidden="true"></i> <span>Wedding Expenses</span>
     </a>
 </li>

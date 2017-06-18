@@ -1,14 +1,47 @@
 
+/* Jquery plug in
+ */
+
+
 /*
-  DatePicker
+  Only digit
  */
 
 (function() {
   var previewImage;
 
+  jQuery.fn.onlyDigit = function() {
+    return this.each(function() {
+      return $(this).on('keypress', function(e) {
+        var input;
+        input = String.fromCharCode(e.which);
+        return /^[\d\.]$/.test(input);
+      });
+    });
+  };
+
+
+  /*
+    DatePicker
+   */
+
   $('.date-picker').datepicker({
     format: 'yyyy-mm-dd'
   });
+
+
+  /*
+    Apply global format
+   */
+
+  $('.only-digit').onlyDigit();
+
+
+  /*
+    List jquery datatable
+   */
+
+  $('.list-data').DataTable();
 
 
   /*

@@ -14,7 +14,10 @@
 		"infyomlabs/adminlte-templates": "5.3.x-dev",
 		"infyomlabs/swagger-generator": "dev-master",
 		"jlapp/swaggervel": "dev-master",
-		"doctrine/dbal": "~2.3"
+		"doctrine/dbal": "~2.3",
+
+		"unisharp/laravel-ckeditor": "^4.6",
+		"unisharp/laravel-filemanager": "^1.7"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

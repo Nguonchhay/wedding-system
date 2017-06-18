@@ -3,16 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Wedding Management System</title>
-    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
-    <link rel="stylesheet" href="{!! asset('theme/css/bootstrap.min.css') !!}">
-    <link rel="stylesheet" href="{!! asset('theme/css/font-awesome.min.css') !!}">
-    <link rel="stylesheet" href="{!! asset('theme/css/select2.min.css') !!}">
-    <link rel="stylesheet" href="{!! asset('theme/css/AdminLTE.min.css') !!}">
-    <link rel="stylesheet" href="{!! asset('theme/css/_all-skins.min.css') !!}">
+    <link rel="stylesheet" href="{!! asset('theme/bootstrap/css/bootstrap.min.css') !!}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="{!! asset('theme/plugins/daterangepicker/daterangepicker.css') !!}">
+    <link rel="stylesheet" href="{!! asset('theme/plugins/datepicker/datepicker3.css') !!}">
+    <link rel="stylesheet" href="{!! asset('theme/plugins/iCheck/all.css') !!}">
+    <link rel="stylesheet" href="{!! asset('theme/plugins/colorpicker/bootstrap-colorpicker.min.css') !!}">
+    <link rel="stylesheet" href="{!! asset('theme/plugins/timepicker/bootstrap-timepicker.min.css') !!}">
+    <link rel="stylesheet" href="{!! asset('theme/plugins/select2/select2.min.css') !!}">
+    <link rel="stylesheet" href="{!! asset('theme/plugins/datatables/dataTables.bootstrap.css') !!}">
+    <link rel="stylesheet" href="{!! asset('theme/dist/css/AdminLTE.min.css') !!}">
+    <link rel="stylesheet" href="{!! asset('theme/dist/css/skins/_all-skins.min.css') !!}">
 
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="{!! asset('theme/css/ionicons.min.css') !!}">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
     <!-- Custom Style -->
     <link rel="stylesheet" href="{!! asset('/css/reasei.min.css') !!}">
@@ -122,16 +133,50 @@
     </div>
     @endif
 
-    <!-- jQuery 2.1.4 -->
-    <script src="{!! asset('/theme/js/jquery.min.js') !!}"></script>
-    <script src="{!! asset('/theme/js/bootstrap.min.js') !!}"></script>
-    <script src="{!! asset('/theme/js/select2.min.js') !!}"></script>
-    <script src="{!! asset('/theme/js/icheck.min.js') !!}"></script>
+    <script src="{!! asset('theme/plugins/jQuery/jquery-2.2.3.min.js') !!}"></script>
+    <script src="{!! asset('theme/bootstrap/js/bootstrap.min.js') !!}"></script>
 
-    <script src="{!! asset('/theme/plugins/datepicker/bootstrap-datepicker.js') !!}"></script>
+    <script src="{!! asset('theme/plugins/datatables/jquery.dataTables.min.js') !!}"></script>
+    <script src="{!! asset('theme/plugins/datatables/dataTables.bootstrap.min.js') !!}"></script>
 
-    <!-- AdminLTE App -->
-    <script src="{!! asset('/theme/js/app.min.js') !!}"></script>
+    <script src="{!! asset('theme/plugins/select2/select2.full.min.js') !!}"></script>
+    <script src="{!! asset('theme/plugins/input-mask/jquery.inputmask.js') !!}"></script>
+    <script src="{!! asset('theme/plugins/input-mask/jquery.inputmask.date.extensions.js') !!}"></script>
+    <script src="{!! asset('theme/plugins/input-mask/jquery.inputmask.extensions.js') !!}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+    <script src="{!! asset('theme/plugins/daterangepicker/daterangepicker.js') !!}"></script>
+    <script src="{!! asset('theme/plugins/datepicker/bootstrap-datepicker.js') !!}"></script>
+    <script src="{!! asset('theme/plugins/colorpicker/bootstrap-colorpicker.min.js') !!}"></script>
+    <script src="{!! asset('theme/plugins/timepicker/bootstrap-timepicker.min.js') !!}"></script>
+    <script src="{!! asset('theme/plugins/slimScroll/jquery.slimscroll.min.js') !!}"></script>
+    <script src="{!! asset('theme/plugins/iCheck/icheck.min.js') !!}"></script>
+    <script src="{!! asset('theme/plugins/fastclick/fastclick.js') !!}"></script>
+    <script src="{!! asset('theme/dist/js/app.min.js') !!}"></script>
+    <script src="{!! asset('theme/dist/js/demo.js') !!}"></script>
+
+    <!-- CKEditor -->
+    <script>
+        var route_prefix = "{{ url(config('lfm.prefix')) }}";
+    </script>
+
+    <script src="{!! asset('/vendor/unisharp/laravel-ckeditor/ckeditor.js') !!}"></script>
+    <script src="{!! asset('/vendor/unisharp/laravel-ckeditor/adapters/jquery.js') !!}"></script>
+    <script>
+        $('.textarea-aloha').ckeditor({
+            height: 100,
+            filebrowserImageBrowseUrl: route_prefix + '?type=Images',
+            filebrowserImageUploadUrl: route_prefix + '/upload?type=Images&_token={{csrf_token()}}',
+            filebrowserBrowseUrl: route_prefix + '?type=Files',
+            filebrowserUploadUrl: route_prefix + '/upload?type=Files&_token={{csrf_token()}}'
+        });
+    </script>
+
+    <script>
+        {!! \File::get(base_path('vendor/unisharp/laravel-filemanager/public/js/lfm.js')) !!}
+    </script>
+    <script>
+        $('#lfm').filemanager('image', {prefix: route_prefix});
+    </script>
 
     <!-- Custom Script -->
     <script src="{!! asset('/js/reasei.min.js') !!}"></script>
