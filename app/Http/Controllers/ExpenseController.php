@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateExpenseRequest;
 use App\Http\Requests\UpdateExpenseRequest;
+use App\Models\Expense;
 use App\Repositories\ExpenseRepository;
 use App\Repositories\WeddingRepository;
 use Illuminate\Http\Request;
@@ -49,8 +50,15 @@ class ExpenseController extends AppBaseController
 
 		$weddingIds = $this->weddingRepository->all(['id', 'groom_name']);
 
+		$weddingExpenses = [];
+		/** @var Expense $expense */
+		foreach ($weddingIds as $wedding) {
+			$weddingExpenses[$wedding->groom_name] = $this->expenseRepository->getTotalExpenseByWedding($wedding->id);
+		}
+
 		return $this->assignToView('Guest List', 'index', [
-			'expenses' => $expenses
+			'expenses' => $expenses,
+			'weddingExpenses' => $weddingExpenses
 		]);
     }
 

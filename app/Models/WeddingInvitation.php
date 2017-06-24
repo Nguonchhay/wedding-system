@@ -56,7 +56,8 @@ class WeddingInvitation extends Model
 	/**
 	 * @return mixed
 	 */
-	public function wedding() {
+	public function wedding()
+	{
 		return $this->belongsTo('App\Models\Wedding');
 	}
 }

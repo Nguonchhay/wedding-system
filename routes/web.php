@@ -30,4 +30,11 @@ Route::group([
 	Route::resource('guests', 'GuestController');
 	Route::resource('weddings', 'WeddingController');
 	Route::resource('expenses', 'ExpenseController');
+	Route::resource('expense_details', 'ExpenseDetailController');
+
+	Route::group([
+		'prefix' => 'expense_details'
+	], function() {
+		Route::get('/{expense}/create', 'ExpenseDetailController@create');
+	});
 });

@@ -43,7 +43,16 @@ class Expense extends Model
 	/**
 	 * @return mixed
 	 */
-	public function wedding() {
+	public function wedding()
+	{
 		return $this->belongsTo('App\Models\Wedding');
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function expense_details()
+	{
+		return $this->hasMany('App\Models\ExpenseDetail');
 	}
 }
