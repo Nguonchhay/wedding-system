@@ -4,9 +4,8 @@
             <th>No</th>
             <th>Wedding</th>
             <th>Title</th>
-            <th>Dollar</th>
-            <th>Khmer</th>
-            <th>Note</th>
+            <th>Total</th>
+            <th>Currency</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -16,9 +15,8 @@
                 <td>{!! $key + 1 !!}</td>
                 <td>{!! $expense->wedding->groom_name !!}</td>
                 <td>{!! $expense->title !!}</td>
-                <td>{!! $expense->dollar !!}</td>
-                <td>{!! $expense->khmer !!}</td>
-                <td>{!! $expense->note !!}</td>
+                <td>{!! $expense->total !!}</td>
+                <td>{!! ucfirst($expense->currency) !!}</td>
                 <td>
                     {!! Form::open(['route' => ['expenses.destroy', $expense->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
@@ -31,12 +29,3 @@
         @endforeach
     </tbody>
 </table>
-
-<fieldset>
-    <legend>Totals</legend>
-    <ol>
-        @foreach($weddingExpenses as $key => $weddingExpense)
-            <li>{!! $key !!} : Dollar: <strong>{!! $weddingExpense->total_dollar !!}</strong> , Khmer: <strong>{!! $weddingExpense->total_khmer !!}</strong></li>
-        @endforeach
-    </ol>
-</fieldset>

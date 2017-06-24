@@ -48,14 +48,9 @@ class ExpenseController extends AppBaseController
         $expenses = $this->expenseRepository->orderBy('wedding_id')->all();
 
 		$weddingIds = $this->weddingRepository->all(['id', 'groom_name']);
-		$weddingExpenses = [];
-		foreach ($weddingIds as $weddingId) {
-			$weddingExpenses[$weddingId->groom_name] = $this->expenseRepository->getTotalExpenseByWedding($weddingId->id);
-		}
 
 		return $this->assignToView('Guest List', 'index', [
-			'expenses' => $expenses,
-			'weddingExpenses' => $weddingExpenses
+			'expenses' => $expenses
 		]);
     }
 
@@ -69,7 +64,8 @@ class ExpenseController extends AppBaseController
 		$weddings = $this->weddingRepository->pluck('groom_name', 'id');
 		return $this->assignToView('Expense List', 'create', [
 			'weddings' => $weddings,
-			'selectedWedding' => null
+			'selectedWedding' => null,
+			'selectedCurrency' => ''
 		]);
     }
 
@@ -105,7 +101,8 @@ class ExpenseController extends AppBaseController
 		return $this->assignToView('Edit expense', 'edit', [
 			'expense' => $expense,
 			'weddings' => $weddings,
-			'selectedWedding' => $expense->wedding_id
+			'selectedWedding' => $expense->wedding_id,
+			'selectedCurrency' => $expense->currency
 		]);
     }
 

@@ -18,5 +18,11 @@ return [
 		'bat' => false,
 		'dong' => false,
 		'dowry' => true
+	],
+	'expense' => [
+		'currencies' => [
+			'dollar' => 'Dollar',
+			'khmer' => 'Khmer'
+		]
 	]
 ];
