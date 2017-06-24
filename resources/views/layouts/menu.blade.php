@@ -1,4 +1,4 @@
-<li class="@if($activeMenu['active'] == 'dashboard') active @endif">
+<li class="@if($activeMenu['active'] == 'home') active @endif">
     <a href="{!! url('/') !!}">
         <i class="fa fa-bars" aria-hidden="true"></i> <span>Dashboard</span>
     </a>

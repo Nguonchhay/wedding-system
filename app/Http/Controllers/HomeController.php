@@ -11,7 +11,7 @@ class HomeController extends AppBaseController
     {
 		parent::__construct();
 		$this->activeMenu = ['active' => 'home', 'subMenu' => ''];
-		$this->viewPath = '';
+		$this->viewPath = 'home.';
 		$this->routePath = 'home.';
     }
 
