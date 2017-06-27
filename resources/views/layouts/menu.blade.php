@@ -4,6 +4,12 @@
     </a>
 </li>
 
+<li class="@if($activeMenu['active'] == 'guest_group') active @endif">
+    <a href="{!! url('/guest_groups') !!}">
+        <i class="fa fa-users" aria-hidden="true"></i> <span>Guest Group</span>
+    </a>
+</li>
+
 <li class="@if($activeMenu['active'] == 'guest') active @endif">
     <a href="{!! url('/guests') !!}">
         <i class="fa fa-users" aria-hidden="true"></i> <span>Guests</span>

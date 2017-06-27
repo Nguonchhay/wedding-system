@@ -76,4 +76,21 @@ class AppBaseController extends Controller {
 		}
 		return $view;
 	}
+
+	/**
+	 * @return Response
+	 */
+	public function redirectToIndex()
+	{
+		return $this->redirectTo('index');
+	}
+
+	/**
+	 * @param $action
+	 * @return Response
+	 */
+	public function redirectTo($action)
+	{
+		return redirect(route($this->routePath . $action));
+	}
 }

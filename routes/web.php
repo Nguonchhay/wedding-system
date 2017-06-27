@@ -37,4 +37,6 @@ Route::group([
 	], function() {
 		Route::get('/{expense}/create', 'ExpenseDetailController@create');
 	});
+
+	Route::resource('guest_groups', 'GuestGroupController');
 });
