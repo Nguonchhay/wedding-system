@@ -14,6 +14,7 @@ class Wedding extends Model
 	public $timestamps = FALSE;
 
     public $fillable = [
+		'title',
         'groom_name',
 		'bride_name',
 		'groom_image',
@@ -38,6 +39,7 @@ class Wedding extends Model
      * @var array
      */
     public static $rules = [
+		'title' => 'required',
         'groom_name' => 'required|min:3',
 		'bride_name' => 'required|min:3',
 		'start_date' => 'required',

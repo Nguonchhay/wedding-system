@@ -48,7 +48,7 @@ class ExpenseController extends AppBaseController
         $this->expenseRepository->pushCriteria(new RequestCriteria($request));
         $expenses = $this->expenseRepository->orderBy('wedding_id')->all();
 
-		$weddingIds = $this->weddingRepository->all(['id', 'groom_name']);
+		$weddingIds = $this->weddingRepository->all(['id', 'title']);
 
 		$weddingExpenses = [];
 		/** @var Expense $expense */
@@ -69,7 +69,7 @@ class ExpenseController extends AppBaseController
      */
     public function create()
     {
-		$weddings = $this->weddingRepository->pluck('groom_name', 'id');
+		$weddings = $this->weddingRepository->pluck('title', 'id');
 		return $this->assignToView('Expense List', 'create', [
 			'weddings' => $weddings,
 			'selectedWedding' => null,

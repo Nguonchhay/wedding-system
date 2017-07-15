@@ -1,4 +1,11 @@
 <div class="row">
+    <div class="form-group col-sm-12">
+        {!! Form::label('title', 'Wedding title:') !!}
+        {!! Form::text('title', null, ['class' => 'form-control', 'required' => 'required']) !!}
+    </div>
+</div>
+
+<div class="row">
     <div class="form-group col-sm-6">
         {!! Form::label('start_date', 'Start date:') !!}
         <div class="input-group date date-picker" id="start_date">

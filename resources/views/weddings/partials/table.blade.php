@@ -12,7 +12,7 @@
                 </div>
 
                 <div class="date">
-                    Our wedding will be celebrated
+                    {!! $wedding->title !!}
                     <strong>{!! \App\Utility\DateFormat::getFormatDate($wedding->start_date, 'd-m-Y') !!} - {!! \App\Utility\DateFormat::getFormatDate($wedding->end_date, 'd-m-Y') !!}</strong>
                 </div>
 

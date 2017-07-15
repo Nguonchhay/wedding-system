@@ -15,6 +15,7 @@ class CreateWeddingsTable extends Migration
     {
         Schema::create('weddings', function (Blueprint $table) {
             $table->string('id', 60);
+			$table->string('title', 255);
             $table->string('groom_name', 60);
 			$table->string('bride_name', 60);
 			$table->string('groom_image', 255)->nullable();

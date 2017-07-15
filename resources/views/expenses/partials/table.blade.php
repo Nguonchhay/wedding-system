@@ -18,7 +18,7 @@
 
                    @if($expense->expense_details)
                         | <a href="#" class="" data-toggle="modal" data-target="#{!! $expense->id !!}">
-                            <i class="fa fa-eye"></i> View expense details
+                            <i class="fa fa-eye"></i> Quick view expense details
                         </a>
 
                         <div id="{!! $expense->id !!}" class="modal fade" role="dialog">
@@ -27,6 +27,8 @@
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                         <h4 class="modal-title">Detail expense of: <strong>{!! $expense->title !!}</strong></h4>
+                                        Total dollar: <strong>${!! $expense->getTotalExpense()['dollar'] !!}</strong>,
+                                        Total khmer: <strong>{!! $expense->getTotalExpense()['khmer'] !!}</strong>,
                                     </div>
                                     <div class="modal-body">
                                         <table class="table table-bordered table-striped">
@@ -65,7 +67,6 @@
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                    @endif

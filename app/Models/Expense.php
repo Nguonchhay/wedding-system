@@ -1,8 +1,10 @@
 <?php
 namespace App\Models;
 
+use App\Repositories\ExpenseDetailRepository;
 use App\Traits\IdTrait;
 use Eloquent as Model;
+use Illuminate\Support\Facades\Auth;
 
 class Expense extends Model
 {
@@ -54,5 +56,15 @@ class Expense extends Model
 	public function expense_details()
 	{
 		return $this->hasMany('App\Models\ExpenseDetail');
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getTotalExpense()
+	{
+		/** @var ExpenseDetailRepository $expenseDetailRepository */
+		$expenseDetailRepository = new ExpenseDetailRepository(app());
+		return $expenseDetailRepository->getTotalExpenseDetailsByExpense($this->id);
 	}
 }
