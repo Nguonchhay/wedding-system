@@ -4,15 +4,15 @@ namespace App\Http\Controllers;
 class HomeController extends AppBaseController
 {
 
-	/**
-	 *
-	 */
+    /**
+     *
+     */
     public function __construct()
     {
-		parent::__construct();
-		$this->activeMenu = ['active' => 'home', 'subMenu' => ''];
-		$this->viewPath = 'home.';
-		$this->routePath = 'home.';
+        parent::__construct();
+        $this->activeMenu = ['active' => 'home', 'subMenu' => ''];
+        $this->viewPath = 'home.';
+        $this->routePath = 'home.';
     }
 
     /**
@@ -21,6 +21,6 @@ class HomeController extends AppBaseController
      * @return \Illuminate\Http\Response
      */
     public function index() {
-		return $this->assignToView('Dashboard', 'index');
+        return $this->assignToView('Dashboard', 'index');
     }
 }

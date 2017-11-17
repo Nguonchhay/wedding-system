@@ -17,15 +17,15 @@ class WeddingController extends AppBaseController
     private $weddingRepository;
 
 
-	/**
-	 * @param WeddingRepository $weddingRepository
-	 */
+    /**
+     * @param WeddingRepository $weddingRepository
+     */
     public function __construct(WeddingRepository $weddingRepository) {
-		parent::__construct();
+        parent::__construct();
         $this->weddingRepository = $weddingRepository;
-		$this->activeMenu = ['active' => 'wedding', 'subMenu' => ''];
-		$this->viewPath = 'weddings.';
-		$this->routePath = 'weddings.';
+        $this->activeMenu = ['active' => 'wedding', 'subMenu' => ''];
+        $this->viewPath = 'weddings.';
+        $this->routePath = 'weddings.';
     }
 
     /**
@@ -39,9 +39,9 @@ class WeddingController extends AppBaseController
         $this->weddingRepository->pushCriteria(new RequestCriteria($request));
         $weddings = $this->weddingRepository->all();
 
-		return $this->assignToView('Wedding List', 'index', [
-			'weddings' => $weddings
-		]);
+        return $this->assignToView('Wedding List', 'index', [
+            'weddings' => $weddings
+        ]);
     }
 
     /**
@@ -51,7 +51,7 @@ class WeddingController extends AppBaseController
      */
     public function create()
     {
-		return $this->assignToView('New Wedding', 'create');
+        return $this->assignToView('New Wedding', 'create');
     }
 
     /**
@@ -64,10 +64,10 @@ class WeddingController extends AppBaseController
     public function store(CreateWeddingRequest $request)
     {
         $input = $request->all();
-		$imagePrefix = Wedding::getPrefixImage();
-		$imageBasePath = Wedding::getBaseImagePath();
-		$input['groom_image'] = Files::saveUploadImage('groom_image', $imagePrefix, $imageBasePath);
-		$input['bride_image'] = Files::saveUploadImage('bride_image', $imagePrefix, $imageBasePath);
+        $imagePrefix = Wedding::getPrefixImage();
+        $imageBasePath = Wedding::getBaseImagePath();
+        $input['groom_image'] = Files::saveUploadImage('groom_image', $imagePrefix, $imageBasePath);
+        $input['bride_image'] = Files::saveUploadImage('bride_image', $imagePrefix, $imageBasePath);
 
         $wedding = $this->weddingRepository->create($input);
         Flash::success('Wedding saved successfully.');
@@ -89,9 +89,9 @@ class WeddingController extends AppBaseController
             Flash::error('Wedding not found');
             return redirect(route('weddings.index'));
         }
-		return $this->assignToView('Edit Wedding', 'edit', [
-			'wedding' => $wedding
-		]);
+        return $this->assignToView('Edit Wedding', 'edit', [
+            'wedding' => $wedding
+        ]);
     }
 
     /**
@@ -110,32 +110,32 @@ class WeddingController extends AppBaseController
             return redirect(route('weddings.index'));
         }
 
-		$input = $request->all();
-		$imagePrefix = Wedding::getPrefixImage();
-		$imageBasePath = Wedding::getBaseImagePath();
-		$input['groom_image'] = Files::saveEditUploadImage($input, $wedding->groom_image, 'groom_image', $imagePrefix, $imageBasePath, 'imageIsDelete');
-		$input['bride_image'] = Files::saveEditUploadImage($input, $wedding->bride_image, 'bride_image', $imagePrefix, $imageBasePath, 'welcomeImageIsDelete');
+        $input = $request->all();
+        $imagePrefix = Wedding::getPrefixImage();
+        $imageBasePath = Wedding::getBaseImagePath();
+        $input['groom_image'] = Files::saveEditUploadImage($input, $wedding->groom_image, 'groom_image', $imagePrefix, $imageBasePath, 'imageIsDelete');
+        $input['bride_image'] = Files::saveEditUploadImage($input, $wedding->bride_image, 'bride_image', $imagePrefix, $imageBasePath, 'welcomeImageIsDelete');
 
-		/**
-		 * Clean update the uploaded image
-		 */
-		if (intval($input['groomImageIsDelete']) == 1) {
-			Files::delete($wedding->groom_image);
-		} else {
-			if ($input['groom_image'] !== $wedding->groom_image) {
-				Files::delete($wedding->groom_image);
-			}
-		}
+        /**
+         * Clean update the uploaded image
+         */
+        if (intval($input['groomImageIsDelete']) == 1) {
+            Files::delete($wedding->groom_image);
+        } else {
+            if ($input['groom_image'] !== $wedding->groom_image) {
+                Files::delete($wedding->groom_image);
+            }
+        }
 
-		if (intval($input['brideImageIsDelete']) == 1) {
-			Files::delete($wedding->groom_image);
-		} else {
-			if ($input['bride_image'] !== $wedding->bride_image) {
-				Files::delete($wedding->bride_image);
-			}
-		}
+        if (intval($input['brideImageIsDelete']) == 1) {
+            Files::delete($wedding->groom_image);
+        } else {
+            if ($input['bride_image'] !== $wedding->bride_image) {
+                Files::delete($wedding->bride_image);
+            }
+        }
 
-		$wedding = $this->weddingRepository->update($input, $id);
+        $wedding = $this->weddingRepository->update($input, $id);
         Flash::success('Wedding updated successfully.');
 
         return redirect(route('weddings.index'));
@@ -150,15 +150,15 @@ class WeddingController extends AppBaseController
      */
     public function destroy($id)
     {
-		$wedding = $this->weddingRepository->findWithoutFail($id);
+        $wedding = $this->weddingRepository->findWithoutFail($id);
         if (empty($wedding)) {
             Flash::error('Wedding not found');
             return redirect(route('weddings.index'));
         }
 
         $this->weddingRepository->delete($id);
-		Files::delete($wedding->groom_image);
-		Files::delete($wedding->bride_image);
+        Files::delete($wedding->groom_image);
+        Files::delete($wedding->bride_image);
 
         Flash::success('Wedding deleted successfully.');
         return redirect(route('weddings.index'));

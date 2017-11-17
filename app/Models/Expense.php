@@ -13,11 +13,11 @@ class Expense extends Model
     public $table = 'expenses';
 
     public $fillable = [
-		'wedding_id',
+        'wedding_id',
         'title',
         'total',
-		'currency',
-		'note'
+        'currency',
+        'note'
     ];
 
     /**
@@ -27,7 +27,7 @@ class Expense extends Model
      */
     protected $casts = [
         'id' => 'string',
-		'wedding_id' => 'string',
+        'wedding_id' => 'string',
         'total' => 'float'
     ];
 
@@ -37,34 +37,34 @@ class Expense extends Model
      * @var array
      */
     public static $rules = [
-		'wedding_id' => 'required',
+        'wedding_id' => 'required',
         'title' => 'required',
-		'total' => 'required'
+        'total' => 'required'
     ];
 
-	/**
-	 * @return mixed
-	 */
-	public function wedding()
-	{
-		return $this->belongsTo('App\Models\Wedding');
-	}
+    /**
+     * @return mixed
+     */
+    public function wedding()
+    {
+        return $this->belongsTo('App\Models\Wedding');
+    }
 
-	/**
-	 * @return mixed
-	 */
-	public function expense_details()
-	{
-		return $this->hasMany('App\Models\ExpenseDetail');
-	}
+    /**
+     * @return mixed
+     */
+    public function expense_details()
+    {
+        return $this->hasMany('App\Models\ExpenseDetail');
+    }
 
-	/**
-	 * @return array
-	 */
-	public function getTotalExpense()
-	{
-		/** @var ExpenseDetailRepository $expenseDetailRepository */
-		$expenseDetailRepository = new ExpenseDetailRepository(app());
-		return $expenseDetailRepository->getTotalExpenseDetailsByExpense($this->id);
-	}
+    /**
+     * @return array
+     */
+    public function getTotalExpense()
+    {
+        /** @var ExpenseDetailRepository $expenseDetailRepository */
+        $expenseDetailRepository = new ExpenseDetailRepository(app());
+        return $expenseDetailRepository->getTotalExpenseDetailsByExpense($this->id);
+    }
 }

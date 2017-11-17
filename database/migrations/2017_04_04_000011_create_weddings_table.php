@@ -14,7 +14,8 @@ class CreateWeddingsTable extends Migration
     public function up()
     {
         Schema::create('weddings', function (Blueprint $table) {
-            $table->string('id', 60);
+            $table->string('id', 100);
+            $table->string('user_id', 100);
 			$table->string('title', 255);
             $table->string('groom_name', 60);
 			$table->string('bride_name', 60);

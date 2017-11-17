@@ -9,22 +9,18 @@ class WeddingInvitation extends Model
     use IdTrait;
 
     public $table = 'wedding_invitations';
-	public $timestamps = FALSE;
+    public $timestamps = FALSE;
 
     public $fillable = [
-		'user_id',
-		'wedding_id',
+        'user_id',
+        'wedding_id',
         'guest_id',
-		'print_name',
-		'dowry',
         'dollar',
         'khmer',
-        'bat',
-        'dong',
-		'other',
-		'record_from',
-		'code',
-		'qrcode'
+        'other',
+        'record_from',
+        'code',
+        'qrcode'
     ];
 
     /**
@@ -33,10 +29,12 @@ class WeddingInvitation extends Model
      * @var array
      */
     protected $casts = [
-		'id' => 'string',
+        'id' => 'string',
         'guest_id' => 'string',
-		'wedding_id' => 'string',
-        'user_id' => 'string'
+        'wedding_id' => 'string',
+        'user_id' => 'string',
+        'dollar' => 'double',
+        'khmer' => 'integer',
     ];
 
     /**
@@ -45,19 +43,20 @@ class WeddingInvitation extends Model
      * @var array
      */
     public static $rules = [
-		'guest_id' => 'required',
-		'wedding_id' => 'required',
+        'user_id' => 'required',
+        'guest_id' => 'required',
+        'wedding_id' => 'required',
         'dollar' => 'numeric',
         'khmer' => 'numeric',
-		'bat' => 'numeric',
-		'dong' => 'numeric'
+        'bat' => 'numeric',
+        'dong' => 'numeric'
     ];
 
-	/**
-	 * @return mixed
-	 */
-	public function wedding()
-	{
-		return $this->belongsTo('App\Models\Wedding');
-	}
+    /**
+     * @return mixed
+     */
+    public function wedding()
+    {
+        return $this->belongsTo('App\Models\Wedding');
+    }
 }

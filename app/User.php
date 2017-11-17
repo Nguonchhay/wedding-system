@@ -28,23 +28,37 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-	/**
-	 * The attributes that should be casted to native types.
-	 *
-	 * @var array
-	 */
-	protected $casts = [
-		'id' => 'string'
-	];
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'string'
+    ];
 
-	/**
-	 * Validation rules
-	 *
-	 * @var array
-	 */
-	public static $rules = [
-		'name' => 'required|min:3',
-		'email' => 'required',
-		'role' => 'required'
-	];
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    public static $rules = [
+        'name' => 'required|min:3',
+        'email' => 'required',
+        'role' => 'required'
+    ];
+
+    /**
+     * @return mixed
+     */
+    public function weddings() {
+        return $this->hasMany('App\Models\Wedding');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function guests() {
+        return $this->hasMany('App\Models\Guest');
+    }
 }

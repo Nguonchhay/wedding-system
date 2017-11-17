@@ -25,7 +25,7 @@ class ExpenseDetail extends Model
      * @var array
      */
     protected $casts = [
-		'id' => 'string',
+        'id' => 'string',
         'expense_id' => 'string',
         'total' => 'float'
     ];
@@ -42,7 +42,7 @@ class ExpenseDetail extends Model
     ];
 
     public function expense()
-	{
-		return $this->belongsTo('App\Models\Expense');
-	}
+    {
+        return $this->belongsTo('App\Models\Expense');
+    }
 }

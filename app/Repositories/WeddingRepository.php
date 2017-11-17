@@ -11,13 +11,14 @@ class WeddingRepository extends BaseRepository
      * @var array
      */
     protected $fieldSearchable = [
-		'groom_name',
-		'bride_name',
-		'groom_image',
-		'bride_image',
-		'start_date',
-		'end_date',
-		'note'
+        'user_id',
+        'groom_name',
+        'bride_name',
+        'groom_image',
+        'bride_image',
+        'start_date',
+        'end_date',
+        'note'
     ];
 
     /**

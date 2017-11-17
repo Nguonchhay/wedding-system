@@ -11,13 +11,11 @@ class GuestRepository extends BaseRepository
      * @var array
      */
     protected $fieldSearchable = [
-        'fullname',
+        'full_name',
         'print_name',
         'note',
         'dollar',
-        'khmer',
-        'bat',
-        'dong'
+        'khmer'
     ];
 
     /**

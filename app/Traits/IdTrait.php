@@ -11,16 +11,16 @@ use Ramsey\Uuid\Uuid;
 
 trait IdTrait {
 
-	/**
-	 * Boot the Uuid trait for the model.
-	 *
-	 * @return void
-	 */
-	public static function bootIdTrait() {
-		static::creating(function($model) {
-			$model->incrementing = false;
-			$uuid = str_replace('-', '', Uuid::uuid1()->toString());
-			$model->{$model->getKeyName()} = $uuid;
-		});
-	}
+    /**
+     * Boot the Uuid trait for the model.
+     *
+     * @return void
+     */
+    public static function bootIdTrait() {
+        static::creating(function($model) {
+            $model->incrementing = false;
+            $uuid = str_replace('-', '', Uuid::uuid1()->toString());
+            $model->{$model->getKeyName()} = $uuid;
+        });
+    }
 }

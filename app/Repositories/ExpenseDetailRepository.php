@@ -28,31 +28,31 @@ class ExpenseDetailRepository extends BaseRepository
         return ExpenseDetail::class;
     }
 
-	/**
-	 * @param string $id
-	 * @return array
-	 */
-	public function getTotalExpenseDetailsByExpense($id)
-	{
-		$dollar = DB::table('expense_details')
-			->select(DB::raw('sum(total) as total'))
-			->where('currency', '=', 'dollar')
-			->where('expense_id', '=', $id)
-			->limit(1)
-			->first();
+    /**
+     * @param string $id
+     * @return array
+     */
+    public function getTotalExpenseDetailsByExpense($id)
+    {
+        $dollar = DB::table('expense_details')
+            ->select(DB::raw('sum(total) as total'))
+            ->where('currency', '=', 'dollar')
+            ->where('expense_id', '=', $id)
+            ->limit(1)
+            ->first();
 
-		$khmer = DB::table('expense_details')
-			->select(DB::raw('sum(total) as total'))
-			->where('currency', '=', 'khmer')
-			->where('expense_id', '=', $id)
-			->limit(1)
-			->first();
+        $khmer = DB::table('expense_details')
+            ->select(DB::raw('sum(total) as total'))
+            ->where('currency', '=', 'khmer')
+            ->where('expense_id', '=', $id)
+            ->limit(1)
+            ->first();
 
-		$totalExpense = [
-			'dollar' => floatval($dollar->total),
-			'khmer' => intval($khmer->total)
-		];
+        $totalExpense = [
+            'dollar' => floatval($dollar->total),
+            'khmer' => intval($khmer->total)
+        ];
 
-		return $totalExpense;
-	}
+        return $totalExpense;
+    }
 }

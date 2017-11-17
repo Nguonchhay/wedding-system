@@ -10,7 +10,7 @@ class GuestGroup extends Model
     use IdTrait;
 
     public $table = 'guest_groups';
-	public $timestamps = FALSE;
+    public $timestamps = FALSE;
 
     public $fillable = [
         'name',
@@ -34,4 +34,11 @@ class GuestGroup extends Model
     public static $rules = [
         'name' => 'required'
     ];
+
+    /**
+     * @return mixed
+     */
+    public function guests() {
+        return $this->hasMany('App\Models\Guest');
+    }
 }

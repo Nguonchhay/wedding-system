@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="content-header">
-        <h1>{!! $selectedExpense->title !!}: Expense Detail</h1>
+        <h1>Expense Detail: {!! $selectedExpense->title !!}</h1>
     </section>
     <div class="content">
         @include('adminlte-templates::common.errors')

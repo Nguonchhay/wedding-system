@@ -24,31 +24,31 @@ class ExpenseRepository extends BaseRepository
         return Expense::class;
     }
 
-	/**
-	 * @param string $id
-	 * @return array
-	 */
-	public function getTotalExpenseByWedding($id)
-	{
-		$dollar = DB::table('expenses')
-			->select(DB::raw('sum(total) as total'))
-			->where('currency', '=', 'dollar')
-			->where('wedding_id', '=', $id)
-			->limit(1)
-			->first();
+    /**
+     * @param string $id
+     * @return array
+     */
+    public function getTotalExpenseByWedding($id)
+    {
+        $dollar = DB::table('expenses')
+            ->select(DB::raw('sum(total) as total'))
+            ->where('currency', '=', 'dollar')
+            ->where('wedding_id', '=', $id)
+            ->limit(1)
+            ->first();
 
-		$khmer = DB::table('expenses')
-			->select(DB::raw('sum(total) as total'))
-			->where('currency', '=', 'khmer')
-			->where('wedding_id', '=', $id)
-			->limit(1)
-			->first();
+        $khmer = DB::table('expenses')
+            ->select(DB::raw('sum(total) as total'))
+            ->where('currency', '=', 'khmer')
+            ->where('wedding_id', '=', $id)
+            ->limit(1)
+            ->first();
 
-		$totalExpense = [
-			'dollar' => floatval($dollar->total),
-			'khmer' => intval($khmer->total)
-		];
+        $totalExpense = [
+            'dollar' => floatval($dollar->total),
+            'khmer' => intval($khmer->total)
+        ];
 
-		return $totalExpense;
-	}
+        return $totalExpense;
+    }
 }

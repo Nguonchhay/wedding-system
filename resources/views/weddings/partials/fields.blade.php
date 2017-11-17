@@ -1,3 +1,5 @@
+{!! Form::hidden('user_id', Auth::user()->id) !!}
+
 <div class="row">
     <div class="form-group col-sm-12">
         {!! Form::label('title', 'Wedding title:') !!}
@@ -82,5 +84,5 @@
 
 <div class="form-group col-sm-12">
     {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-    <a href="{!! route('guests.index') !!}" class="btn btn-default">Cancel</a>
+    <a href="{!! route('weddings.index') !!}" class="btn btn-default">Cancel</a>
 </div>

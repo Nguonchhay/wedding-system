@@ -12,13 +12,13 @@ class WeddingInvitationRepository extends BaseRepository
      * @var array
      */
     protected $fieldSearchable = [
-		'print_name',
-		'dowry',
-		'dollar',
-		'khmer',
-		'bat',
-		'dong',
-		'other'
+        'print_name',
+        'dowry',
+        'dollar',
+        'khmer',
+        'bat',
+        'dong',
+        'other'
     ];
 
     /**

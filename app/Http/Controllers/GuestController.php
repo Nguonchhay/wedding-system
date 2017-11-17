@@ -17,15 +17,15 @@ class GuestController extends AppBaseController
 
 
 
-	/**
-	 * @param GuestRepository $guestRepository
-	 */
+    /**
+     * @param GuestRepository $guestRepository
+     */
     public function __construct(GuestRepository $guestRepository) {
-		parent::__construct();
+        parent::__construct();
         $this->guestRepository = $guestRepository;
-		$this->activeMenu = ['active' => 'guest', 'subMenu' => ''];
-		$this->viewPath = 'guests.';
-		$this->routePath = 'guests.';
+        $this->activeMenu = ['active' => 'guest', 'subMenu' => ''];
+        $this->viewPath = 'guests.';
+        $this->routePath = 'guests.';
     }
 
     /**
@@ -39,9 +39,9 @@ class GuestController extends AppBaseController
         $this->guestRepository->pushCriteria(new RequestCriteria($request));
         $guests = $this->guestRepository->all();
 
-		return $this->assignToView('Guest List', 'index', [
-			'guests' => $guests
-		]);
+        return $this->assignToView('Guest List', 'index', [
+            'guests' => $guests
+        ]);
     }
 
     /**
@@ -51,8 +51,7 @@ class GuestController extends AppBaseController
      */
     public function create()
     {
-		
-        return view('guests.create');
+        return $this->assignToView('New guest', 'create');
     }
 
     /**

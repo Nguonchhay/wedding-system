@@ -13,28 +13,28 @@ use Response;
 
 class ExpenseController extends AppBaseController
 {
-	/**
-	 * @var ExpenseRepository
-	 */
+    /**
+     * @var ExpenseRepository
+     */
     private $expenseRepository;
 
-	/**
-	 * @var WeddingRepository
-	 */
-	private $weddingRepository;
+    /**
+     * @var WeddingRepository
+     */
+    private $weddingRepository;
 
-	/**
-	 * @param ExpenseRepository $expenseRepository
-	 * @param WeddingRepository $weddingRepository
-	 */
+    /**
+     * @param ExpenseRepository $expenseRepository
+     * @param WeddingRepository $weddingRepository
+     */
     public function __construct(ExpenseRepository $expenseRepository, WeddingRepository $weddingRepository)
     {
-		parent::__construct();
+        parent::__construct();
         $this->expenseRepository = $expenseRepository;
-		$this->weddingRepository = $weddingRepository;
-		$this->activeMenu = ['active' => 'guest', 'subMenu' => ''];
-		$this->viewPath = 'expenses.';
-		$this->routePath = 'expenses.';
+        $this->weddingRepository = $weddingRepository;
+        $this->activeMenu = ['active' => 'expense', 'subMenu' => ''];
+        $this->viewPath = 'expenses.';
+        $this->routePath = 'expenses.';
     }
 
     /**
@@ -48,18 +48,18 @@ class ExpenseController extends AppBaseController
         $this->expenseRepository->pushCriteria(new RequestCriteria($request));
         $expenses = $this->expenseRepository->orderBy('wedding_id')->all();
 
-		$weddingIds = $this->weddingRepository->all(['id', 'title']);
+        $weddingIds = $this->weddingRepository->all(['id', 'title']);
 
-		$weddingExpenses = [];
-		/** @var Expense $expense */
-		foreach ($weddingIds as $wedding) {
-			$weddingExpenses[$wedding->groom_name] = $this->expenseRepository->getTotalExpenseByWedding($wedding->id);
-		}
+        $weddingExpenses = [];
+        /** @var Expense $expense */
+        foreach ($weddingIds as $wedding) {
+            $weddingExpenses[$wedding->title] = $this->expenseRepository->getTotalExpenseByWedding($wedding->id);
+        }
 
-		return $this->assignToView('Guest List', 'index', [
-			'expenses' => $expenses,
-			'weddingExpenses' => $weddingExpenses
-		]);
+        return $this->assignToView('Guest List', 'index', [
+            'expenses' => $expenses,
+            'weddingExpenses' => $weddingExpenses
+        ]);
     }
 
     /**
@@ -69,12 +69,12 @@ class ExpenseController extends AppBaseController
      */
     public function create()
     {
-		$weddings = $this->weddingRepository->pluck('title', 'id');
-		return $this->assignToView('Expense List', 'create', [
-			'weddings' => $weddings,
-			'selectedWedding' => null,
-			'selectedCurrency' => ''
-		]);
+        $weddings = $this->weddingRepository->pluck('title', 'id');
+        return $this->assignToView('Expense List', 'create', [
+            'weddings' => $weddings,
+            'selectedWedding' => null,
+            'selectedCurrency' => ''
+        ]);
     }
 
     /**
@@ -105,13 +105,13 @@ class ExpenseController extends AppBaseController
             return redirect(route('expenses.index'));
         }
 
-		$weddings = $this->weddingRepository->pluck('groom_name', 'id');
-		return $this->assignToView('Edit expense', 'edit', [
-			'expense' => $expense,
-			'weddings' => $weddings,
-			'selectedWedding' => $expense->wedding_id,
-			'selectedCurrency' => $expense->currency
-		]);
+        $weddings = $this->weddingRepository->pluck('groom_name', 'id');
+        return $this->assignToView('Edit expense', 'edit', [
+            'expense' => $expense,
+            'weddings' => $weddings,
+            'selectedWedding' => $expense->wedding_id,
+            'selectedCurrency' => $expense->currency
+        ]);
     }
 
     /**

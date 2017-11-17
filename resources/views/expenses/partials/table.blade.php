@@ -14,7 +14,7 @@
             <tr>
                 <td>{!! $key + 1 !!}</td>
                 <td>
-                    {!! $expense->wedding->groom_name !!}
+                    {!! $expense->wedding->title !!}
 
                    @if($expense->expense_details)
                         | <a href="#" class="" data-toggle="modal" data-target="#{!! $expense->id !!}">
@@ -28,7 +28,7 @@
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                         <h4 class="modal-title">Detail expense of: <strong>{!! $expense->title !!}</strong></h4>
                                         Total dollar: <strong>${!! $expense->getTotalExpense()['dollar'] !!}</strong>,
-                                        Total khmer: <strong>{!! $expense->getTotalExpense()['khmer'] !!}</strong>,
+                                        khmer: <strong>{!! $expense->getTotalExpense()['khmer'] !!}</strong>
                                     </div>
                                     <div class="modal-body">
                                         <table class="table table-bordered table-striped">
@@ -39,7 +39,9 @@
                                                 <th style="width: 200px;">Who is expense?</th>
                                                 <th style="width: 80px;">Total</th>
                                                 <th>Currency</th>
-                                                <th style="width: 20px;">Action</th>
+                                                <th style="width: 20px;">
+                                                    <a href="{!! url('expense_details/' . $expense->id . '/create') !!}"><i class="fa fa-fw fa-plus" aria-hidden="true"></i> New</a>
+                                                </th>
                                             </tr>
                                             </thead>
                                             <tbody>

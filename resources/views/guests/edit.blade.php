@@ -2,9 +2,7 @@
 
 @section('content')
     <section class="content-header">
-        <h1>
-            Guess
-        </h1>
+        <h1>Edit Guess</h1>
    </section>
    <div class="content">
        @include('adminlte-templates::common.errors')
@@ -12,9 +10,7 @@
            <div class="box-body">
                <div class="row">
                    {!! Form::model($guest, ['route' => ['guests.update', $guest->id], 'method' => 'patch']) !!}
-
                         @include('guests.partials.fields')
-
                    {!! Form::close() !!}
                </div>
            </div>

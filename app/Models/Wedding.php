@@ -11,17 +11,18 @@ class Wedding extends Model
 
     public $table = 'weddings';
     protected $dates = ['deleted_at'];
-	public $timestamps = FALSE;
+    public $timestamps = FALSE;
 
     public $fillable = [
-		'title',
+        'user_id',
+        'title',
         'groom_name',
-		'bride_name',
-		'groom_image',
-		'bride_image',
+        'bride_name',
+        'groom_image',
+        'bride_image',
         'start_date',
         'end_date',
-		'note'
+        'note'
     ];
 
     /**
@@ -30,7 +31,8 @@ class Wedding extends Model
      * @var array
      */
     protected $casts = [
-		'id' => 'string'
+        'id' => 'string',
+        'user_id' => 'string',
     ];
 
     /**
@@ -39,38 +41,44 @@ class Wedding extends Model
      * @var array
      */
     public static $rules = [
-		'title' => 'required',
+        'user_id' => 'required',
+        'title' => 'required',
         'groom_name' => 'required|min:3',
-		'bride_name' => 'required|min:3',
-		'start_date' => 'required',
-		'end_date' => 'required'
+        'bride_name' => 'required|min:3',
+        'start_date' => 'required',
+        'end_date' => 'required'
     ];
 
-	/**
-	 * @return mixed
-	 */
-	public function wedding_invitations() {
-		return $this->hasMany('App\Models\WeddingInvitation');
-	}
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 
-	/**
-	 * @return mixed
-	 */
-	public function expenses() {
-		return $this->hasMany('App\Models\Expense');
-	}
+    /**
+     * @return mixed
+     */
+    public function wedding_invitations() {
+        return $this->hasMany('App\Models\WeddingInvitation');
+    }
 
-	/**
-	 * @return string
-	 */
-	public static function getBaseImagePath() {
-		return config('settings.assets.image');
-	}
+    /**
+     * @return mixed
+     */
+    public function expenses() {
+        return $this->hasMany('App\Models\Expense');
+    }
 
-	/**
-	 * @return string
-	 */
-	public static function getPrefixImage() {
-		return date('GdYsmi');
-	}
+    /**
+     * @return string
+     */
+    public static function getBaseImagePath() {
+        return config('settings.assets.image');
+    }
+
+    /**
+     * @return string
+     */
+    public static function getPrefixImage() {
+        return date('GdYsmi');
+    }
 }

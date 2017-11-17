@@ -17,42 +17,42 @@ class ExpenseDetailController extends AppBaseController
     /** @var ExpenseDetailRepository */
     private $expenseDetailRepository;
 
-	/** @var ExpenseRepository */
-	private $expenseRepository;
+    /** @var ExpenseRepository */
+    private $expenseRepository;
 
-	/**
-	 * ExpenseDetailController constructor.
-	 * @param ExpenseDetailRepository $expenseDetailRepository
-	 * @param ExpenseRepository $expenseRepository
-	 */
+    /**
+     * ExpenseDetailController constructor.
+     * @param ExpenseDetailRepository $expenseDetailRepository
+     * @param ExpenseRepository $expenseRepository
+     */
     public function __construct(ExpenseDetailRepository $expenseDetailRepository, ExpenseRepository $expenseRepository)
     {
-		parent::__construct();
+        parent::__construct();
         $this->expenseDetailRepository = $expenseDetailRepository;
-		$this->expenseRepository = $expenseRepository;
-		$this->activeMenu = ['active' => 'expense', 'subMenu' => ''];
-		$this->viewPath = 'expense_details.';
-		$this->routePath = 'expense_details.';
+        $this->expenseRepository = $expenseRepository;
+        $this->activeMenu = ['active' => 'expense', 'subMenu' => ''];
+        $this->viewPath = 'expense_details.';
+        $this->routePath = 'expense_details.';
     }
 
     /**
-	 * @param $expense
+     * @param $expense
      *
      * @return Response
      */
     public function create($expense)
     {
-		/** @var Expense $selectExpense */
-		$selectedExpense = $this->expenseRepository->findWithoutFail($expense);
-		if (empty($selectedExpense)) {
-			Flash::error('Expense not found');
-			return redirect(route('expenses.index'));
-		}
+        /** @var Expense $selectExpense */
+        $selectedExpense = $this->expenseRepository->findWithoutFail($expense);
+        if (empty($selectedExpense)) {
+            Flash::error('Expense not found');
+            return redirect(route('expenses.index'));
+        }
 
-		return $this->assignToView($selectedExpense->title . ': New expense detail', 'create', [
-			'selectedExpense' => $selectedExpense,
-			'selectedCurrency' => ''
-		]);
+        return $this->assignToView($selectedExpense->title . ': New expense detail', 'create', [
+            'selectedExpense' => $selectedExpense,
+            'selectedCurrency' => ''
+        ]);
     }
 
     /**
@@ -62,15 +62,15 @@ class ExpenseDetailController extends AppBaseController
      */
     public function store(CreateExpenseDetailRequest $request)
     {
-		$input = $request->all();
+        $input = $request->all();
 
-		/** @var Expense $selectExpense */
-		$selectedExpense = $this->expenseRepository->findWithoutFail($input['expense_id']);
-		if (empty($selectedExpense)) {
-			Flash::error('Expense not found');
-			return redirect(route('expenses.index'));
-		}
-		
+        /** @var Expense $selectExpense */
+        $selectedExpense = $this->expenseRepository->findWithoutFail($input['expense_id']);
+        if (empty($selectedExpense)) {
+            Flash::error('Expense not found');
+            return redirect(route('expenses.index'));
+        }
+        
         $expenseDetail = $this->expenseDetailRepository->create($input);
         Flash::success('Expense Detail saved successfully.');
         return redirect(route('expenses.index'));
@@ -91,11 +91,11 @@ class ExpenseDetailController extends AppBaseController
             return redirect(route('expenseDetails.index'));
         }
 
-		return $this->assignToView($expenseDetail->expense->title . ': Edit expense detail', 'edit', [
-			'expenseDetail' => $expenseDetail,
-			'selectedExpense' => $expenseDetail->expense,
-			'selectedCurrency' => ''
-		]);
+        return $this->assignToView($expenseDetail->expense->title . ': Edit expense detail', 'edit', [
+            'expenseDetail' => $expenseDetail,
+            'selectedExpense' => $expenseDetail->expense,
+            'selectedCurrency' => ''
+        ]);
     }
 
     /**

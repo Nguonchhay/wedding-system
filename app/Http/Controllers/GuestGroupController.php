@@ -16,16 +16,16 @@ class GuestGroupController extends AppBaseController
     /** @var GuestGroupRepository */
     private $guestGroupRepository;
 
-	/**
-	 * @param GuestGroupRepository $guestGroupRepository
-	 */
+    /**
+     * @param GuestGroupRepository $guestGroupRepository
+     */
     public function __construct(GuestGroupRepository $guestGroupRepository)
     {
-		parent::__construct();
+        parent::__construct();
         $this->guestGroupRepository = $guestGroupRepository;
-		$this->activeMenu = ['active' => 'guest_group', 'subMenu' => ''];
-		$this->viewPath = 'guest_groups.';
-		$this->routePath = 'guest_groups.';
+        $this->activeMenu = ['active' => 'guest_group', 'subMenu' => ''];
+        $this->viewPath = 'guest_groups.';
+        $this->routePath = 'guest_groups.';
     }
 
     /**
@@ -39,9 +39,9 @@ class GuestGroupController extends AppBaseController
         $this->guestGroupRepository->pushCriteria(new RequestCriteria($request));
         $guestGroups = $this->guestGroupRepository->all();
 
-		return $this->assignToView('Guest Group List', 'index', [
-			'guestGroups' => $guestGroups
-		]);
+        return $this->assignToView('Guest Group List', 'index', [
+            'guestGroups' => $guestGroups
+        ]);
     }
 
     /**
@@ -51,7 +51,7 @@ class GuestGroupController extends AppBaseController
      */
     public function create()
     {
-		return $this->assignToView('New Guest Group', 'create');
+        return $this->assignToView('New Guest Group', 'create');
     }
 
     /**
@@ -66,7 +66,7 @@ class GuestGroupController extends AppBaseController
         $input = $request->all();
         $guestGroup = $this->guestGroupRepository->create($input);
         Flash::success('Guest Group saved successfully.');
-		return $this->redirectToIndex();
+        return $this->redirectToIndex();
     }
 
     /**
@@ -81,12 +81,12 @@ class GuestGroupController extends AppBaseController
         $guestGroup = $this->guestGroupRepository->findWithoutFail($id);
         if (empty($guestGroup)) {
             Flash::error('Guest Group not found');
-			return $this->redirectToIndex();
+            return $this->redirectToIndex();
         }
 
-		return $this->assignToView('Edit Guest Group', 'edit', [
-			'guestGroup' => $guestGroup
-		]);
+        return $this->assignToView('Edit Guest Group', 'edit', [
+            'guestGroup' => $guestGroup
+        ]);
     }
 
     /**
@@ -100,12 +100,12 @@ class GuestGroupController extends AppBaseController
         $guestGroup = $this->guestGroupRepository->findWithoutFail($id);
         if (empty($guestGroup)) {
             Flash::error('Guest Group not found');
-			return $this->redirectToIndex();
+            return $this->redirectToIndex();
         }
 
         $guestGroup = $this->guestGroupRepository->update($request->all(), $id);
         Flash::success('Guest Group updated successfully.');
-		return $this->redirectToIndex();
+        return $this->redirectToIndex();
     }
 
     /**
@@ -118,11 +118,11 @@ class GuestGroupController extends AppBaseController
         $guestGroup = $this->guestGroupRepository->findWithoutFail($id);
         if (empty($guestGroup)) {
             Flash::error('Guest Group not found');
-			return $this->redirectToIndex();
+            return $this->redirectToIndex();
         }
 
         $this->guestGroupRepository->delete($id);
         Flash::success('Guest Group deleted successfully.');
-		return $this->redirectToIndex();
+        return $this->redirectToIndex();
     }
 }

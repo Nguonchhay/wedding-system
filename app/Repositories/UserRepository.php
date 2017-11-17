@@ -7,7 +7,7 @@ use InfyOm\Generator\Common\BaseRepository;
 
 class UserRepository extends BaseRepository {
 
-	/**
+    /**
      * @var array
      */
     protected $fieldSearchable = [

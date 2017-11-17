@@ -11,14 +11,13 @@ class Guest extends Model
 
     public $table = 'guests';
     protected $dates = ['deleted_at'];
-	public $timestamps = FALSE;
+    public $timestamps = FALSE;
 
     public $fillable = [
-		'created_by',
-        'fullname',
+        'user_id',
+        'full_name',
         'print_name',
-        'address',
-		'note'
+        'note'
     ];
 
     /**
@@ -27,8 +26,8 @@ class Guest extends Model
      * @var array
      */
     protected $casts = [
-		'id' => 'string',
-		'created_by' => 'string'
+        'id' => 'string',
+        'created_by' => 'string'
     ];
 
     /**
@@ -37,7 +36,23 @@ class Guest extends Model
      * @var array
      */
     public static $rules = [
-		'created_by' => 'required',
-        'fullname' => 'required|min:3'
+        'user_id' => 'required',
+        'full_name' => 'required|min:3'
     ];
+
+    /**
+     * @return mixed
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function guest_group()
+    {
+        return $this->belongsTo('App\Models\GuestGroup');
+    }
 }
