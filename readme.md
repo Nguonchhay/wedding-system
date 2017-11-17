@@ -3,7 +3,13 @@
 Wedding Management System is a web application which provides abilities to manage wedding.
 
 ## Maintainers
-- Nguonchhay Touch
+- Nguonchhay Touch : tnguonchhay@gmail.com
+
+## System requirements
+
+* [Docker](https://docs.docker.com/get-started/)
+
+* Browser (Chrome, Firefox, Saferi,...)
 
 ## Local setup
 
@@ -74,14 +80,24 @@ composer dump-autoload
 php artisan migrate --seed
 ```
 
-## Compile resources
+* Compile resources
 ```
 bower install
 npm install
 grunt build
 ```
 
-## Verify installation
+* Add host to `/etc/hosts`
+
 ```
-Frontend: local.sportpill.host:8080
+sudo vi /etc/hosts
+0.0.0.0  local.wedding.host
+```
+
+__Note__: the above guide adding host is only for Linux and MAC.
+If you are using Windows, please search Google for detail.
+
+* Verify installation
+```
+Frontend: local.wedding.host:8080
 ```
