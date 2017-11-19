@@ -17,7 +17,7 @@ Note: we are using docker for local development.
 
 * Clone the website
 ```
-https://github.com/Nguonchhay/wedding-system.git your/desire/path/local.wedding.host
+git clone https://github.com/Nguonchhay/wedding-system.git your/desire/path/local.wedding.host
 ```
 
 * Go to project
@@ -100,4 +100,11 @@ If you are using Windows, please search Google for detail.
 * Verify installation
 ```
 Frontend: local.wedding.host:8080
+```
+
+## Login information
+
+```
+Email: admin@reasei.com
+Password: admin@reasei
 ```

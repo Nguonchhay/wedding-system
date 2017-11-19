@@ -44,7 +44,16 @@ class GuestController extends AppBaseController
     public function index(Request $request)
     {
         $guests = $this->guestRepository->all();
+        $guestGroups = $this->guestGroupRepository->pluck('name', 'id')->prepend('Select guest group', '');
+
+        $selectedGroup = $request->get('group', null);
+        if ($selectedGroup !== null) {
+            $guests = $this->guestRepository->findWhere(['guest_group_id' => $selectedGroup]);
+        }
+
         return $this->assignToView('Guest List', 'index', [
+            'guestGroups' => $guestGroups,
+            'selectedGroup' => $selectedGroup,
             'guests' => $guests
         ]);
     }
@@ -73,6 +82,13 @@ class GuestController extends AppBaseController
     {
         $this->guestRepository->pushCriteria(new RequestCriteria($request));
         $input = $request->all();
+
+        $input['khmer_full_name'] = $request->get('khmer_full_name', null);
+        $input['full_name'] = $request->get('full_name', null);
+        if ($input['khmer_full_name'] === null && $input['full_name'] === null) {
+            Flash::success('Khmer full name or full name is require');
+            return $this->redirectTo('create');
+        }
 
         $guest = $this->guestRepository->create($input);
         Flash::success('Guest was saved successfully.');
@@ -103,7 +119,16 @@ class GuestController extends AppBaseController
     public function update($id, UpdateGuestRequest $request)
     {
         $guest = $this->checkExistGuest($id);
-        $guest = $this->guestRepository->update($request->all(), $guest->id);
+        $input = $request->all();
+
+        $input['khmer_full_name'] = $request->get('khmer_full_name', null);
+        $input['full_name'] = $request->get('full_name', null);
+        if ($input['khmer_full_name'] === null && $input['full_name'] === null) {
+            Flash::success('Khmer full name or full name is require');
+            return $this->redirectToIndex();
+        }
+
+        $guest = $this->guestRepository->update($input, $guest->id);
         Flash::success('Guest updated successfully.');
         return $this->redirectToIndex();
     }

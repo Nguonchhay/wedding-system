@@ -15,6 +15,7 @@
         <div class="clearfix"></div>
         <div class="box box-primary">
             <div class="box-body">
+                @include('guests.partials.filter')
                 @include('guests.partials.table')
             </div>
         </div>

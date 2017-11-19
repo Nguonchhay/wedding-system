@@ -1,6 +1,8 @@
 <table class="table table-responsive" id="guests-table">
     <thead>
         <th>No</th>
+        <th>Group</th>
+        <th>Khmer full name</th>
         <th>Full name</th>
         <th>Print Name</th>
         <th>Note</th>
@@ -10,6 +12,12 @@
     @foreach($guests as $key => $guest)
         <tr>
             <td>{!! $key + 1 !!}</td>
+            <td>
+                @if($guest->guest_group)
+                    {!! $guest->guest_group->name !!}
+                @endif
+            </td>
+            <td>{!! $guest->khmer_full_name !!}</td>
             <td>{!! $guest->full_name !!}</td>
             <td>{!! $guest->print_name !!}</td>
             <td>{!! $guest->note !!}</td>

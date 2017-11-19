@@ -1,3 +1,8 @@
+.login-page,
+.register-page {
+  background: url('../images/background.jpg') !important;
+}
+
 form {
   .required {
     &:after {

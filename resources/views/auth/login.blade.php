@@ -9,19 +9,15 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
     <!-- Bootstrap 3.3.6 -->
-    <link rel="stylesheet" href="{!! asset('theme/css/bootstrap.min.css') !!}">
+    <link rel="stylesheet" href="{!! asset('theme/bootstrap/css/bootstrap.min.css') !!}">
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="{!! asset('theme/css/font-awesome.min.css') !!}">
-
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="{!! asset('theme/css/ionicons.min.css') !!}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Theme style -->
-    <link rel="stylesheet" href="{!! asset('theme/css/AdminLTE.min.css') !!}">
+    <link rel="stylesheet" href="{!! asset('theme/dist/css/AdminLTE.min.css') !!}">
 
-    <!-- iCheck -->
-    <link rel="stylesheet" href="{!! asset('theme/css/_all-skins.min.css') !!}">
+    <link rel="stylesheet" href="{!! asset('css/reasei.min.css') !!}">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -34,10 +30,9 @@
 <body class="hold-transition login-page">
 <div class="login-box">
     <div class="login-logo">
-        <b>Wedding</b> Management System
+        <strong>Wedding</strong> Management System
     </div>
 
-    <!-- /.login-logo -->
     <div class="login-box-body">
         <p class="login-box-msg">Sign in to start your session</p>
 
@@ -65,43 +60,19 @@
 
             </div>
             <div class="row">
-                <div class="col-xs-8">
-                    <div class="checkbox icheck">
-                        <label>
-                            <input type="checkbox" name="remember"> Remember Me
-                        </label>
-                    </div>
+                <div class="col-xs-4 col-xs-offset-8">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">
+                        <i class="fa fa-sign-in" aria-hidden="true"></i> Sign In
+                    </button>
                 </div>
-                <!-- /.col -->
-                <div class="col-xs-4">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
-                </div>
-                <!-- /.col -->
             </div>
         </form>
 
-        <a href="{{ url('/password/reset') }}">I forgot my password</a><br>
-        <a href="{{ url('/register') }}" class="text-center">Register a new membership</a>
-
     </div>
-    <!-- /.login-box-body -->
 </div>
-<!-- /.login-box -->
 
-<script src="{!! asset('theme/js/jquery.min.js') !!}"></script>
-<script src="{!! asset('theme/js/bootstrap.min.js') !!}"></script>
-<script src="{!! asset('theme/js/icheck.min.js') !!}"></script>
-
-<!-- AdminLTE App -->
-<script src="{!! asset('theme/js/app.min.js') !!}"></script>
-<script>
-    $(function () {
-        $('input').iCheck({
-            checkboxClass: 'icheckbox_square-blue',
-            radioClass: 'iradio_square-blue',
-            increaseArea: '20%' // optional
-        });
-    });
-</script>
+<script src="{!! asset('theme/plugins/jQuery/jquery-2.2.3.min.js') !!}"></script>
+<script src="{!! asset('theme/bootstrap/js/bootstrap.min.js') !!}"></script>
+<script src="{!! asset('theme/dist/js/app.min.js') !!}"></script>
 </body>
 </html>

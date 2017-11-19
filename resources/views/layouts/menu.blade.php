@@ -1,6 +1,6 @@
 <li class="@if($activeMenu['active'] == 'home') active @endif">
     <a href="{!! url('/') !!}">
-        <i class="fa fa-bars" aria-hidden="true"></i> <span>Dashboard</span>
+        <i class="fa fa-tachometer" aria-hidden="true"></i> <span>Dashboard</span>
     </a>
 </li>
 

@@ -16,6 +16,7 @@ class Guest extends Model
     public $fillable = [
         'user_id',
         'guest_group_id',
+        'khmer_full_name',
         'full_name',
         'print_name',
         'note'
@@ -39,8 +40,7 @@ class Guest extends Model
      */
     public static $rules = [
         'user_id' => 'required',
-        'guest_group_id' => 'required',
-        'full_name' => 'required|min:3'
+        'guest_group_id' => 'required'
     ];
 
     /**

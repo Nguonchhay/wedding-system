@@ -30,15 +30,9 @@ class UsersTableSeeder extends Seeder {
 				'role' => 'admin',
 				'name' => 'Admin',
 				'email' => 'admin@reasei.com',
-                'password' => bcrypt('admin@12354')
-            ],
-			[
-				'role' => 'user',
-				'name' => 'User',
-				'email' => 'user@reasei.com',
-				'password' => bcrypt('user')
+				'password' => bcrypt('admin@reasei')
 			]
-        ];
+		];
 
 		$message = "\n- No users were initialized. \n";
         foreach ($users as $user) {
@@ -50,5 +44,5 @@ class UsersTableSeeder extends Seeder {
 			}
 		}
 		echo $message . "\n";
-    }
+	}
 }
