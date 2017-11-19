@@ -1,6 +1,12 @@
+{!! Form::hidden('user_id', Auth::user()->id) !!}
+
+<div class="form-group col-sm-12">
+    @include('guests.partials.guest_group_select')
+</div>
+
 <div class="form-group col-sm-6">
-    {!! Form::label('fullname', 'Fullname:') !!}
-    {!! Form::text('fullname', null, ['class' => 'form-control']) !!}
+    {!! Form::label('full_name', 'Full name:') !!}
+    {!! Form::text('full_name', null, ['class' => 'form-control']) !!}
 </div>
 
 <div class="form-group col-sm-6">

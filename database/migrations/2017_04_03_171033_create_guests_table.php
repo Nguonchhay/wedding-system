@@ -15,10 +15,11 @@ class CreateGuestsTable extends Migration
     {
         Schema::create('guests', function (Blueprint $table) {
             $table->string('id', 100);
-			$table->string('user_id', 100);
+            $table->string('user_id', 100);
+            $table->string('guest_group_id', 100);
             $table->string('full_name', 100);
-			$table->string('print_name', 200);
-			$table->string('note')->nullable();
+            $table->string('print_name', 200);
+            $table->string('note')->nullable();
             $table->softDeletes();
         });
     }
