@@ -39,4 +39,5 @@ Route::group([
 	});
 
 	Route::resource('guest_groups', 'GuestGroupController');
+    Route::resource('users', 'UserController');
 });

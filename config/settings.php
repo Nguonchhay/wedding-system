@@ -2,8 +2,9 @@
 
 return [
 	'roles' => [
+        'user' => 'User',
 		'admin' => 'Admin',
-		'user' => 'User',
+        'super_admin' => 'Super admin'
 	],
 	'record_from' => [
         'web' => 'Web',

@@ -101,10 +101,3 @@ If you are using Windows, please search Google for detail.
 ```
 Frontend: local.wedding.host:8080
 ```
-
-## Login information
-
-```
-Email: admin@reasei.com
-Password: admin@reasei
-```

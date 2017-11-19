@@ -100,4 +100,36 @@
     }
   });
 
+  $('#formUserCreate').on('submit', function(e) {
+    var confirmPassword, password;
+    password = $('#userPassword').val();
+    confirmPassword = $('#userConfirmPassword').val();
+    if (password.length < 8 || confirmPassword < 8) {
+      alert('You have to input at least 8 characters.');
+      e.preventDefault();
+      return false;
+    } else if (password !== confirmPassword) {
+      alert('Password and confirm password must be the same');
+      e.preventDefault();
+      return false;
+    }
+  });
+
+  $('#formUserEdit').on('submit', function(e) {
+    var confirmPassword, password;
+    password = $('#userPassword').val();
+    confirmPassword = $('#userConfirmPassword').val();
+    if (password !== '' || confirmPassword !== '') {
+      if (password.length < 8 || confirmPassword < 8) {
+        alert('You have to input at least 8 characters.');
+        e.preventDefault();
+        return false;
+      } else if (password !== confirmPassword) {
+        alert('Password and confirm password must be the same');
+        e.preventDefault();
+        return false;
+      }
+    }
+  });
+
 }).call(this);

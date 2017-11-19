@@ -3,9 +3,11 @@
 @section('content')
     <section class="content-header">
         <h1 class="pull-left">Weddings</h1>
-        <div class="pull-right">
-           <a class="btn btn-primary pull-right" style="margin-top: -10px; margin-bottom: 5px" href="{!! route('weddings.create') !!}">Add New</a>
-        </div>
+        @if(!Auth::user()->hasRole('user'))
+            <div class="pull-right">
+               <a class="btn btn-primary pull-right" style="margin-top: -10px; margin-bottom: 5px" href="{!! route('weddings.create') !!}">Add New</a>
+            </div>
+        @endif
     </section>
     <div class="content">
         <div class="clearfix"></div>

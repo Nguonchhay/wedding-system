@@ -35,7 +35,7 @@
 @if (!Auth::guest())
     <div class="wrapper">
         @include('partials.header')
-        @include('layouts.sidebar')
+        @include('partials.sidebar')
 
         <div class="content-wrapper">
             @yield('content')

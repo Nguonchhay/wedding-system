@@ -25,13 +25,14 @@
                                 <small>Member since {!! Auth::user()->created_at->format('M. Y') !!}</small>
                             </p>
                         </li>
-                        <!-- Menu Footer-->
+
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="#" class="btn btn-default btn-flat">
+                                <a href="{!! url('/users/' . Auth::user()->id) !!}" class="btn btn-default btn-flat">
                                     <i class="fa fa-user"></i> Profile
                                 </a>
                             </div>
+
                             <div class="pull-right">
                                 <a href="{!! url('/logout') !!}" class="btn btn-default btn-flat"
                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

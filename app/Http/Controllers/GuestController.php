@@ -63,7 +63,7 @@ class GuestController extends AppBaseController
      *
      * @return Response
      */
-    public function create()
+        public function create()
     {
         $guestGroups = $this->guestGroupRepository->pluck('name', 'id');
         return $this->assignToView('New guest', 'create', [
@@ -71,14 +71,14 @@ class GuestController extends AppBaseController
         ]);
     }
 
-    /**
-     * Store a newly created Guest in storage.
-     *
-     * @param CreateGuestRequest $request
-     *
-     * @return Response
-     */
-    public function store(CreateGuestRequest $request)
+        /**
+         * Store a newly created Guest in storage.
+         *
+         * @param CreateGuestRequest $request
+         *
+         * @return Response
+         */
+        public function store(CreateGuestRequest $request)
     {
         $this->guestRepository->pushCriteria(new RequestCriteria($request));
         $input = $request->all();

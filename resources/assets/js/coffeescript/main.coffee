@@ -78,3 +78,32 @@ $('.btn-delete-image').on('click', ->
     self.nextAll('.image-preview').addClass('hide')
   return
 )
+
+$('#formUserCreate').on('submit', (e)->
+  password = $('#userPassword').val()
+  confirmPassword = $('#userConfirmPassword').val()
+
+  if password.length < 8 or confirmPassword < 8
+    alert('You have to input at least 8 characters.')
+    e.preventDefault()
+    return false
+  else if (password isnt confirmPassword)
+    alert('Password and confirm password must be the same')
+    e.preventDefault()
+    return false
+)
+
+$('#formUserEdit').on('submit', (e)->
+  password = $('#userPassword').val()
+  confirmPassword = $('#userConfirmPassword').val()
+
+  if password isnt '' or confirmPassword isnt ''
+    if password.length < 8 or confirmPassword < 8
+      alert('You have to input at least 8 characters.')
+      e.preventDefault()
+      return false
+    else if (password isnt confirmPassword)
+      alert('Password and confirm password must be the same')
+      e.preventDefault()
+      return false
+)
