@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'role', 'password'
+        'name', 'email', 'role', 'password', 'created_by'
     ];
 
     /**
@@ -34,7 +34,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'id' => 'string'
+        'id' => 'string',
+        'created_by' => 'string'
     ];
 
     /**
@@ -69,5 +70,13 @@ class User extends Authenticatable
     public function hasRole($role)
     {
         return ($this->role === $role) ? true : false;
+    }
+
+    /**
+     * @return User|null
+     */
+    public function getCreatedByUser()
+    {
+        return User::where('created_by', $this->created_by)->first();
     }
 }

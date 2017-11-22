@@ -43,15 +43,27 @@ class UserController extends AppBaseController
         $users = $this->userRepository->all();
         if ($authUser->hasRole('admin')) {
             $users = $this->userRepository->findWhere([
-                ['role', '!=', 'super_admin']
+                'created_by' => $authUser->id
             ]);
+            $users[] = $authUser;
         }
 
         $selectedRole = trim($request->get('role', ''));
         if ($selectedRole !== '') {
-            $users = $this->userRepository->findWhere([
-                'role' => $selectedRole
-            ]);
+            if ($authUser->hasRole('super_admin')) {
+                $users = $this->userRepository->findWhere([
+                    'role' => $selectedRole
+                ]);
+            } else {
+                $users = $this->userRepository->findWhere([
+                    'created_by' => $authUser->id,
+                    'role' => $selectedRole
+                ]);
+            }
+
+            if ($authUser->hasRole('admin') && $selectedRole === 'admin') {
+                $users[] = $authUser;
+            }
         }
 
         $userRoles = $this->getUserRoles($authUser);
@@ -110,6 +122,7 @@ class UserController extends AppBaseController
 
         unset($input['confirm_password']);
         $input['password'] = bcrypt($input['password']);
+        $input['created_by'] = Auth::user()->id;
         $user = $this->userRepository->create($input);
         Flash::success('User was saved successfully.');
         return $this->redirectToIndex();
