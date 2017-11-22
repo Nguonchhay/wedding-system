@@ -8,6 +8,7 @@ use App\Models\Guest;
 use App\Models\GuestGroup;
 use App\Repositories\GuestGroupRepository;
 use App\Repositories\GuestRepository;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Flash;
 use Illuminate\Support\Facades\Auth;
@@ -46,12 +47,18 @@ class GuestController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $guests = $this->guestRepository->all();
+        /** @var User $authUser */
+        $authUser = Auth::user();
         $guestGroups = $this->guestGroupRepository->pluck('name', 'id')->prepend('Select guest group', '');
 
         $selectedGroup = $request->get('group', null);
         if ($selectedGroup !== null) {
-            $guests = $this->guestRepository->findWhere(['guest_group_id' => $selectedGroup]);
+            $guests = $this->guestRepository->findWhere([
+                'user_id' => $authUser->id,
+                'guest_group_id' => $selectedGroup
+            ]);
+        } else {
+            $guests = $this->guestRepository->findWhere(['user_id' => $authUser->id]);
         }
 
         return $this->assignToView('Guest List', 'index', [
