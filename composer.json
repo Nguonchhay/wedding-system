@@ -15,7 +15,9 @@
         "doctrine/dbal": "~2.3",
 
         "unisharp/laravel-ckeditor": "^4.6",
-        "unisharp/laravel-filemanager": "^1.7"
+        "unisharp/laravel-filemanager": "^1.7",
+
+        "maatwebsite/excel": "~2.1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

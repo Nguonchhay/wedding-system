@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateGuestRequest;
 use App\Http\Requests\UpdateGuestRequest;
 use App\Models\Guest;
+use App\Models\GuestGroup;
 use App\Repositories\GuestGroupRepository;
 use App\Repositories\GuestRepository;
 use Illuminate\Http\Request;
 use Flash;
+use Illuminate\Support\Facades\Auth;
+use Excel;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
@@ -59,8 +62,6 @@ class GuestController extends AppBaseController
     }
 
     /**
-     * Show the form for creating a new Guest.
-     *
      * @return Response
      */
         public function create()
@@ -71,22 +72,20 @@ class GuestController extends AppBaseController
         ]);
     }
 
-        /**
-         * Store a newly created Guest in storage.
-         *
-         * @param CreateGuestRequest $request
-         *
-         * @return Response
-         */
-        public function store(CreateGuestRequest $request)
+    /**
+     * @param CreateGuestRequest $request
+     *
+     * @return Response
+     */
+    public function store(CreateGuestRequest $request)
     {
         $this->guestRepository->pushCriteria(new RequestCriteria($request));
         $input = $request->all();
 
-        $input['khmer_full_name'] = $request->get('khmer_full_name', null);
-        $input['full_name'] = $request->get('full_name', null);
-        if ($input['khmer_full_name'] === null && $input['full_name'] === null) {
-            Flash::success('Khmer full name or full name is require');
+        $input['khmer_name'] = $request->get('khmer_name', null);
+        $input['english_name'] = $request->get('english_name', null);
+        if ($input['khmer_name'] === null && $input['english_name'] === null) {
+            Flash::success('Khmer name or English name is require');
             return $this->redirectTo('create');
         }
 
@@ -121,10 +120,10 @@ class GuestController extends AppBaseController
         $guest = $this->checkExistGuest($id);
         $input = $request->all();
 
-        $input['khmer_full_name'] = $request->get('khmer_full_name', null);
-        $input['full_name'] = $request->get('full_name', null);
-        if ($input['khmer_full_name'] === null && $input['full_name'] === null) {
-            Flash::success('Khmer full name or full name is require');
+        $input['khmer_name'] = $request->get('khmer_name', null);
+        $input['english_name'] = $request->get('english_name', null);
+        if ($input['khmer_name'] === null && $input['english_name'] === null) {
+            Flash::success('Khmer full name or English name is require');
             return $this->redirectToIndex();
         }
 
@@ -150,6 +149,60 @@ class GuestController extends AppBaseController
     }
 
     /**
+     * @return Response
+     */
+    public function import()
+    {
+        $guests = $this->guestRepository->findWhere(['user_id' => Auth::user()->id]);
+        return $this->assignToView('Import guests', 'import', [
+            'guests' => $guests
+        ]);
+    }
+
+    public function importGuest(Request $request)
+    {
+        if ($request->hasFile('import_file')) {
+            $extension = $request->file('import_file')->extension();
+            if ($extension === "xlsx") {
+                $path = $request->file('import_file')->getRealPath();
+                /** @var \Maatwebsite\Excel\Collections\RowCollection $data */
+                $data = Excel::load($path, function ($reader) {
+                })->get();
+
+                if (!empty($data) && $data->count()) {
+                    $adjustData = $data->all();
+                    $userId = Auth::user()->id;
+                    /** @var \Maatwebsite\Excel\Collections\CellCollection $excelRow */
+                    for ($i = 1; $i < $data->count(); $i++) {
+                        $excelRow = $adjustData[$i];
+                        $guestGroupData = $excelRow->get('guest_group', '');
+                        $khmerName = $excelRow->get('khmer_name', '');
+                        $printName = $excelRow->get('print_name', '');
+                        if ($khmerName !== '' && $printName !== '') {
+                            $guestGroup = $this->checkExistGuestGroup($guestGroupData);
+                            $guestData = [
+                                'user_id' => $userId,
+                                'guest_group_id' => $guestGroup->id,
+                                'khmer_name' => $khmerName,
+                                'english_name' => $excelRow->get('khmer_name', ''),
+                                'phone' => $excelRow->get('phone_number', ''),
+                                'print_name' => $printName,
+                                'address' => $excelRow->get('address', '')
+                            ];
+                            $guest = $this->guestRepository->create($guestData);
+                        }
+                    }
+                }
+            } else {
+                Flash::success('Please, upload excel file (.xlsx)');
+                return $this->redirectTo('import');
+            }
+        }
+
+        return $this->redirectToIndex();
+    }
+
+    /**
      * @param string $id
      * @return Guest|null
      */
@@ -161,5 +214,26 @@ class GuestController extends AppBaseController
             return $this->redirectToIndex();
         }
         return $guest;
+    }
+
+    /**
+     * @param string $name
+     * @return GuestGroup|null
+     */
+    private function checkExistGuestGroup($name)
+    {
+        if ($name === '') {
+            $name = 'General';
+        }
+
+        /** @var GuestGroup|null $guestGroup */
+        $guestGroup = $this->guestGroupRepository->findWhere(['name' => $name])->first();
+        if (empty($guestGroup)) {
+            $guestGroup = $this->guestGroupRepository->create([
+                'name' => $name
+            ]);
+        }
+
+        return $guestGroup;
     }
 }

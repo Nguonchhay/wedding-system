@@ -27,7 +27,10 @@ Route::group([
 ], function() {
 	Route::get('/', 'HomeController@index');
 
-	Route::resource('guests', 'GuestController');
+    Route::get('/guests/import', 'GuestController@import')->name('guests.import');
+    Route::post('/guests/importGuest', 'GuestController@importGuest')->name('guests.import_guest');
+    Route::resource('guests', 'GuestController');
+
 	Route::resource('weddings', 'WeddingController');
 	Route::resource('expenses', 'ExpenseController');
 	Route::resource('expense_details', 'ExpenseDetailController');

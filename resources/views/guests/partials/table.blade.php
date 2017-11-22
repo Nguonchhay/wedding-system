@@ -2,10 +2,11 @@
     <thead>
         <th>No</th>
         <th>Group</th>
-        <th>Khmer full name</th>
-        <th>Full name</th>
+        <th>Khmer name</th>
+        <th>English name</th>
+        <th>Phone number</th>
         <th>Print Name</th>
-        <th>Note</th>
+        <th>Address</th>
         <th colspan="3">Action</th>
     </thead>
     <tbody>
@@ -17,10 +18,11 @@
                     {!! $guest->guest_group->name !!}
                 @endif
             </td>
-            <td>{!! $guest->khmer_full_name !!}</td>
-            <td>{!! $guest->full_name !!}</td>
+            <td>{!! $guest->khmer_name !!}</td>
+            <td>{!! $guest->english_name !!}</td>
+            <td>{!! $guest->phone !!}</td>
             <td>{!! $guest->print_name !!}</td>
-            <td>{!! $guest->note !!}</td>
+            <td>{!! $guest->address !!}</td>
             <td>
                 {!! Form::open(['route' => ['guests.destroy', $guest->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>

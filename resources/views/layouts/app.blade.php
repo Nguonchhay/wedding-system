@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Wedding Management System</title>
+    <title>{!! $pageTitle !!} - Wedding Management System</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
     @include('partials.favicon')

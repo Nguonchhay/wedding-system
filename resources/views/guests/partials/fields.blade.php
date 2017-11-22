@@ -7,13 +7,18 @@
         </div>
 
         <div class="form-group col-sm-12">
-            {!! Form::label('khmer_full_name', 'Khmer full name:') !!}
-            {!! Form::text('khmer_full_name', null, ['class' => 'form-control']) !!}
+            {!! Form::label('khmer_name', 'Khmer name:') !!}
+            {!! Form::text('khmer_name', null, ['class' => 'form-control']) !!}
         </div>
 
         <div class="form-group col-sm-12">
-            {!! Form::label('full_name', 'English full name:') !!}
-            {!! Form::text('full_name', null, ['class' => 'form-control']) !!}
+            {!! Form::label('english_name', 'English name:') !!}
+            {!! Form::text('english_name', null, ['class' => 'form-control']) !!}
+        </div>
+
+        <div class="form-group col-sm-12">
+            {!! Form::label('phone', 'Phone:') !!}
+            {!! Form::text('phone', null, ['class' => 'form-control']) !!}
         </div>
 
         <div class="form-group col-sm-12">

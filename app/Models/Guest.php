@@ -16,10 +16,11 @@ class Guest extends Model
     public $fillable = [
         'user_id',
         'guest_group_id',
-        'khmer_full_name',
-        'full_name',
+        'khmer_name',
+        'english_name',
+        'phone',
         'print_name',
-        'note'
+        'address'
     ];
 
     /**

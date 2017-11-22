@@ -4,7 +4,15 @@
     <section class="content-header">
         <h1 class="pull-left">Guests</h1>
         <div class="pull-right">
-           <a class="btn btn-primary pull-right" style="margin-top: -10px;margin-bottom: 5px" href="{!! route('guests.create') !!}">Add New</a>
+            <div class='btn-group'>
+                <a class="btn btn-primary" style="margin-top: -10px;margin-bottom: 5px" href="{!! route('guests.import') !!}">
+                    <i class="fa fa-upload" aria-hidden="true"></i> Import guests
+                </a>
+
+                <a class="btn btn-primary" style="margin-top: -10px;margin-bottom: 5px" href="{!! route('guests.create') !!}">
+                    <i class="fa fa-plus" aria-hidden="true"></i> Add New
+                </a>
+            </div>
         </div>
     </section>
     <div class="content">

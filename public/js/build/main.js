@@ -132,4 +132,8 @@
     }
   });
 
+  $('#formUploadGuest').on('submit', function() {
+    return $(this).find(":submit").prop('disabled', true);
+  });
+
 }).call(this);

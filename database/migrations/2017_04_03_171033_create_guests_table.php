@@ -17,10 +17,11 @@ class CreateGuestsTable extends Migration
             $table->string('id', 100);
             $table->string('user_id', 100);
             $table->string('guest_group_id', 100);
-            $table->string('khmer_full_name', 100)->nullable();
-            $table->string('full_name', 100)->nullable();
+            $table->string('khmer_name', 100)->nullable();
+            $table->string('english_name', 100)->nullable();
+            $table->string('phone', 100)->nullable();
             $table->string('print_name', 200);
-            $table->string('note')->nullable();
+            $table->string('address')->nullable();
             $table->softDeletes();
         });
     }

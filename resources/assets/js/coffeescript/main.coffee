@@ -107,3 +107,7 @@ $('#formUserEdit').on('submit', (e)->
       e.preventDefault()
       return false
 )
+
+$('#formUploadGuest').on('submit', ->
+  $(this).find(":submit").prop('disabled', true)
+)
