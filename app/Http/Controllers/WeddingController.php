@@ -4,10 +4,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateWeddingRequest;
 use App\Http\Requests\UpdateWeddingRequest;
 use App\Models\Wedding;
+use App\Models\WeddingInvitation;
+use App\Repositories\GuestRepository;
+use App\Repositories\WeddingInvitationRepository;
 use App\Repositories\WeddingRepository;
 use App\Utility\Files;
 use Illuminate\Http\Request;
 use Flash;
+use Illuminate\Support\Facades\Auth;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
@@ -16,13 +20,24 @@ class WeddingController extends AppBaseController
     /** @var WeddingRepository */
     private $weddingRepository;
 
+    /** @var GuestRepository */
+    private $guestRepository;
+
+    /** @var WeddingInvitationRepository */
+    private $weddingInvitationRepository;
+
+
 
     /**
      * @param WeddingRepository $weddingRepository
+     * @param GuestRepository $guestRepository
+     * @param WeddingInvitationRepository $weddingInvitationRepository
      */
-    public function __construct(WeddingRepository $weddingRepository) {
+    public function __construct(WeddingRepository $weddingRepository, GuestRepository $guestRepository, WeddingInvitationRepository $weddingInvitationRepository) {
         parent::__construct();
         $this->weddingRepository = $weddingRepository;
+        $this->guestRepository = $guestRepository;
+        $this->weddingInvitationRepository = $weddingInvitationRepository;
         $this->activeMenu = ['active' => 'wedding', 'subMenu' => ''];
         $this->viewPath = 'weddings.';
         $this->routePath = 'weddings.';
@@ -71,24 +86,32 @@ class WeddingController extends AppBaseController
 
         $wedding = $this->weddingRepository->create($input);
         Flash::success('Wedding saved successfully.');
-
-        return redirect(route('weddings.index'));
+        return $this->redirectToIndex();
     }
 
     /**
-     * Show the form for editing the specified Wedding.
+     * @param string $id
      *
-     * @param  int $id
+     * @return Response
+     */
+    public function show($id)
+    {
+        /** @var Wedding $wedding */
+        $wedding = $this->checkExistWedding($id);
+        return $this->assignToView('Wedding detail', 'show', [
+            'wedding' => $wedding
+        ]);
+    }
+
+    /**
+     * @param string $id
      *
      * @return Response
      */
     public function edit($id)
     {
-        $wedding = $this->weddingRepository->findWithoutFail($id);
-        if (empty($wedding)) {
-            Flash::error('Wedding not found');
-            return redirect(route('weddings.index'));
-        }
+        /** @var Wedding $wedding */
+        $wedding = $this->checkExistWedding($id);
         return $this->assignToView('Edit Wedding', 'edit', [
             'wedding' => $wedding
         ]);
@@ -104,11 +127,8 @@ class WeddingController extends AppBaseController
      */
     public function update($id, UpdateWeddingRequest $request)
     {
-        $wedding = $this->weddingRepository->findWithoutFail($id);
-        if (empty($wedding)) {
-            Flash::error('Wedding not found');
-            return redirect(route('weddings.index'));
-        }
+        /** @var Wedding $wedding */
+        $wedding = $this->checkExistWedding($id);
 
         $input = $request->all();
         $imagePrefix = Wedding::getPrefixImage();
@@ -137,8 +157,7 @@ class WeddingController extends AppBaseController
 
         $wedding = $this->weddingRepository->update($input, $id);
         Flash::success('Wedding updated successfully.');
-
-        return redirect(route('weddings.index'));
+        return $this->redirectToIndex();
     }
 
     /**
@@ -150,17 +169,69 @@ class WeddingController extends AppBaseController
      */
     public function destroy($id)
     {
-        $wedding = $this->weddingRepository->findWithoutFail($id);
-        if (empty($wedding)) {
-            Flash::error('Wedding not found');
-            return redirect(route('weddings.index'));
-        }
-
+        /** @var Wedding $wedding */
+        $wedding = $this->checkExistWedding($id);
         $this->weddingRepository->delete($id);
         Files::delete($wedding->groom_image);
         Files::delete($wedding->bride_image);
 
         Flash::success('Wedding deleted successfully.');
-        return redirect(route('weddings.index'));
+        return $this->redirectToIndex();
+    }
+
+    /**
+     * @param $id
+     *
+     * @return Wedding|null
+     */
+    public function checkExistWedding($id)
+    {
+        /** @var Wedding|null $wedding */
+        $wedding = $this->weddingRepository->findWithoutFail($id);
+        if (empty($wedding)) {
+            Flash::error('Wedding not found');
+            return redirect(route('weddings.index'));
+        }
+        return $wedding;
+    }
+
+    /**
+     * @param string $id
+     *
+     * @return Response
+     */
+    public function invite($id)
+    {
+        /** @var Wedding $wedding */
+        $wedding = $this->checkExistWedding($id);
+        $uninvitedGuests = $this->guestRepository->findUnInvitedGuests(Auth::user(), $wedding);
+        return $this->assignToView('Invite guests to wedding', 'invite', [
+            'wedding' => $wedding,
+            'guests' => $uninvitedGuests
+        ]);
+    }
+
+    /**
+     * @param string $id
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function inviteGuest($id, Request $request)
+    {
+        /** @var Wedding $wedding */
+        $wedding = $this->checkExistWedding($id);
+        $selectedGuests = $request->get('guests');
+        if ($selectedGuests) {
+            foreach ($selectedGuests as $selectedGuest) {
+                $weddingGuestData = [
+                    'wedding_id' => $wedding->id,
+                    'guest_id' => $selectedGuest
+                ];
+                $weddingInvitation = $this->weddingInvitationRepository->create($weddingGuestData);
+            }
+            return redirect(route(''));
+        }
+        return $this->redirectToIndex();
     }
 }

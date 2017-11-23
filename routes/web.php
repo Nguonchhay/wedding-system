@@ -32,6 +32,22 @@ Route::group([
     Route::resource('guests', 'GuestController');
 
 	Route::resource('weddings', 'WeddingController');
+    Route::group([
+        'prefix' => 'weddings'
+    ], function() {
+        Route::get('/{id}/invite', 'WeddingController@invite')->name('weddings.invite');
+        Route::post('/{id}/invite-guest', 'WeddingController@inviteGuest')->name('weddings.invite_guest');
+
+        Route::get('/{id}/detail', 'WeddingController@show')->name('weddings.show');
+    });
+
+    Route::resource('wedding_invitations', 'WeddingInvitationController');
+    Route::group([
+        'prefix' => 'wedding_invitations'
+    ], function() {
+        Route::get('/{wedding_id}/index', 'WeddingInvitationController@index')->name('wedding_invitations.index');
+    });
+
 	Route::resource('expenses', 'ExpenseController');
 	Route::resource('expense_details', 'ExpenseDetailController');
 

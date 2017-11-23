@@ -17,6 +17,16 @@
                         @include('guests.partials.sample_excel')
                     </div>
 
+                    @if($weddings)
+                        <div class="form-group row">
+                            <div class="col-xs-3">
+                                {!! Form::checkbox('is_invite', 1, false, ['id' => 'isInviteImportingGuest']) !!} inviting all importing guests
+                            </div>
+
+                            @include('guests.partials.wedding_select')
+                        </div>
+                    @endif
+
                     @include('partials.save_edit_action', ['route' => route('guests.index')])
                 {!! Form::close() !!}
             </div>

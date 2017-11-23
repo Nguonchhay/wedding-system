@@ -1,4 +1,4 @@
-<table class="table table-responsive" id="guests-table">
+<table class="table table-responsive list-data" id="guests-table">
     <thead>
         <th>No</th>
         <th>Group</th>

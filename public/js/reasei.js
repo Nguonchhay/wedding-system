@@ -136,4 +136,32 @@
     return $(this).find(":submit").prop('disabled', true);
   });
 
+  $('.checkbox-all-guest').on('click', function() {
+    var guests;
+    guests = $('.checkbox-guest');
+    if ($(this).is(':checked')) {
+      return guests.prop('checked', true);
+    } else {
+      return guests.prop('checked', false);
+    }
+  });
+
+  $('#formInviteGuest').on('submit', function(e) {
+    if ($('.checkbox-guest:checked').length === 0) {
+      alert('Please select at least one guest.');
+      e.preventDefault();
+      return false;
+    }
+  });
+
+  $('#isInviteImportingGuest').on('click', function() {
+    var weddingForGuest;
+    weddingForGuest = $('.wedding-for-guest');
+    if ($(this).is(':checked')) {
+      return weddingForGuest.removeClass('hide');
+    } else {
+      return weddingForGuest.addClass('hide');
+    }
+  });
+
 }).call(this);

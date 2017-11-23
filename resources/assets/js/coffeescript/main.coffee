@@ -111,3 +111,26 @@ $('#formUserEdit').on('submit', (e)->
 $('#formUploadGuest').on('submit', ->
   $(this).find(":submit").prop('disabled', true)
 )
+
+$('.checkbox-all-guest').on('click', ->
+  guests = $('.checkbox-guest')
+  if $(this).is(':checked')
+    guests.prop('checked', true)
+  else
+    guests.prop('checked', false)
+)
+
+$('#formInviteGuest').on('submit', (e)->
+  if $('.checkbox-guest:checked').length is 0
+    alert('Please select at least one guest.')
+    e.preventDefault()
+    return false
+)
+
+$('#isInviteImportingGuest').on('click', ->
+  weddingForGuest = $('.wedding-for-guest')
+  if $(this).is(':checked')
+    weddingForGuest.removeClass('hide')
+  else
+    weddingForGuest.addClass('hide')
+)

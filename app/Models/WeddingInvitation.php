@@ -12,15 +12,12 @@ class WeddingInvitation extends Model
     public $timestamps = FALSE;
 
     public $fillable = [
-        'user_id',
         'wedding_id',
         'guest_id',
         'dollar',
         'khmer',
         'other',
-        'record_from',
-        'code',
-        'qrcode'
+        'record_from'
     ];
 
     /**
@@ -32,7 +29,6 @@ class WeddingInvitation extends Model
         'id' => 'string',
         'guest_id' => 'string',
         'wedding_id' => 'string',
-        'user_id' => 'string',
         'dollar' => 'double',
         'khmer' => 'integer',
     ];
@@ -43,13 +39,8 @@ class WeddingInvitation extends Model
      * @var array
      */
     public static $rules = [
-        'user_id' => 'required',
         'guest_id' => 'required',
-        'wedding_id' => 'required',
-        'dollar' => 'numeric',
-        'khmer' => 'numeric',
-        'bat' => 'numeric',
-        'dong' => 'numeric'
+        'wedding_id' => 'required'
     ];
 
     /**
@@ -58,5 +49,13 @@ class WeddingInvitation extends Model
     public function wedding()
     {
         return $this->belongsTo('App\Models\Wedding');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function guest()
+    {
+        return $this->belongsTo('App\Models\Guest');
     }
 }

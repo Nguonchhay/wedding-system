@@ -4,6 +4,12 @@
             <div class="item">
                 <div class="action">
                     {!! Form::open(['route' => ['weddings.destroy', $wedding->id], 'method' => 'delete']) !!}
+                        <a href="{!! route('weddings.invite', [$wedding->id]) !!}" class='btn btn-default btn-xs'>
+                            <i class="glyphicon glyphicon-user"></i> Invite guests
+                        </a>
+                        <a href="{!! route('wedding_invitations.index', [$wedding->id]) !!}" class='btn btn-default btn-xs'>
+                            <i class="glyphicon glyphicon-th-list"></i> Invited guest list
+                        </a>
                         <a href="{!! route('weddings.edit', [$wedding->id]) !!}" class='btn btn-default btn-xs'>
                             <i class="glyphicon glyphicon-edit"></i> Edit
                         </a>

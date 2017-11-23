@@ -15,15 +15,12 @@ class CreateWeddingInvitationsTable extends Migration
     {
         Schema::create('wedding_invitations', function (Blueprint $table) {
             $table->string('id', 100);
-            $table->string('user_id', 100);
 			$table->string('wedding_id', 100);
 			$table->string('guest_id', 100);
 			$table->integer('dollar')->default(0);
 			$table->integer('khmer')->default(0);
 			$table->string('other', 255)->nullable();
 			$table->string('record_from', 35)->default('web');
-			$table->string('qrcode', 100)->nullable();
-			$table->string('code', 8)->nullable();
         });
     }
 

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateGuestRequest;
@@ -8,7 +7,9 @@ use App\Models\Guest;
 use App\Models\GuestGroup;
 use App\Repositories\GuestGroupRepository;
 use App\Repositories\GuestRepository;
-use Illuminate\Foundation\Auth\User;
+use App\Repositories\WeddingInvitationRepository;
+use App\Repositories\WeddingRepository;
+use App\User;
 use Illuminate\Http\Request;
 use Flash;
 use Illuminate\Support\Facades\Auth;
@@ -24,16 +25,26 @@ class GuestController extends AppBaseController
     /** @var GuestGroupRepository */
     private $guestGroupRepository;
 
+    /** @var WeddingRepository */
+    private $weddingRepository;
+
+    /** @var WeddingInvitationRepository */
+    private $weddingInvitationRepository;
+
 
 
     /**
      * @param GuestRepository $guestRepository
      * @param GuestGroupRepository $guestGroupRepository
+     * @param WeddingRepository $weddingRepository
+     * @param WeddingInvitationRepository $weddingInvitationRepository
      */
-    public function __construct(GuestRepository $guestRepository, GuestGroupRepository $guestGroupRepository) {
+    public function __construct(GuestRepository $guestRepository, GuestGroupRepository $guestGroupRepository, WeddingRepository $weddingRepository, WeddingInvitationRepository $weddingInvitationRepository) {
         parent::__construct();
         $this->guestRepository = $guestRepository;
         $this->guestGroupRepository = $guestGroupRepository;
+        $this->weddingRepository = $weddingRepository;
+        $this->weddingInvitationRepository = $weddingInvitationRepository;
         $this->activeMenu = ['active' => 'guest', 'subMenu' => ''];
         $this->viewPath = 'guests.';
         $this->routePath = 'guests.';
@@ -160,14 +171,24 @@ class GuestController extends AppBaseController
      */
     public function import()
     {
-        $guests = $this->guestRepository->findWhere(['user_id' => Auth::user()->id]);
+        /** @var User $authUser */
+        $authUser = Auth::user();
+        if ($authUser->hasRole('super_admin')) {
+            $weddings = $this->weddingRepository->pluck('title', 'id');
+        } else {
+            $weddings = $this->weddingRepository->findWhere(['user_id' => $authUser->id])->pluck('title', 'id');
+        }
+
         return $this->assignToView('Import guests', 'import', [
-            'guests' => $guests
+            'weddings' => $weddings
         ]);
     }
 
     public function importGuest(Request $request)
     {
+        $isInvite = $request->get('is_invite', false);
+        $weddingId = $request->get('wedding_id', '');
+
         if ($request->hasFile('import_file')) {
             $extension = $request->file('import_file')->extension();
             if ($extension === "xlsx") {
@@ -179,6 +200,7 @@ class GuestController extends AppBaseController
                 if (!empty($data) && $data->count()) {
                     $adjustData = $data->all();
                     $userId = Auth::user()->id;
+
                     /** @var \Maatwebsite\Excel\Collections\CellCollection $excelRow */
                     for ($i = 1; $i < $data->count(); $i++) {
                         $excelRow = $adjustData[$i];
@@ -191,12 +213,19 @@ class GuestController extends AppBaseController
                                 'user_id' => $userId,
                                 'guest_group_id' => $guestGroup->id,
                                 'khmer_name' => $khmerName,
-                                'english_name' => $excelRow->get('khmer_name', ''),
+                                'english_name' => $excelRow->get('english_name', ''),
                                 'phone' => $excelRow->get('phone_number', ''),
                                 'print_name' => $printName,
                                 'address' => $excelRow->get('address', '')
                             ];
                             $guest = $this->guestRepository->create($guestData);
+
+                            if ($isInvite && $weddingId !== '') {
+                                $weddingInvitation = $this->weddingInvitationRepository->create([
+                                    'wedding_id' => $weddingId,
+                                    'guest_id' => $guest->id,
+                                ]);
+                            }
                         }
                     }
                 }
@@ -204,6 +233,10 @@ class GuestController extends AppBaseController
                 Flash::success('Please, upload excel file (.xlsx)');
                 return $this->redirectTo('import');
             }
+        }
+
+        if ($isInvite && $weddingId !== '') {
+            return redirect(route('wedding_invitations.index', [$weddingId]));
         }
 
         return $this->redirectToIndex();
