@@ -4,7 +4,7 @@
     <section class="content-header">
         <h1 class="pull-left">Expenses</h1>
         <div class="pull-right">
-           <a class="btn btn-primary pull-right" style="margin-top: -10px;margin-bottom: 5px" href="{!! route('expenses.create') !!}">Add New</a>
+            @include('partials.new_action', ['route' => route('expenses.create')])
         </div>
     </section>
     <div class="content">

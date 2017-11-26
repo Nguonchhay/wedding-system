@@ -187,6 +187,14 @@ class UserController extends AppBaseController
         }
 
         $this->userRepository->delete($user->id);
+
+        /** @var User $authUser */
+        $authUser = Auth::user();
+        if ($user->id === $authUser->id) {
+            Auth::logout();
+            return redirect('/');
+        }
+
         Flash::success('User deleted successfully.');
         return $this->redirectToIndex();
     }

@@ -3,6 +3,14 @@
 @section('content')
     <section class="content-header">
         <h1>Invite guests to <strong>{!! $wedding->title !!}</strong></h1>
+
+        <div class="pull-right">
+            <div class='btn-group'>
+                <a class="btn btn-primary" style="margin-top: -40px;margin-bottom: 5px" href="{!! route('guests.import') !!}">
+                    <i class="fa fa-upload" aria-hidden="true"></i> Import guests
+                </a>
+            </div>
+        </div>
     </section>
     <div class="content">
         @include('adminlte-templates::common.errors')

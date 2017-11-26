@@ -5,7 +5,7 @@
         <h1 class="pull-left">Weddings</h1>
         @if(!Auth::user()->hasRole('user'))
             <div class="pull-right">
-               <a class="btn btn-primary pull-right" style="margin-top: -10px; margin-bottom: 5px" href="{!! route('weddings.create') !!}">Add New</a>
+                @include('partials.new_action', ['route' => route('weddings.create')])
             </div>
         @endif
     </section>

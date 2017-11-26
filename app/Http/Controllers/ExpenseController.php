@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateExpenseRequest;
 use App\Http\Requests\UpdateExpenseRequest;
 use App\Models\Expense;
+use App\Models\Wedding;
 use App\Repositories\ExpenseRepository;
 use App\Repositories\WeddingRepository;
+use App\User;
 use Illuminate\Http\Request;
 use Flash;
+use Illuminate\Support\Facades\Auth;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
@@ -46,17 +49,32 @@ class ExpenseController extends AppBaseController
     public function index(Request $request)
     {
         $this->expenseRepository->pushCriteria(new RequestCriteria($request));
-        $expenses = $this->expenseRepository->orderBy('wedding_id')->all();
 
-        $weddingIds = $this->weddingRepository->all(['id', 'title']);
+        /** @var User $authUser */
+        $authUser = Auth::user();
+        if ($authUser->hasRole('super_admin')) {
+            $expenses = $this->expenseRepository->orderBy('wedding_id')->all();
+            $weddings = $this->weddingRepository->all();
+        } else {
+            $weddings = $this->weddingRepository->findWhere(['user_id' => $authUser->id]);
+
+            $expenses = [];
+            /** @var Wedding $wedding */
+            foreach ($weddings as $wedding) {
+                $queryExpenses = $this->expenseRepository->findWhere(['wedding_id' => $wedding->id]);
+                foreach ($queryExpenses as $queryExpense) {
+                    $expenses[] = $queryExpense;
+                }
+            }
+        }
 
         $weddingExpenses = [];
-        /** @var Expense $expense */
-        foreach ($weddingIds as $wedding) {
+        /** @var Wedding $wedding */
+        foreach ($weddings as $wedding) {
             $weddingExpenses[$wedding->title] = $this->expenseRepository->getTotalExpenseByWedding($wedding->id);
         }
 
-        return $this->assignToView('Guest List', 'index', [
+        return $this->assignToView('Expense List', 'index', [
             'expenses' => $expenses,
             'weddingExpenses' => $weddingExpenses
         ]);
@@ -69,7 +87,14 @@ class ExpenseController extends AppBaseController
      */
     public function create()
     {
-        $weddings = $this->weddingRepository->pluck('title', 'id');
+        /** @var User $authUser */
+        $authUser = Auth::user();
+        if ($authUser->hasRole('super_admin')) {
+            $weddings = $this->weddingRepository->pluck('title', 'id');
+        } else {
+            $weddings = $this->weddingRepository->findWhere(['user_id' => $authUser->id])->pluck(['id', 'title']);
+        }
+
         return $this->assignToView('Expense List', 'create', [
             'weddings' => $weddings,
             'selectedWedding' => null,

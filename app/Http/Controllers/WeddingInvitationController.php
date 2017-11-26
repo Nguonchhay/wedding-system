@@ -1,12 +1,14 @@
 <?php
 namespace App\Http\Controllers;
 
-
 use App\Models\WeddingInvitation;
 use App\Repositories\WeddingInvitationRepository;
 use App\Repositories\WeddingRepository;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Response;
+use Flash;
 
 class WeddingInvitationController extends AppBaseController
 {
@@ -52,6 +54,46 @@ class WeddingInvitationController extends AppBaseController
             'wedding' => $wedding,
             'weddingInvitations' => $weddingInvitations
         ]);
+    }
+
+    public function edit($id)
+    {
+        /** @var User $authUser */
+        $authUser = Auth::user();
+        if ($authUser->hasRole('user')) {
+            return $this->redirectToIndex();
+        }
+
+        $weddingInvitation = $this->weddingInvitationRepository->findWithoutFail($id);
+        return $this->assignToView('Edit wedding gift', 'edit', [
+            'weddingInvitation' => $weddingInvitation
+        ]);
+    }
+
+    /**
+     * @param string $id
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function update($id, Request $request)
+    {
+        $weddingInvitation = $this->weddingInvitationRepository->findWithoutFail($id);
+        $weddingInvitationData = [];
+
+        $updateField = ['dollar', 'khmer', 'other'];
+        foreach ($updateField as $field) {
+            if ($request->has($field)) {
+                $weddingInvitationData[$field] = $request->get($field);
+            }
+        }
+
+        if (count($weddingInvitationData)) {
+            $weddingInvitation = $this->weddingInvitationRepository->update($weddingInvitationData, $weddingInvitation->id);
+        }
+
+        Flash::success('Wedding gift was update successfully.');
+        return redirect(route($this->routePath . 'index', [$weddingInvitation->wedding->id]));
     }
 
     /**

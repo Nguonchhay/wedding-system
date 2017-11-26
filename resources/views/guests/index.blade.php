@@ -9,9 +9,7 @@
                     <i class="fa fa-upload" aria-hidden="true"></i> Import guests
                 </a>
 
-                <a class="btn btn-primary" style="margin-top: -10px;margin-bottom: 5px" href="{!! route('guests.create') !!}">
-                    <i class="fa fa-plus" aria-hidden="true"></i> Add New
-                </a>
+                @include('partials.new_action', ['route' => route('guests.create')])
             </div>
         </div>
     </section>

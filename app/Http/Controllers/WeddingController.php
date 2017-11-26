@@ -8,6 +8,7 @@ use App\Models\WeddingInvitation;
 use App\Repositories\GuestRepository;
 use App\Repositories\WeddingInvitationRepository;
 use App\Repositories\WeddingRepository;
+use App\User;
 use App\Utility\Files;
 use Illuminate\Http\Request;
 use Flash;
@@ -52,7 +53,16 @@ class WeddingController extends AppBaseController
     public function index(Request $request)
     {
         $this->weddingRepository->pushCriteria(new RequestCriteria($request));
-        $weddings = $this->weddingRepository->all();
+
+        /** @var User $authUser */
+        $authUser = Auth::user();
+        if ($authUser->hasRole('super_admin')) {
+            $weddings = $this->weddingRepository->all();
+        } else if ($authUser->hasRole('admin')) {
+            $weddings = $this->weddingRepository->findWhere(['user_id' => $authUser->id]);
+        } else {
+            $weddings = $this->weddingRepository->findWhere(['user_id' => $authUser->created_by]);
+        }
 
         return $this->assignToView('Wedding List', 'index', [
             'weddings' => $weddings

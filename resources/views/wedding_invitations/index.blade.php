@@ -5,7 +5,7 @@
         <h1 class="pull-left">Invited guests of wedding <strong>{!! $wedding->title !!}</strong></h1>
         @if(!Auth::user()->hasRole('user'))
             <div class="pull-right">
-               <a class="btn btn-primary pull-right" style="margin-top: -10px; margin-bottom: 5px" href="{!! route('weddings.invite', ['id' => $wedding->id]) !!}">Invite more guests</a>
+               <a class="btn btn-primary" style="margin-top: -10px; margin-bottom: 5px" href="{!! route('weddings.invite', ['id' => $wedding->id]) !!}">Invite more guests</a>
             </div>
         @endif
     </section>
