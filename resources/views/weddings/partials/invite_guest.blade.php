@@ -1,3 +1,4 @@
+@if($guests)
 <div class="form-group col-sm-8">
     <table class="table table-responsive list-data">
         <thead>
@@ -21,3 +22,6 @@
         </tbody>
     </table>
 </div>
+@else
+    <p>There is no guest to invite.</p>
+@endif

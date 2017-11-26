@@ -46,6 +46,8 @@ Route::group([
         'prefix' => 'wedding_invitations'
     ], function() {
         Route::get('/{wedding_id}/index', 'WeddingInvitationController@index')->name('wedding_invitations.index');
+        Route::get('/{wedding_id}/record', 'WeddingInvitationController@record')->name('wedding_invitations.record');
+        Route::post('/{wedding_id}/recordAjax', 'WeddingInvitationController@recordAjax')->name('wedding_invitations.record_ajax');
     });
 
 	Route::resource('expenses', 'ExpenseController');

@@ -11,6 +11,8 @@
                <div class="row">
                    {!! Form::model($guest, ['route' => ['guests.update', $guest->id], 'method' => 'patch']) !!}
                         @include('guests.partials.fields')
+
+                        @include('partials.save_edit_action', ['route' => route('guests.index')])
                    {!! Form::close() !!}
                </div>
            </div>

@@ -7,9 +7,15 @@
                         <a href="{!! route('weddings.invite', [$wedding->id]) !!}" class='btn btn-default btn-xs'>
                             <i class="glyphicon glyphicon-user"></i> Invite guests
                         </a>
+
                         <a href="{!! route('wedding_invitations.index', [$wedding->id]) !!}" class='btn btn-default btn-xs'>
-                            <i class="glyphicon glyphicon-th-list"></i> Invited guest list
+                            <i class="glyphicon glyphicon-book"></i> Wedding book
                         </a>
+
+                        <a href="{!! route('wedding_invitations.record', [$wedding->id]) !!}" class='btn btn-default btn-xs'>
+                            <i class="glyphicon glyphicon-gift"></i> Wedding record
+                        </a>
+
                         <a href="{!! route('weddings.edit', [$wedding->id]) !!}" class='btn btn-default btn-xs'>
                             <i class="glyphicon glyphicon-edit"></i> Edit
                         </a>

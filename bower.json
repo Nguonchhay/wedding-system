@@ -1,0 +1,12 @@
+{
+  "name": "wedding-bower-dependencies",
+  "description": "Download front end dependencies by bower",
+  "version": "1.0.0",
+  "authors": [
+    "Nguonchhay Touch"
+  ],
+  "private": true,
+  "dependencies": {
+    "bootstrap-select": "1.12.*"
+  }
+}

@@ -84,9 +84,18 @@ class GuestController extends AppBaseController
      */
         public function create()
     {
+        /** @var User $authUser */
+        $authUser = Auth::user();
+        if ($authUser->hasRole('super_admin')) {
+            $weddings = $this->weddingRepository->pluck('title', 'id');
+        } else {
+            $weddings = $this->weddingRepository->findWhere(['user_id' => $authUser->id])->pluck('title', 'id');
+        }
+
         $guestGroups = $this->guestGroupRepository->pluck('name', 'id');
         return $this->assignToView('New guest', 'create', [
-            'guestGroups' => $guestGroups
+            'guestGroups' => $guestGroups,
+            'weddings' => $weddings
         ]);
     }
 
@@ -108,6 +117,16 @@ class GuestController extends AppBaseController
         }
 
         $guest = $this->guestRepository->create($input);
+
+        $isInvite = $request->get('is_invite', false);
+        $weddingId = $request->get('wedding_id', '');
+        if ($isInvite && $weddingId !== '') {
+            $weddingInvitation = $this->weddingInvitationRepository->create([
+                'wedding_id' => $weddingId,
+                'guest_id' => $guest->id,
+            ]);
+        }
+
         Flash::success('Guest was saved successfully.');
         return $this->redirectToIndex();
     }

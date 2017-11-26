@@ -14,6 +14,17 @@ jQuery.fn.onlyDigit = ->
   )
 
 ###
+  Only number without period (.)
+###
+jQuery.fn.onlyNumber = ->
+  return this.each(->
+    jQuery(this).on('keypress', (e) ->
+      input = String.fromCharCode(e.which)
+      return /^[\d\s]+$/.test(input)
+    )
+  )
+
+###
   DatePicker
 ###
 $('.date-picker').datepicker({
@@ -23,7 +34,18 @@ $('.date-picker').datepicker({
 ###
   Apply global format
 ###
+
+$.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+});
+
 $('.only-digit').onlyDigit()
+
+$('.only-number').onlyNumber()
+
+$('.selectpicker').select2();
 
 ###
   List jquery datatable
@@ -45,6 +67,11 @@ previewImage = (input)->
   else
     imagePreview.addClass('hide')
   return
+###
+  Clear gift recording status
+###
+giftMessage = (msg)->
+  $('.message').html(msg)
 
 ###
   Image preview
@@ -133,4 +160,57 @@ $('#isInviteImportingGuest').on('click', ->
     weddingForGuest.removeClass('hide')
   else
     weddingForGuest.addClass('hide')
+)
+
+$('#weddingInvitation').on('change', ->
+  giftMessage('')
+)
+
+$('#gift_khmer').on('blur', ->
+  self = $(this)
+  giftKhmer = self.val()
+  if parseInt(self.val()) > 0
+    self.val(self.val() + '0000')
+)
+
+$('#gift_khmer').on('focus', ->
+  self = $(this)
+  giftKhmer = self.val()
+  if parseInt(self.val()) > 0
+    self.val(giftKhmer.slice(0, -4))
+)
+
+$('#btnWeddingRecordAjax').on('click', ->
+  weddingInvitation = $("#weddingInvitation option:selected").val()
+  dollar = parseFloat('0' + $('#gift_dollar').val())
+  khmer = parseInt('0' + $('#gift_khmer').val())
+  other = $('#gift_other').val()
+
+  if weddingInvitation is '' and dollar is 0 and khmer is 0 and other is ''
+    alert('Please, input the information.')
+  else
+    giftMessage('')
+    url = $(this).data('action')
+    data = {
+      weddingInvitation: weddingInvitation
+      dollar: dollar,
+      khmer: khmer,
+      other: other
+    }
+
+    $.ajax({
+      url: url,
+      data: data,
+      type: 'POST',
+      datatype: 'JSON',
+      success: (response)->
+        if response.status is 200
+          $("#weddingInvitation option:selected").remove()
+          $('#gift_dollar').val('')
+          $('#gift_khmer').val('')
+          $('#gift_other').val('')
+          giftMessage('The gift was saved successfully.')
+        else
+          alert('Something went wrong while trying to save gift from guest. Reload the page and try again.')
+    })
 )

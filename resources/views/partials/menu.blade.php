@@ -20,7 +20,7 @@
 
 <li class="@if($activeMenu['active'] == 'wedding') active @endif">
     <a href="{!! url('/weddings') !!}">
-        <i class="fa fa-book" aria-hidden="true"></i> <span>Wedding Party</span>
+        <i class="fa fa-heart" aria-hidden="true"></i> <span>Wedding Party</span>
     </a>
 </li>
 

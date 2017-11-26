@@ -3,6 +3,7 @@ module.exports = (grunt) ->
 		dirs:
 			public: 'public'
 			assets: 'resources/assets'
+			bower: '<%= dirs.assets %>/bower_components'
 			script:
 				src: '<%= dirs.assets %>/js/coffeescript'
 				dest: '<%= dirs.public %>/js'
@@ -12,6 +13,10 @@ module.exports = (grunt) ->
 			style:
 				src: '<%= dirs.assets %>/sass'
 				dest: '<%= dirs.public %>/css'
+			bootstrapSelect:
+				base: '<%= dirs.bower %>/bootstrap-select/dist'
+				js: '<%= dirs.bootstrapSelect.base %>/js'
+				css: '<%= dirs.bootstrapSelect.base %>/css'
 
 		clean:
 			css: '<%= dirs.style.dest %>/**/*.css'
@@ -34,6 +39,7 @@ module.exports = (grunt) ->
 		concat:
 			jsFooter:
 				src: [
+					'<%= dirs.bootstrapSelect.js %>/bootstrap-select.min.js',
 					'<%= dirs.coffee.dest %>/build/*.js'
 				],
 				dest: '<%= dirs.script.dest %>/reasei.js',
@@ -42,7 +48,8 @@ module.exports = (grunt) ->
 
 			css:
 				src: [
-					'<%= dirs.style.dest %>/compiled/reasei.css',
+					'<%= dirs.bootstrapSelect.css %>/bootstrap-select.min.css',
+					'<%= dirs.style.dest %>/compiled/reasei.css'
 				],
 				dest: '<%= dirs.style.dest %>/reasei.css',
 				options:

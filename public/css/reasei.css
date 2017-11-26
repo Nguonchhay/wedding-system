@@ -2,20 +2,21 @@
 .login-page,
 .register-page {
   background: url("../images/background.jpg") !important;
+  background-size: cover;
 }
 
-/* line 8, ../../../resources/assets/sass/components/_general.scss */
+/* line 9, ../../../resources/assets/sass/components/_general.scss */
 form .required:after {
   content: '*';
 }
 
-/* line 14, ../../../resources/assets/sass/components/_general.scss */
+/* line 15, ../../../resources/assets/sass/components/_general.scss */
 textarea {
   resize: vertical;
   width: 100%;
 }
 
-/* line 19, ../../../resources/assets/sass/components/_general.scss */
+/* line 20, ../../../resources/assets/sass/components/_general.scss */
 .image-preview,
 .new-image-preview {
   height: auto;

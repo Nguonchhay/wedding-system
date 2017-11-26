@@ -29,10 +29,8 @@
 
     <div class="col-sm-6">
         <div class="form-group col-sm-12">
-            {!! Form::label('note', 'Note:') !!}
-            {!! Form::textarea('note', null, ['class' => 'form-control textarea-aloha']) !!}
+            {!! Form::label('addres', 'Address:') !!}
+            {!! Form::textarea('address', null, ['class' => 'form-control textarea-aloha']) !!}
         </div>
     </div>
 </div>
-
-@include('partials.save_edit_action', ['route' => route('guests.index')])
