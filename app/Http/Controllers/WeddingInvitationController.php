@@ -56,6 +56,10 @@ class WeddingInvitationController extends AppBaseController
         ]);
     }
 
+    /**
+     * @param $id
+     * @return Response
+     */
     public function edit($id)
     {
         /** @var User $authUser */

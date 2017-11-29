@@ -59,4 +59,11 @@ class Guest extends Model
     {
         return $this->belongsTo('App\Models\GuestGroup');
     }
+
+    /**
+     * @return mixed
+     */
+    public function wedding_invitations() {
+        return $this->hasMany('App\Models\WeddingInvitation');
+    }
 }

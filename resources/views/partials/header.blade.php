@@ -1,5 +1,5 @@
 <header class="main-header">
-    <a href="#" class="logo">
+    <a href="/" class="logo">
         <b>WS</b> : Wedding System
     </a>
 

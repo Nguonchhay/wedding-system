@@ -12,7 +12,6 @@ class WeddingInvitationRepository extends BaseRepository
      * @var array
      */
     protected $fieldSearchable = [
-        'dowry',
         'dollar',
         'khmer',
         'other'

@@ -50,11 +50,12 @@ class GuestRepository extends BaseRepository
         }
 
         $unInvitedGuests = DB::table('guests')
+            ->select('guests.id', 'guests.khmer_name', 'guests.english_name', 'guests.print_name', 'guests.phone')
             ->join('users', 'guests.user_id', '=', 'users.id')
             ->where('users.id', '=', $user->id)
             ->whereNull('guests.deleted_at')
             ->whereNotIn('guests.id', $invitedGuests)
-            ->orderBy('guests.english_name', 'english_name')
+            ->orderBy('guests.english_name')
             ->get();
 
         return $unInvitedGuests;

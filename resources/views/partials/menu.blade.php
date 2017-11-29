@@ -31,12 +31,6 @@
         </a>
     </li>
 
-    <li class="@if($activeMenu['active'] == 'report') active @endif">
-        <a href="{!! url('/guests') !!}">
-            <i class="fa fa-bar-chart" aria-hidden="true"></i> <span>Reports</span>
-        </a>
-    </li>
-
     <li class="@if($activeMenu['active'] == 'user') active @endif">
         <a href="{!! url('/users') !!}">
             <i class="fa fa-users" aria-hidden="true"></i> <span>Users</span>

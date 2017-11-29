@@ -232,6 +232,7 @@ class WeddingController extends AppBaseController
         /** @var Wedding $wedding */
         $wedding = $this->checkExistWedding($id);
         $selectedGuests = $request->get('guests');
+
         if ($selectedGuests) {
             foreach ($selectedGuests as $selectedGuest) {
                 $weddingGuestData = [
@@ -240,7 +241,7 @@ class WeddingController extends AppBaseController
                 ];
                 $weddingInvitation = $this->weddingInvitationRepository->create($weddingGuestData);
             }
-            return redirect(route(''));
+            return redirect(route('wedding_invitations.index', $wedding->id));
         }
         return $this->redirectToIndex();
     }
