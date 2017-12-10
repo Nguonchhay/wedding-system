@@ -4,8 +4,10 @@
     <section class="content-header">
         <h1 class="pull-left">Invited guests of wedding <strong>{!! $wedding->title !!}</strong></h1>
         @if(!Auth::user()->hasRole('user'))
-            <div class="pull-right">
-               <a class="btn btn-primary" style="margin-top: -10px; margin-bottom: 5px" href="{!! route('weddings.invite', ['id' => $wedding->id]) !!}">Invite more guests</a>
+            <div class="pull-right" style="margin-top: -10px; margin-bottom: 5px">
+                <a class="btn btn-primary" href="{!! route('weddings.invite', ['id' => $wedding->id]) !!}">
+                    <i class="fa fa-plus" aria-hidden="true"></i> Invite more guests
+                </a>
             </div>
         @endif
     </section>
@@ -22,6 +24,10 @@
                 <div class="form-group col-sm-12">
                     <a href="{!! route('weddings.index') !!}" class="btn btn-default">
                         <i class="fa fa-long-arrow-left" aria-hidden="true"></i> Back to wedding list
+                    </a>
+
+                    <a class="btn btn-primary" href="{!! route('wedding_invitations.export_guest_list_excel', [$wedding->id]) !!}">
+                        <i class="fa fa-download" aria-hidden="true"></i> Export guest name for wedding invitation letter
                     </a>
                 </div>
             </div>

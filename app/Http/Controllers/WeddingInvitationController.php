@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Wedding;
 use App\Models\WeddingInvitation;
 use App\Repositories\WeddingInvitationRepository;
 use App\Repositories\WeddingRepository;
@@ -9,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Response;
 use Flash;
+use Excel;
 
 class WeddingInvitationController extends AppBaseController
 {
@@ -98,6 +100,60 @@ class WeddingInvitationController extends AppBaseController
 
         Flash::success('Wedding gift was update successfully.');
         return redirect(route($this->routePath . 'index', [$weddingInvitation->wedding->id]));
+    }
+
+    /**
+     * @param string $wedding_id
+     * @return Response
+     */
+    public function exportGuestNameForWeddingLetter($wedding_id)
+    {
+        /** @var Wedding $wedding */
+        $wedding = $this->weddingRepository->findWithoutFail($wedding_id);
+        if (empty($wedding)) {
+            return redirect(route($this->routePath . 'index'));
+        }
+
+        $tempExcel = $wedding->title . date('d-m-Y');
+        /* Set header */
+        $data[0] = [$wedding->title . ': Guest List'];
+        $data[] = ['No', 'Guest Print Name'];
+
+        $index = 1;
+        /** @var WeddingInvitation $weddingInvitation */
+        foreach ($wedding->wedding_invitations as $weddingInvitation) {
+            $data[] = [
+                $index++,
+                $weddingInvitation->guest->print_name
+            ];
+        }
+        $index += 4;
+
+        Excel::create($tempExcel, function($excel) use($data, $index) {
+            $excel->sheet('Wedding Guest List', function($sheet) use($data, $index) {
+                $sheet->setWidth([
+                    'A'     =>  5,
+                    'B'     =>  50
+                ]);
+
+                $sheet->mergeCells('A2:B2');
+                $sheet->cells('A2:B2', function($cells) {
+                    $cells->setFont([
+                        'family'     => 'KhmerOs',
+                        'size'       => '16',
+                        'bold'       =>  true
+                    ]);
+                });
+
+                $sheet->cells('A3:B3', function($cells) {
+                    $cells->setFontWeight('bold');
+                });
+
+                $sheet->fromArray($data);
+            });
+        })->export('xlsx');
+
+        return redirect(route($this->routePath . 'index', $wedding_id)) ;
     }
 
     /**
