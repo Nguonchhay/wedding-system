@@ -1,12 +1,17 @@
 <a href="#" class="" data-toggle="modal" data-target="#sampleExcel">
-    Sample excel format <i class="fa fa-info-circle" aria-hidden="true"></i>
+    <i class="fa fa-file-excel-o" aria-hidden="true"></i> View sample excel format
+    | <a href="{!! asset('sample_guest_excel.xlsx') !!}" download>
+        <i class="fa fa-download" aria-hidden="true"></i> Download a sample excel file
+    </a>
 </a>
 
 <div id="sampleExcel" class="modal fade" role="dialog">
     <div class="modal-dialog" style="width: 60%;">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Sample upload Excel file (.xlsx)</h4>
+                <h4 class="modal-title">
+                    <i class="fa fa-file-excel-o" aria-hidden="true"></i> Sample upload excel file (.xlsx)
+                </h4>
             </div>
 
             <div class="modal-body">
@@ -45,6 +50,11 @@
                     <strong>Note:</strong> You have to name the excel header exactly the same as above sample,
                     otherwise, no record will be imported. The <strong>star (*)</strong> represents require fields. You have to
                     input the value for that fields; or system will not import that record.
+                </p>
+                <p>
+                    <a href="{!! asset('sample_guest_excel.xlsx') !!}" download>
+                        <i class="fa fa-download" aria-hidden="true"></i> Download a sample excel file
+                    </a>
                 </p>
             </div>
 

@@ -291,14 +291,12 @@
         khmer: khmer,
         other: other
       };
-      console.log(url, data);
       return $.ajax({
         url: url,
         data: data,
         type: 'POST',
         datatype: 'JSON',
         success: function(response) {
-          console.log(response);
           if (response.status === 200) {
             $('#editGiftDollar' + weddingInvitationId).html($('#edit_gift_dollar').val());
             $('#editGiftKhmer' + weddingInvitationId).html($('#edit_gift_khmer').val());

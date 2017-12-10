@@ -253,15 +253,12 @@ $('#btnEditGift').on('click', ->
       other: other
     }
 
-    console.log url, data
-
     $.ajax({
       url: url,
       data: data,
       type: 'POST',
       datatype: 'JSON',
       success: (response)->
-        console.log response
         if response.status is 200
           $('#editGiftDollar' + weddingInvitationId).html($('#edit_gift_dollar').val())
           $('#editGiftKhmer' + weddingInvitationId).html($('#edit_gift_khmer').val())
