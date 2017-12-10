@@ -8,7 +8,7 @@
  */
 
 (function() {
-  var giftMessage, previewImage;
+  var previewImage;
 
   jQuery.fn.onlyDigit = function() {
     return this.each(function() {
@@ -86,15 +86,6 @@
     } else {
       imagePreview.addClass('hide');
     }
-  };
-
-
-  /*
-    Clear gift recording status
-   */
-
-  giftMessage = function(msg) {
-    return $('.message').html(msg);
   };
 
 
@@ -198,11 +189,7 @@
     }
   });
 
-  $('#weddingInvitation').on('change', function() {
-    return giftMessage('');
-  });
-
-  $('#gift_khmer').on('blur', function() {
+  $('.input_gift_khmer').on('blur', function() {
     var giftKhmer, self;
     self = $(this);
     giftKhmer = self.val();
@@ -211,7 +198,7 @@
     }
   });
 
-  $('#gift_khmer').on('focus', function() {
+  $('.input_gift_khmer').on('focus', function() {
     var giftKhmer, self;
     self = $(this);
     giftKhmer = self.val();
@@ -221,18 +208,18 @@
   });
 
   $('#btnWeddingRecordAjax').on('click', function() {
-    var data, dollar, khmer, other, url, weddingInvitation;
-    weddingInvitation = $("#weddingInvitation option:selected").val();
+    var data, dollar, khmer, other, url, weddingInvitation, weddingInvitationId;
+    weddingInvitation = $("#weddingInvitation option:selected");
     dollar = parseFloat('0' + $('#gift_dollar').val());
     khmer = parseInt('0' + $('#gift_khmer').val());
     other = $('#gift_other').val();
-    if (weddingInvitation === '' && dollar === 0 && khmer === 0 && other === '') {
+    weddingInvitationId = weddingInvitation.val();
+    if (weddingInvitationId === '' && dollar === 0 && khmer === 0 && other === '') {
       return alert('Please, input the information.');
     } else {
-      giftMessage('');
       url = $(this).data('action');
       data = {
-        weddingInvitation: weddingInvitation,
+        weddingInvitation: weddingInvitationId,
         dollar: dollar,
         khmer: khmer,
         other: other
@@ -243,14 +230,82 @@
         type: 'POST',
         datatype: 'JSON',
         success: function(response) {
+          var guestRecord;
           if (response.status === 200) {
             $("#weddingInvitation option:selected").remove();
             $('#gift_dollar').val('');
             $('#gift_khmer').val('');
             $('#gift_other').val('');
-            return giftMessage('The gift was saved successfully.');
+            guestRecord = '<tr id="' + weddingInvitationId + '">';
+            guestRecord += '<td id="editGiftWedding' + weddingInvitationId + '">' + weddingInvitation.html() + '</td>';
+            guestRecord += '<td id="editGiftDollar' + weddingInvitationId + '">' + dollar + '</td>';
+            guestRecord += '<td id="editGiftKhmer' + weddingInvitationId + '">' + khmer + '</td>';
+            guestRecord += '<td id="editGiftOther' + weddingInvitationId + '">' + other + '</td>';
+            guestRecord += '<td><button type="button" class="btn btn-default edit-recorded-gift" id="' + weddingInvitationId + '" class="guest-edit-button btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></button></td>';
+            guestRecord += '</tr>';
+            $('#recentRecordedGift tbody tr:first').before(guestRecord);
+            if ($('#recentRecordedGift tbody tr').length > 5) {
+              return $('#recentRecordedGift tbody tr:last').remove();
+            }
           } else {
             return alert('Something went wrong while trying to save gift from guest. Reload the page and try again.');
+          }
+        }
+      });
+    }
+  });
+
+  $('.btnEditGiftClose').on('click', function() {
+    $('#edit_wedding_invitation').val('');
+    $('#edit_gift_dollar').val('');
+    $('#edit_gift_khmer').val('');
+    $('#edit_gift_other').val('');
+    return $('#modalEditGift').modal('hide');
+  });
+
+  $('#recentRecordedGift').on('click', '.edit-recorded-gift', function() {
+    var selectedWeddingInvitationId, self;
+    self = $(this);
+    selectedWeddingInvitationId = self.attr('id');
+    $('#editGuest').html($('#editGiftWedding' + selectedWeddingInvitationId).html());
+    $('#edit_wedding_invitation').val(selectedWeddingInvitationId);
+    $('#edit_gift_dollar').val($('#editGiftDollar' + selectedWeddingInvitationId).html());
+    $('#edit_gift_khmer').val($('#editGiftKhmer' + selectedWeddingInvitationId).html());
+    $('#edit_gift_other').val($('#editGiftOther' + selectedWeddingInvitationId).html());
+    return $('#modalEditGift').modal('show');
+  });
+
+  $('#btnEditGift').on('click', function() {
+    var data, dollar, khmer, other, url, weddingInvitationId;
+    weddingInvitationId = $('#edit_wedding_invitation').val();
+    dollar = parseFloat('0' + $('#edit_gift_dollar').val());
+    khmer = parseInt('0' + $('#edit_gift_khmer').val());
+    other = $('#edit_gift_other').val();
+    if (dollar === 0 && khmer === 0 && other === '') {
+      return alert('Please, input the information. If you do not want to keep the same value, just close this form.');
+    } else {
+      url = $(this).data('action');
+      data = {
+        weddingInvitation: weddingInvitationId,
+        dollar: dollar,
+        khmer: khmer,
+        other: other
+      };
+      console.log(url, data);
+      return $.ajax({
+        url: url,
+        data: data,
+        type: 'POST',
+        datatype: 'JSON',
+        success: function(response) {
+          console.log(response);
+          if (response.status === 200) {
+            $('#editGiftDollar' + weddingInvitationId).html($('#edit_gift_dollar').val());
+            $('#editGiftKhmer' + weddingInvitationId).html($('#edit_gift_khmer').val());
+            $('#editGiftOther' + weddingInvitationId).html($('#edit_gift_other').val());
+            return $('.btnEditGiftClose').click();
+          } else {
+            return alert('Something went wrong while trying to update gift from guest.');
           }
         }
       });

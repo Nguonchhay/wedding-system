@@ -67,11 +67,6 @@ previewImage = (input)->
   else
     imagePreview.addClass('hide')
   return
-###
-  Clear gift recording status
-###
-giftMessage = (msg)->
-  $('.message').html(msg)
 
 ###
   Image preview
@@ -162,18 +157,14 @@ $('#isInviteImportingGuest').on('click', ->
     weddingForGuest.addClass('hide')
 )
 
-$('#weddingInvitation').on('change', ->
-  giftMessage('')
-)
-
-$('#gift_khmer').on('blur', ->
+$('.input_gift_khmer').on('blur', ->
   self = $(this)
   giftKhmer = self.val()
   if parseInt(self.val()) > 0
     self.val(self.val() + '0000')
 )
 
-$('#gift_khmer').on('focus', ->
+$('.input_gift_khmer').on('focus', ->
   self = $(this)
   giftKhmer = self.val()
   if parseInt(self.val()) > 0
@@ -181,18 +172,18 @@ $('#gift_khmer').on('focus', ->
 )
 
 $('#btnWeddingRecordAjax').on('click', ->
-  weddingInvitation = $("#weddingInvitation option:selected").val()
+  weddingInvitation = $("#weddingInvitation option:selected")
   dollar = parseFloat('0' + $('#gift_dollar').val())
   khmer = parseInt('0' + $('#gift_khmer').val())
   other = $('#gift_other').val()
 
-  if weddingInvitation is '' and dollar is 0 and khmer is 0 and other is ''
+  weddingInvitationId = weddingInvitation.val()
+  if weddingInvitationId is '' and dollar is 0 and khmer is 0 and other is ''
     alert('Please, input the information.')
   else
-    giftMessage('')
     url = $(this).data('action')
     data = {
-      weddingInvitation: weddingInvitation
+      weddingInvitation: weddingInvitationId
       dollar: dollar,
       khmer: khmer,
       other: other
@@ -209,8 +200,74 @@ $('#btnWeddingRecordAjax').on('click', ->
           $('#gift_dollar').val('')
           $('#gift_khmer').val('')
           $('#gift_other').val('')
-          giftMessage('The gift was saved successfully.')
+
+          guestRecord = '<tr id="' + weddingInvitationId + '">'
+          guestRecord += '<td id="editGiftWedding' + weddingInvitationId + '">' + weddingInvitation.html() + '</td>'
+          guestRecord += '<td id="editGiftDollar' + weddingInvitationId + '">' + dollar + '</td>'
+          guestRecord += '<td id="editGiftKhmer' + weddingInvitationId + '">' + khmer + '</td>'
+          guestRecord += '<td id="editGiftOther' + weddingInvitationId + '">' + other + '</td>'
+          guestRecord += '<td><button type="button" class="btn btn-default edit-recorded-gift" id="' + weddingInvitationId + '" class="guest-edit-button btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></button></td>'
+          guestRecord += '</tr>'
+          $('#recentRecordedGift tbody tr:first').before(guestRecord)
+
+          # Keep only 5 rows in table
+          if $('#recentRecordedGift tbody tr').length > 5
+            $('#recentRecordedGift tbody tr:last').remove()
         else
           alert('Something went wrong while trying to save gift from guest. Reload the page and try again.')
+    })
+)
+
+$('.btnEditGiftClose').on('click', ->
+  $('#edit_wedding_invitation').val('')
+  $('#edit_gift_dollar').val('')
+  $('#edit_gift_khmer').val('')
+  $('#edit_gift_other').val('')
+  $('#modalEditGift').modal('hide')
+)
+
+$('#recentRecordedGift').on('click', '.edit-recorded-gift', ->
+  self = $(this)
+  selectedWeddingInvitationId = self.attr('id')
+  $('#editGuest').html($('#editGiftWedding' + selectedWeddingInvitationId).html())
+  $('#edit_wedding_invitation').val(selectedWeddingInvitationId)
+  $('#edit_gift_dollar').val($('#editGiftDollar' + selectedWeddingInvitationId).html())
+  $('#edit_gift_khmer').val($('#editGiftKhmer' + selectedWeddingInvitationId).html())
+  $('#edit_gift_other').val($('#editGiftOther' + selectedWeddingInvitationId).html())
+  $('#modalEditGift').modal('show')
+)
+
+$('#btnEditGift').on('click', ->
+  weddingInvitationId = $('#edit_wedding_invitation').val()
+  dollar = parseFloat('0' +  $('#edit_gift_dollar').val())
+  khmer = parseInt('0' + $('#edit_gift_khmer').val())
+  other = $('#edit_gift_other').val()
+  if dollar is 0 and khmer is 0 and other is ''
+    alert('Please, input the information. If you do not want to keep the same value, just close this form.')
+  else
+    url = $(this).data('action')
+    data = {
+      weddingInvitation: weddingInvitationId,
+      dollar: dollar,
+      khmer: khmer,
+      other: other
+    }
+
+    console.log url, data
+
+    $.ajax({
+      url: url,
+      data: data,
+      type: 'POST',
+      datatype: 'JSON',
+      success: (response)->
+        console.log response
+        if response.status is 200
+          $('#editGiftDollar' + weddingInvitationId).html($('#edit_gift_dollar').val())
+          $('#editGiftKhmer' + weddingInvitationId).html($('#edit_gift_khmer').val())
+          $('#editGiftOther' + weddingInvitationId).html($('#edit_gift_other').val())
+          $('.btnEditGiftClose').click()
+        else
+          alert('Something went wrong while trying to update gift from guest.')
     })
 )

@@ -7,12 +7,12 @@
     <div class="content">
         <div class="clearfix"></div>
         <div class="box box-primary">
-            <div class="box-body">
+            <div class="box-body recording-gift">
                 <form class="form">
                     {{ csrf_field() }}
                     @include('wedding_invitations.partials.recording_form')
 
-                    <div class="form-group col-xs-6">
+                    <div class="form-group col-xs-12">
                         <a href="{!! route('weddings.index') !!}" class="btn btn-default">
                             <i class="fa fa-long-arrow-left" aria-hidden="true"></i> Back to wedding list
                         </a>
@@ -22,9 +22,8 @@
                         </button>
                     </div>
 
-                    <div class="col-xs-6">
-                        <strong class="message"></strong>
-                    </div>
+                    @include('wedding_invitations.partials.recent_recorded_gift')
+                    @include('wedding_invitations.partials.modal_gift')
                 </form>
             </div>
         </div>

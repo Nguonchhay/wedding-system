@@ -79,3 +79,10 @@ textarea {
 .weddings .item .description {
   margin-top: 30px;
 }
+
+/* line 58, ../../../resources/assets/sass/components/_wedding.scss */
+.recording-gift .recorded-gift-container {
+  height: 200px;
+  max-height: 200px;
+  overflow-y: scroll;
+}
