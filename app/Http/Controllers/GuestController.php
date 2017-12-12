@@ -229,27 +229,29 @@ class GuestController extends AppBaseController
                     for ($i = 1; $i < $data->count(); $i++) {
                         $excelRow = $adjustData[$i];
                         $guestGroupData = trim($excelRow->get('guest_group', ''));
+                        $englishName = trim($excelRow->get('english_name', ''));
                         $khmerName = trim($excelRow->get('khmer_name', ''));
-                        $printName = trim($excelRow->get('print_name', ''));
-                        if ($khmerName !== '' && $printName !== '') {
-                            $guestGroup = $this->checkExistGuestGroup($guestGroupData);
-                            $guestData = [
-                                'user_id' => $userId,
-                                'guest_group_id' => $guestGroup->id,
-                                'khmer_name' => $khmerName,
-                                'english_name' => $excelRow->get('english_name', ''),
-                                'phone' => $excelRow->get('phone_number', ''),
-                                'print_name' => $printName,
-                                'address' => $excelRow->get('address', '')
-                            ];
-                            $guest = $this->guestRepository->create($guestData);
+                        if ($khmerName === '' && $englishName === '') {
+                            continue;
+                        }
 
-                            if ($isInvite && $weddingId !== '') {
-                                $weddingInvitation = $this->weddingInvitationRepository->create([
-                                    'wedding_id' => $weddingId,
-                                    'guest_id' => $guest->id,
-                                ]);
-                            }
+                        $guestGroup = $this->checkExistGuestGroup($guestGroupData);
+                        $guestData = [
+                            'user_id' => $userId,
+                            'guest_group_id' => $guestGroup->id,
+                            'khmer_name' => $khmerName,
+                            'english_name' => $englishName,
+                            'phone' => $excelRow->get('phone_number', ''),
+                            'print_name' => $excelRow->get('print_name', ''),
+                            'address' => $excelRow->get('address', '')
+                        ];
+                        $guest = $this->guestRepository->create($guestData);
+
+                        if ($isInvite && $weddingId !== '') {
+                            $weddingInvitation = $this->weddingInvitationRepository->create([
+                                'wedding_id' => $weddingId,
+                                'guest_id' => $guest->id,
+                            ]);
                         }
                     }
                 }

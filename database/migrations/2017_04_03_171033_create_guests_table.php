@@ -20,7 +20,7 @@ class CreateGuestsTable extends Migration
             $table->string('khmer_name', 100)->nullable();
             $table->string('english_name', 100)->nullable();
             $table->string('phone', 100)->nullable();
-            $table->string('print_name', 200);
+            $table->string('print_name', 200)->nullable();
             $table->string('address')->nullable();
             $table->softDeletes();
         });

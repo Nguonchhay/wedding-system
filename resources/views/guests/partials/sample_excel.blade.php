@@ -19,26 +19,26 @@
                     <thead>
                     <tr>
                         <th>Guest Group</th>
+                        <th>Khmer Name</th>
                         <th>English Name</th>
-                        <th>Khmer Name *</th>
                         <th>Phone Number</th>
-                        <th>Print Name *</th>
+                        <th>Print Name</th>
                         <th>Address</th>
                     </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>RUPP</td>
-                            <td>Sok San</td>
                             <td>សុខ សាន</td>
+                            <td>Sok San</td>
                             <td>012 121212</td>
                             <td>លោក សុខសាន និង ភរិយា</td>
                             <td>Phnom Penh</td>
                         </tr>
                         <tr>
                             <td>RUPP</td>
-                            <td>Hong Heng</td>
                             <td>ហុង ហេង</td>
+                            <td>Hong Heng</td>
                             <td>013 131313</td>
                             <td>លោក ហុង ហេង</td>
                             <td>Kandal</td>
@@ -48,8 +48,9 @@
 
                 <p>
                     <strong>Note:</strong> You have to name the excel header exactly the same as above sample,
-                    otherwise, no record will be imported. The <strong>star (*)</strong> represents require fields. You have to
-                    input the value for that fields; or system will not import that record.
+                    otherwise, no record will be imported. You have to
+                    input <strong>English Name</strong> or <strong>Khmer Name</strong>;
+                    otherwise, system will not import that record.
                 </p>
                 <p>
                     <a href="{!! asset('sample_guest_excel.xlsx') !!}" download>
@@ -59,7 +60,9 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <i class="fa fa-times" aria-hidden="true"></i> Close
+                </button>
             </div>
         </div>
     </div>
