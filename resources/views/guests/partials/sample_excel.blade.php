@@ -19,8 +19,8 @@
                     <thead>
                     <tr>
                         <th>Guest Group</th>
-                        <th>English Name *</th>
-                        <th>Khmer Name</th>
+                        <th>English Name</th>
+                        <th>Khmer Name *</th>
                         <th>Phone Number</th>
                         <th>Print Name *</th>
                         <th>Address</th>

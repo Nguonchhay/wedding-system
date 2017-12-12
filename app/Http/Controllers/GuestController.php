@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Illuminate\Support\Facades\Auth;
 use Excel;
+use Illuminate\Support\Facades\Input;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
@@ -203,14 +204,18 @@ class GuestController extends AppBaseController
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     */
     public function importGuest(Request $request)
     {
         $isInvite = $request->get('is_invite', false);
         $weddingId = $request->get('wedding_id', '');
 
         if ($request->hasFile('import_file')) {
-            $extension = $request->file('import_file')->extension();
-            if ($extension === "xlsx") {
+            $extensions = explode('.', Input::file('import_file')->getClientOriginalName());
+            if (end($extensions) === "xlsx") {
                 $path = $request->file('import_file')->getRealPath();
                 /** @var \Maatwebsite\Excel\Collections\RowCollection $data */
                 $data = Excel::load($path, function ($reader) {
@@ -223,9 +228,9 @@ class GuestController extends AppBaseController
                     /** @var \Maatwebsite\Excel\Collections\CellCollection $excelRow */
                     for ($i = 1; $i < $data->count(); $i++) {
                         $excelRow = $adjustData[$i];
-                        $guestGroupData = $excelRow->get('guest_group', '');
-                        $khmerName = $excelRow->get('khmer_name', '');
-                        $printName = $excelRow->get('print_name', '');
+                        $guestGroupData = trim($excelRow->get('guest_group', ''));
+                        $khmerName = trim($excelRow->get('khmer_name', ''));
+                        $printName = trim($excelRow->get('print_name', ''));
                         if ($khmerName !== '' && $printName !== '') {
                             $guestGroup = $this->checkExistGuestGroup($guestGroupData);
                             $guestData = [

@@ -82,7 +82,4 @@
     </div>
 </div>
 
-<div class="form-group col-sm-12">
-    {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-    <a href="{!! route('weddings.index') !!}" class="btn btn-default">Cancel</a>
-</div>
+@include('partials.save_edit_action', ['route' => route('weddings.index')])
