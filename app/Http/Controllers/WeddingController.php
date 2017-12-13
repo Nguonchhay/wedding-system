@@ -149,7 +149,7 @@ class WeddingController extends AppBaseController
         /**
          * Clean update the uploaded image
          */
-        if (intval($input['groomImageIsDelete']) == 1) {
+        if (isset($input['groomImageIsDelete']) && intval($input['groomImageIsDelete']) == 1) {
             Files::delete($wedding->groom_image);
         } else {
             if ($input['groom_image'] !== $wedding->groom_image) {
@@ -157,7 +157,7 @@ class WeddingController extends AppBaseController
             }
         }
 
-        if (intval($input['brideImageIsDelete']) == 1) {
+        if (isset($input['brideImageIsDelete']) && intval($input['brideImageIsDelete']) == 1) {
             Files::delete($wedding->groom_image);
         } else {
             if ($input['bride_image'] !== $wedding->bride_image) {

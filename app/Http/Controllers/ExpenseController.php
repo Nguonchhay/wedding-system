@@ -92,7 +92,7 @@ class ExpenseController extends AppBaseController
         if ($authUser->hasRole('super_admin')) {
             $weddings = $this->weddingRepository->pluck('title', 'id');
         } else {
-            $weddings = $this->weddingRepository->findWhere(['user_id' => $authUser->id])->pluck(['id', 'title']);
+            $weddings = $this->weddingRepository->findWhere(['user_id' => $authUser->id])->pluck('title', 'id');
         }
 
         return $this->assignToView('Expense List', 'create', [
@@ -130,7 +130,14 @@ class ExpenseController extends AppBaseController
             return redirect(route('expenses.index'));
         }
 
-        $weddings = $this->weddingRepository->pluck('groom_name', 'id');
+        /** @var User $authUser */
+        $authUser = Auth::user();
+        if ($authUser->hasRole('super_admin')) {
+            $weddings = $this->weddingRepository->pluck('title', 'id');
+        } else {
+            $weddings = $this->weddingRepository->findWhere(['user_id' => $authUser->id])->pluck('title', 'id');
+        }
+
         return $this->assignToView('Edit expense', 'edit', [
             'expense' => $expense,
             'weddings' => $weddings,
