@@ -3,7 +3,7 @@
     <select id="weddingInvitation" name="guest" required class="form-control selectpicker" data-live-search="true">
         <option value="" data-tokens="">Please select guest</option>
         @foreach ($weddingInvitations as $weddingInvitation)
-            <option value="{{ $weddingInvitation->id }}" data-tokens="{!! $weddingInvitation->khmer_name !!},{!! $weddingInvitation->english_name !!},{!! $weddingInvitation->phone !!},{!! $weddingInvitation->address !!},{!! $weddingInvitation->print_name !!}">{!! $weddingInvitation->khmer_name !!} : {!! $weddingInvitation->english_name !!} : {!! $weddingInvitation->phone !!}</option>
+            <option value="{{ $weddingInvitation->id }}" data-tokens="{!! $weddingInvitation->khmer_name !!},{!! $weddingInvitation->english_name !!},{!! $weddingInvitation->phone !!},{!! $weddingInvitation->address !!},{!! $weddingInvitation->print_name !!}">{!! $weddingInvitation->displayGuestInfo !!}</option>
         @endforeach
     </select>
 </div>

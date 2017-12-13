@@ -208,15 +208,14 @@
   });
 
   $('#btnWeddingRecordAjax').on('click', function() {
-    var data, dollar, khmer, other, url, weddingInvitation, weddingInvitationId;
+    var data, dollar, khmer, other, self, url, weddingInvitation, weddingInvitationId;
+    self = $(this);
     weddingInvitation = $("#weddingInvitation option:selected");
     dollar = parseFloat('0' + $('#gift_dollar').val());
     khmer = parseInt('0' + $('#gift_khmer').val());
-    other = $('#gift_other').val();
+    other = $('#gift_other').val().trim();
     weddingInvitationId = weddingInvitation.val();
-    if (weddingInvitationId === '' && dollar === 0 && khmer === 0 && other === '') {
-      return alert('Please, input the information.');
-    } else {
+    if (weddingInvitationId !== '' && (dollar !== 0 || khmer !== 0 || other !== '')) {
       url = $(this).data('action');
       data = {
         weddingInvitation: weddingInvitationId,
@@ -224,6 +223,7 @@
         khmer: khmer,
         other: other
       };
+      self.attr('disabled', true);
       return $.ajax({
         url: url,
         data: data,
@@ -244,6 +244,7 @@
             guestRecord += '<td><button type="button" class="btn btn-default edit-recorded-gift" id="' + weddingInvitationId + '" class="guest-edit-button btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></button></td>';
             guestRecord += '</tr>';
             $('#recentRecordedGift tbody tr:first').before(guestRecord);
+            self.removeAttr('disabled');
             if ($('#recentRecordedGift tbody tr').length > 5) {
               return $('#recentRecordedGift tbody tr:last').remove();
             }
@@ -252,6 +253,8 @@
           }
         }
       });
+    } else {
+      return alert('Please, input the information.');
     }
   });
 

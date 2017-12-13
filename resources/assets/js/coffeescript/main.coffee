@@ -172,15 +172,14 @@ $('.input_gift_khmer').on('focus', ->
 )
 
 $('#btnWeddingRecordAjax').on('click', ->
+  self = $(this)
   weddingInvitation = $("#weddingInvitation option:selected")
   dollar = parseFloat('0' + $('#gift_dollar').val())
   khmer = parseInt('0' + $('#gift_khmer').val())
-  other = $('#gift_other').val()
+  other = $('#gift_other').val().trim()
 
   weddingInvitationId = weddingInvitation.val()
-  if weddingInvitationId is '' and dollar is 0 and khmer is 0 and other is ''
-    alert('Please, input the information.')
-  else
+  if weddingInvitationId isnt '' and (dollar isnt 0 or khmer isnt 0 or other isnt '')
     url = $(this).data('action')
     data = {
       weddingInvitation: weddingInvitationId
@@ -188,6 +187,8 @@ $('#btnWeddingRecordAjax').on('click', ->
       khmer: khmer,
       other: other
     }
+
+    self.attr('disabled', true)
 
     $.ajax({
       url: url,
@@ -210,12 +211,16 @@ $('#btnWeddingRecordAjax').on('click', ->
           guestRecord += '</tr>'
           $('#recentRecordedGift tbody tr:first').before(guestRecord)
 
+          self.removeAttr('disabled')
+
           # Keep only 5 rows in table
           if $('#recentRecordedGift tbody tr').length > 5
             $('#recentRecordedGift tbody tr:last').remove()
         else
           alert('Something went wrong while trying to save gift from guest. Reload the page and try again.')
     })
+  else
+    alert('Please, input the information.')
 )
 
 $('.btnEditGiftClose').on('click', ->

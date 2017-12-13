@@ -85,6 +85,10 @@ class WeddingInvitationController extends AppBaseController
     public function update($id, Request $request)
     {
         $weddingInvitation = $this->weddingInvitationRepository->findWithoutFail($id);
+        if (empty($weddingInvitation)) {
+            return redirect(route($this->routePath . 'index', [$weddingInvitation->wedding->id]));
+        }
+
         $weddingInvitationData = [];
 
         $updateField = ['dollar', 'khmer', 'other'];
@@ -101,6 +105,26 @@ class WeddingInvitationController extends AppBaseController
         Flash::success('Wedding gift was update successfully.');
         return redirect(route($this->routePath . 'index', [$weddingInvitation->wedding->id]));
     }
+
+    /**
+     * Remove the specified Guest from storage.
+     *
+     * @param  int $id
+     *
+     * @return Response
+     */
+    public function destroy($id)
+    {
+        $weddingInvitation = $this->weddingInvitationRepository->findWithoutFail($id);
+        if (empty($weddingInvitation)) {
+            return redirect(route($this->routePath . 'index', [$weddingInvitation->wedding->id]));
+        }
+
+        $this->weddingInvitationRepository->delete($weddingInvitation->id);
+        Flash::success('Wedding guest was deleted successfully.');
+        return redirect(route($this->routePath . 'index', [$weddingInvitation->wedding->id]));
+    }
+
 
     /**
      * @param string $wedding_id
@@ -171,8 +195,50 @@ class WeddingInvitationController extends AppBaseController
         $weddingInvitations = $this->weddingInvitationRepository->getInvitingGuestsByWedding($wedding);
         return $this->assignToView('Recording guest gift', 'record', [
             'wedding' => $wedding,
-            'weddingInvitations' => $weddingInvitations
+            'weddingInvitations' => $this->adjustWeddingInvitationRecords($weddingInvitations)
         ]);
+    }
+
+    /**
+     * @param $weddingInvitationRecords
+     * @return array
+     */
+    protected function adjustWeddingInvitationRecords($weddingInvitationRecords)
+    {
+        $adjustData = [];
+        foreach ($weddingInvitationRecords as $weddingInvitationRecord) {
+            $data = $weddingInvitationRecord;
+            $data->displayGuestInfo = $this->adjustGuestDataForRecording($weddingInvitationRecord);
+            $adjustData[] = $data;
+        }
+
+        return $adjustData;
+    }
+
+    /**
+     * @param $guestInfo
+     * @return string
+     */
+    protected function adjustGuestDataForRecording($guestInfo)
+    {
+        $data = [];
+        if ((string) $guestInfo->khmer_name !== '') {
+            $data[] = $guestInfo->khmer_name;
+        }
+
+        if ((string) $guestInfo->english_name !== '') {
+            $data[] = $guestInfo->english_name;
+        }
+
+        if ((string) $guestInfo->phone !== '') {
+            $data[] = $guestInfo->phone;
+        }
+
+        if (count($data) > 1) {
+            return implode(' : ', $data);
+        }
+
+        return $data[0];
     }
 
     /**
