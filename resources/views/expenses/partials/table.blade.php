@@ -16,7 +16,7 @@
                 <td>
                     {!! $expense->wedding->title !!}
 
-                   @if($expense->expense_details)
+                   @if(!$expense->expense_details->isEmpty())
                         | <a href="#" class="" data-toggle="modal" data-target="#{!! $expense->id !!}">
                             <i class="fa fa-eye"></i> Quick view expense details
                         </a>
@@ -26,9 +26,7 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        <h4 class="modal-title">Detail expense of: <strong>{!! $expense->title !!}</strong></h4>
-                                        Total dollar: <strong>${!! $expense->getTotalExpense()['dollar'] !!}</strong>,
-                                        khmer: <strong>{!! $expense->getTotalExpense()['khmer'] !!}</strong>
+                                        <h4 class="modal-title">Detail expense of  <strong>{!! $expense->title !!}</strong> ({!! $expense->total !!} {!! ucfirst($expense->currency) !!}) </h4>
                                     </div>
                                     <div class="modal-body">
                                         <table class="table table-bordered table-striped">
@@ -64,9 +62,14 @@
                                                 @endforeach
                                             </tbody>
                                         </table>
+
+                                        Total dollar: <strong>${!! $expense->getTotalExpense()['dollar'] !!}</strong>,
+                                        khmer: <strong>{!! $expense->getTotalExpense()['khmer'] !!}</strong>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                                            <i class="fa fa-times"></i> Close
+                                        </button>
                                     </div>
                                 </div>
                             </div>
