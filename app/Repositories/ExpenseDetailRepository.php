@@ -34,25 +34,17 @@ class ExpenseDetailRepository extends BaseRepository
      */
     public function getTotalExpenseDetailsByExpense($id)
     {
-        $dollar = DB::table('expense_details')
-            ->select(DB::raw('sum(total) as total'))
-            ->where('currency', '=', 'dollar')
+        $queryExpenseDetail = DB::table('expense_details')
+            ->select(DB::raw('sum(dollar) as total_dollar'), DB::raw('sum(khmer) as total_khmer'))
+            ->join('expenses', 'expenses.id', 'expense_details.expense_id')
             ->where('expense_id', '=', $id)
-            ->limit(1)
             ->first();
 
-        $khmer = DB::table('expense_details')
-            ->select(DB::raw('sum(total) as total'))
-            ->where('currency', '=', 'khmer')
-            ->where('expense_id', '=', $id)
-            ->limit(1)
-            ->first();
-
-        $totalExpense = [
-            'dollar' => floatval($dollar->total),
-            'khmer' => intval($khmer->total)
+        $totalExpenseDetail = [
+            'total_dollar' => $queryExpenseDetail->total_dollar,
+            'total_khmer' => $queryExpenseDetail->total_khmer
         ];
 
-        return $totalExpense;
+        return $totalExpenseDetail;
     }
 }

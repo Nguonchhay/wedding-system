@@ -18,8 +18,8 @@ class CreateExpenseDetailsTable extends Migration
             $table->string('expense_id', 100);
 			$table->date('date');
 			$table->string('who')->nullable();
-			$table->float('total');
-			$table->string('currency', 15);
+			$table->float('dollar')->nullable();
+            $table->float('khmer')->nullable();
             $table->text('note')->nullable();
             $table->timestamps();
         });

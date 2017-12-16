@@ -25,13 +25,13 @@
 
 <div class="row">
     <div class="form-group col-sm-6">
-        {!! Form::label('currency', 'Currency:') !!}
-        {!! Form::select('currency', config('settings.expense.currencies'), $selectedCurrency, ['class' => 'form-control', 'required' => 'required']) !!}
+        {!! Form::label('dollar', 'Dollar:') !!}
+        {!! Form::text('dollar', null, ['class' => 'form-control only-digit', 'maxlength' => 5]) !!}
     </div>
 
     <div class="form-group col-sm-6">
-        {!! Form::label('total', 'Total:') !!}
-        {!! Form::text('total', null, ['class' => 'form-control only-digit', 'maxlength' => 10]) !!}
+        {!! Form::label('khmer', 'Khmer:') !!}
+        {!! Form::text('khmer', null, ['class' => 'form-control only-digit', 'maxlength' => 10]) !!}
     </div>
 </div>
 

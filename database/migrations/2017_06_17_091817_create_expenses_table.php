@@ -17,9 +17,6 @@ class CreateExpensesTable extends Migration
             $table->string('id', 100);
 			$table->string('wedding_id', 100);
             $table->string('title', 255);
-            $table->float('total');
-            $table->string('currency', 15)->default('dollar');
-			$table->text('note')->nullable();
             $table->timestamps();
         });
     }

@@ -5,6 +5,7 @@ use App\Http\Requests\CreateExpenseRequest;
 use App\Http\Requests\UpdateExpenseRequest;
 use App\Models\Expense;
 use App\Models\Wedding;
+use App\Repositories\ExpenseDetailRepository;
 use App\Repositories\ExpenseRepository;
 use App\Repositories\WeddingRepository;
 use App\User;
@@ -21,6 +22,9 @@ class ExpenseController extends AppBaseController
      */
     private $expenseRepository;
 
+    /** @var ExpenseDetailRepository */
+    private $expenseDetailRepository;
+
     /**
      * @var WeddingRepository
      */
@@ -28,12 +32,14 @@ class ExpenseController extends AppBaseController
 
     /**
      * @param ExpenseRepository $expenseRepository
+     * @param ExpenseDetailRepository $expenseDetailRepository
      * @param WeddingRepository $weddingRepository
      */
-    public function __construct(ExpenseRepository $expenseRepository, WeddingRepository $weddingRepository)
+    public function __construct(ExpenseRepository $expenseRepository, ExpenseDetailRepository $expenseDetailRepository, WeddingRepository $weddingRepository)
     {
         parent::__construct();
         $this->expenseRepository = $expenseRepository;
+        $this->expenseDetailRepository = $expenseDetailRepository;
         $this->weddingRepository = $weddingRepository;
         $this->activeMenu = ['active' => 'expense', 'subMenu' => ''];
         $this->viewPath = 'expenses.';
@@ -68,15 +74,15 @@ class ExpenseController extends AppBaseController
             }
         }
 
-        $weddingExpenses = [];
+        $totalExpenses = [];
         /** @var Wedding $wedding */
         foreach ($weddings as $wedding) {
-            $weddingExpenses[$wedding->title] = $this->expenseRepository->getTotalExpenseByWedding($wedding->id);
+            $totalExpenses[$wedding->title] = $this->expenseRepository->getTotalExpenseByWedding($wedding->id);
         }
 
         return $this->assignToView('Expense List', 'index', [
             'expenses' => $expenses,
-            'weddingExpenses' => $weddingExpenses
+            'totalExpenses' => $totalExpenses
         ]);
     }
 
@@ -97,8 +103,7 @@ class ExpenseController extends AppBaseController
 
         return $this->assignToView('Expense List', 'create', [
             'weddings' => $weddings,
-            'selectedWedding' => null,
-            'selectedCurrency' => ''
+            'selectedWedding' => null
         ]);
     }
 
@@ -111,8 +116,33 @@ class ExpenseController extends AppBaseController
      */
     public function store(CreateExpenseRequest $request)
     {
+        if (!$request->has('date') || !$request->has('dollar') || !$request->has('khmer') || !$request->has('who')) {
+            Flash::success('Please fill necessary information.');
+            return redirect(route('expenses.index'));
+        }
+
         $input = $request->all();
-        $expense = $this->expenseRepository->create($input);
+        if ($input['dollar'] == 0 && $input['khmer']) {
+            Flash::success('Please fill necessary information.');
+            return redirect(route('expenses.index'));
+        }
+
+        $expenseData = [
+            'wedding_id' => $input['wedding_id'],
+            'title' => $input['title']
+        ];
+        $expense = $this->expenseRepository->create($expenseData);
+
+        $expenseDetailData = [
+            'expense_id' => $expense->id,
+            'who' => $input['who'],
+            'date' => $input['date'],
+            'dollar' => $input['dollar'],
+            'khmer' => $input['khmer'],
+            'note' => $input['note']
+        ];
+        $expenseDetail = $this->expenseDetailRepository->create($expenseDetailData);
+
         Flash::success('Expense saved successfully.');
         return redirect(route('expenses.index'));
     }

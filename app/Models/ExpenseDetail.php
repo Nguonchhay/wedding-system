@@ -12,10 +12,10 @@ class ExpenseDetail extends Model
 
     public $fillable = [
         'expense_id',
-        'total',
-        'currency',
         'date',
         'who',
+        'dollar',
+        'khmer',
         'note'
     ];
 
@@ -27,7 +27,8 @@ class ExpenseDetail extends Model
     protected $casts = [
         'id' => 'string',
         'expense_id' => 'string',
-        'total' => 'float'
+        'dollar' => 'float',
+        'khmer' => 'numeric'
     ];
 
     /**
@@ -37,7 +38,6 @@ class ExpenseDetail extends Model
      */
     public static $rules = [
         'expense_id' => 'required',
-        'total' => 'required',
         'date' => 'required'
     ];
 

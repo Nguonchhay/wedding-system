@@ -30,23 +30,15 @@ class ExpenseRepository extends BaseRepository
      */
     public function getTotalExpenseByWedding($id)
     {
-        $dollar = DB::table('expenses')
-            ->select(DB::raw('sum(total) as total'))
-            ->where('currency', '=', 'dollar')
+        $queryExpense = DB::table('expense_details')
+            ->select(DB::raw('sum(dollar) as total_dollar'), DB::raw('sum(khmer) as total_khmer'))
+            ->join('expenses', 'expenses.id', 'expense_details.expense_id')
             ->where('wedding_id', '=', $id)
-            ->limit(1)
-            ->first();
-
-        $khmer = DB::table('expenses')
-            ->select(DB::raw('sum(total) as total'))
-            ->where('currency', '=', 'khmer')
-            ->where('wedding_id', '=', $id)
-            ->limit(1)
             ->first();
 
         $totalExpense = [
-            'dollar' => floatval($dollar->total),
-            'khmer' => intval($khmer->total)
+            'total_dollar' => $queryExpense->total_dollar,
+            'total_khmer' => $queryExpense->total_khmer
         ];
 
         return $totalExpense;

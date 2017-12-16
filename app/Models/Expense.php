@@ -14,10 +14,7 @@ class Expense extends Model
 
     public $fillable = [
         'wedding_id',
-        'title',
-        'total',
-        'currency',
-        'note'
+        'title'
     ];
 
     /**
@@ -27,8 +24,7 @@ class Expense extends Model
      */
     protected $casts = [
         'id' => 'string',
-        'wedding_id' => 'string',
-        'total' => 'float'
+        'wedding_id' => 'string'
     ];
 
     /**
@@ -38,8 +34,7 @@ class Expense extends Model
      */
     public static $rules = [
         'wedding_id' => 'required',
-        'title' => 'required',
-        'total' => 'required'
+        'title' => 'required'
     ];
 
     /**
