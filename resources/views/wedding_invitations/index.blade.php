@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="content-header">
-        <h1 class="pull-left">Invited guests of wedding <strong>{!! $wedding->title !!}</strong></h1>
+        <h1 class="pull-left">Wedding book of <strong>{!! $wedding->title !!}</strong></h1>
         @if(!Auth::user()->hasRole('user'))
             <div class="pull-right" style="margin-top: -10px; margin-bottom: 5px">
                 <a class="btn btn-primary" href="{!! route('weddings.invite', ['id' => $wedding->id]) !!}">
@@ -19,6 +19,25 @@
         <div class="clearfix"></div>
         <div class="box box-primary">
             <div class="box-body">
+                <div>
+                    <fieldset class="the-fieldset">
+                        <legend class="the-legend">Summarize for all guests</legend>
+                        <ul>
+                            <li>
+                                Total guests: <strong id="totalGuest"></strong>
+                            </li>
+                            <li>
+                                Total dollar (<i class="fa fa-usd" aria-hidden="true"></i>): <strong id="totalDollar"></strong>
+                            </li>
+                            <li>
+                                Total riel (<i class="fa fa-money" aria-hidden="true"></i>): <strong id="totalKhmer"></strong>
+                            </li>
+                        </ul>
+                    </fieldset>
+                </div>
+
+                <hr>
+
                 @include('wedding_invitations.partials.table')
 
                 <div class="form-group col-sm-12">

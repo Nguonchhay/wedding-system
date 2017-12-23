@@ -8,7 +8,7 @@
  */
 
 (function() {
-  var previewImage;
+  var previewImage, totalDollar, totalGuest, totalKhmer, weddingBook;
 
   jQuery.fn.onlyDigit = function() {
     return this.each(function() {
@@ -312,5 +312,33 @@
       });
     }
   });
+
+
+  /*
+    Summary of wedding book
+   */
+
+  weddingBook = $('#weddingBook').DataTable();
+
+  totalGuest = 0;
+
+  totalDollar = 0;
+
+  weddingBook.column(3).data().each(function(data) {
+    totalDollar += parseFloat(data);
+    return totalGuest++;
+  });
+
+  totalKhmer = 0;
+
+  weddingBook.column(4).data().each(function(data) {
+    return totalKhmer += parseInt(data);
+  });
+
+  $('#totalGuest').html(totalGuest);
+
+  $('#totalDollar').html(totalDollar);
+
+  $('#totalKhmer').html(totalKhmer);
 
 }).call(this);

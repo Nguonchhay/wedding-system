@@ -1,5 +1,5 @@
 <div class="form-group col-sm-12">
-    <table class="table table-responsive list-data">
+    <table class="table table-responsive list-data12" id="weddingBook">
         <thead>
             <th>No</th>
             <th>Khmer name</th>
@@ -16,8 +16,8 @@
                         <td>{!! $key + 1 !!}</td>
                         <td>{!! $weddingInvitation->guest->khmer_name !!}</td>
                         <td>{!! $weddingInvitation->guest->english_name !!}</td>
-                        <td>{!! $weddingInvitation->dollar !!}</td>
-                        <td>{!! $weddingInvitation->khmer !!}</td>
+                        <td class="gift-dollar">{!! $weddingInvitation->dollar !!}</td>
+                        <td class="gift-khmer">{!! $weddingInvitation->khmer !!}</td>
                         <td>{!! $weddingInvitation->other !!}</td>
                         <td>
                             {!! Form::open(['route' => ['wedding_invitations.destroy', $weddingInvitation->id], 'method' => 'delete']) !!}

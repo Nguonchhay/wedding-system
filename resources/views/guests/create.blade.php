@@ -15,7 +15,8 @@
                         @if($weddings)
                             <div class="form-group">
                                 <div class="col-xs-3">
-                                    {!! Form::checkbox('is_invite', 1, false, ['id' => 'isInviteImportingGuest']) !!} invite to wedding
+                                    {!! Form::checkbox('is_invite', 1, false, ['id' => 'isInviteImportingGuest']) !!}
+                                    {!! Form::label('isInviteImportingGuest', 'invite to wedding') !!}
                                 </div>
 
                                 @include('guests.partials.wedding_select')

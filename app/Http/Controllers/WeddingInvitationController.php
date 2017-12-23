@@ -52,7 +52,7 @@ class WeddingInvitationController extends AppBaseController
             'wedding_id' => $wedding->id
         ]);
 
-        return $this->assignToView('Invited guests', 'index', [
+        return $this->assignToView('Wedding book', 'index', [
             'wedding' => $wedding,
             'weddingInvitations' => $weddingInvitations
         ]);
@@ -89,14 +89,11 @@ class WeddingInvitationController extends AppBaseController
             return redirect(route($this->routePath . 'index', [$weddingInvitation->wedding->id]));
         }
 
-        $weddingInvitationData = [];
-
-        $updateField = ['dollar', 'khmer', 'other'];
-        foreach ($updateField as $field) {
-            if ($request->has($field)) {
-                $weddingInvitationData[$field] = $request->get($field);
-            }
-        }
+        $weddingInvitationData = [
+            'dollar' => doubleVal($request->get('dollar')),
+            'khmer' => intVal($request->get('khmer')),
+            'other' => $request->get('other', null)
+        ];
 
         if (count($weddingInvitationData)) {
             $weddingInvitation = $this->weddingInvitationRepository->update($weddingInvitationData, $weddingInvitation->id);

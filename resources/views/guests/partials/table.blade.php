@@ -1,4 +1,4 @@
-<table class="table table-responsive list-data" id="guests-table">
+<table class="table table-responsive list-data">
     <thead>
         <th>No</th>
         <th>Group</th>
@@ -7,7 +7,7 @@
         <th>Phone number</th>
         <th>Print Name</th>
         <th>Address</th>
-        <th colspan="3">Action</th>
+        <th>Action</th>
     </thead>
     <tbody>
     @foreach($guests as $key => $guest)
