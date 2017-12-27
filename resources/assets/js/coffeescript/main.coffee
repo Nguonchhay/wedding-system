@@ -279,12 +279,10 @@ $('#btnEditGift').on('click', ->
 ###
 weddingBook =  $('#weddingBook').DataTable()
 
-totalGuest = 0
 # Total dollar
 totalDollar = 0
 weddingBook.column(3).data().each((data)->
   totalDollar += parseFloat(data)
-  totalGuest++
 )
 
 # Total khmer
@@ -292,6 +290,5 @@ totalKhmer = 0
 weddingBook.column(4).data().each((data)->
   totalKhmer += parseInt(data)
 )
-$('#totalGuest').html(totalGuest)
 $('#totalDollar').html(totalDollar)
 $('#totalKhmer').html(totalKhmer)

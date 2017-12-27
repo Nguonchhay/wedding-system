@@ -3,8 +3,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Wedding;
 use App\Models\WeddingInvitation;
+use App\Models\GuestGroup;
 use App\Repositories\WeddingInvitationRepository;
 use App\Repositories\WeddingRepository;
+use App\Repositories\GuestGroupRepository;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,17 +22,22 @@ class WeddingInvitationController extends AppBaseController
     /** @var WeddingInvitationRepository */
     private $weddingInvitationRepository;
 
+    /** @var GuestGroupRepository */
+    private $guestGroupRepository;
+
 
 
     /**
      * @param WeddingRepository $weddingRepository
      * @param WeddingInvitationRepository $weddingInvitationRepository
+     * @param GuestGroupRepository $guestGroupRepository
      */
-    public function __construct(WeddingRepository $weddingRepository, WeddingInvitationRepository $weddingInvitationRepository)
+    public function __construct(WeddingRepository $weddingRepository, WeddingInvitationRepository $weddingInvitationRepository, GuestGroupRepository $guestGroupRepository)
     {
         parent::__construct();
         $this->weddingRepository = $weddingRepository;
         $this->weddingInvitationRepository = $weddingInvitationRepository;
+        $this->guestGroupRepository = $guestGroupRepository;
         $this->activeMenu = ['active' => 'home', 'subMenu' => ''];
         $this->viewPath = 'wedding_invitations.';
         $this->routePath = 'wedding_invitations.';
@@ -52,7 +59,16 @@ class WeddingInvitationController extends AppBaseController
             'wedding_id' => $wedding->id
         ]);
 
+        $guestGroups = $this->guestGroupRepository->pluck('name', 'id')->prepend('Select guest group', '');
+
+        $selectedGroup = $request->get('group', null);
+        if ($selectedGroup !== null) {
+            $weddingInvitations = $this->weddingInvitationRepository->filterByGuestGroup($weddingInvitations, $selectedGroup);
+        }
+
         return $this->assignToView('Wedding book', 'index', [
+            'guestGroups' => $guestGroups,
+            'selectedGroup' => $selectedGroup,
             'wedding' => $wedding,
             'weddingInvitations' => $weddingInvitations
         ]);
@@ -143,10 +159,12 @@ class WeddingInvitationController extends AppBaseController
         $index = 1;
         /** @var WeddingInvitation $weddingInvitation */
         foreach ($wedding->wedding_invitations as $weddingInvitation) {
-            $data[] = [
-                $index++,
-                $weddingInvitation->guest->print_name
-            ];
+            if ($weddingInvitation->guest) {
+                $data[] = [
+                    $index++,
+                    $weddingInvitation->guest->print_name
+                ];
+            }
         }
         $index += 4;
 

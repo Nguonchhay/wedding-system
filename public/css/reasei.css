@@ -23,6 +23,12 @@ textarea {
   width: 300px;
 }
 
+/* line 26, ../../../resources/assets/sass/components/_general.scss */
+.login-box {
+  margin: 15% auto;
+  width: 500px;
+}
+
 /* line 1, ../../../resources/assets/sass/components/_wedding.scss */
 .weddings {
   padding: 15px;

@@ -53,4 +53,21 @@ class WeddingInvitationRepository extends BaseRepository
 
         return $invitingGuests;
     }
+
+    /**
+     * @param array $weddingInvitations
+     * @param string $guestGroupId
+     * 
+     * @return array
+     */
+    public function filterByGuestGroup($weddingInvitations, $guestGroupId)
+    {
+        $filterdWeddingInvitations =  [];
+        foreach ($weddingInvitations as $weddingInvitation) {
+            if ($weddingInvitation->guest && $weddingInvitation->guest->guest_group_id == $guestGroupId) {
+                $filterdWeddingInvitations[] = $weddingInvitation;
+            }
+        }
+        return $filterdWeddingInvitations;
+    }
 }

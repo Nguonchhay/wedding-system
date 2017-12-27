@@ -19,26 +19,19 @@
         <div class="clearfix"></div>
         <div class="box box-primary">
             <div class="box-body">
-                <div>
-                    <fieldset class="the-fieldset">
-                        <legend class="the-legend">Summarize for all guests</legend>
-                        <ul>
-                            <li>
-                                Total guests: <strong id="totalGuest"></strong>
-                            </li>
-                            <li>
-                                Total dollar (<i class="fa fa-usd" aria-hidden="true"></i>): <strong id="totalDollar"></strong>
-                            </li>
-                            <li>
-                                Total riel (<i class="fa fa-money" aria-hidden="true"></i>): <strong id="totalKhmer"></strong>
-                            </li>
-                        </ul>
-                    </fieldset>
-                </div>
-
-                <hr>
-
+                @include('wedding_invitations.partials.filter')
                 @include('wedding_invitations.partials.table')
+
+                <div class="form-group col-sm-12">
+                    <ul>
+                        <li>
+                            Total dollar (<i class="fa fa-usd" aria-hidden="true"></i>): <strong id="totalDollar"></strong>
+                        </li>
+                        <li>
+                            Total riel (<i class="fa fa-money" aria-hidden="true"></i>): <strong id="totalKhmer"></strong>
+                        </li>
+                    </ul>
+                </div>
 
                 <div class="form-group col-sm-12">
                     <a href="{!! route('weddings.index') !!}" class="btn btn-default">

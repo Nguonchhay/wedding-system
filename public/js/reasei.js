@@ -8,7 +8,7 @@
  */
 
 (function() {
-  var previewImage, totalDollar, totalGuest, totalKhmer, weddingBook;
+  var previewImage, totalDollar, totalKhmer, weddingBook;
 
   jQuery.fn.onlyDigit = function() {
     return this.each(function() {
@@ -320,13 +320,10 @@
 
   weddingBook = $('#weddingBook').DataTable();
 
-  totalGuest = 0;
-
   totalDollar = 0;
 
   weddingBook.column(3).data().each(function(data) {
-    totalDollar += parseFloat(data);
-    return totalGuest++;
+    return totalDollar += parseFloat(data);
   });
 
   totalKhmer = 0;
@@ -334,8 +331,6 @@
   weddingBook.column(4).data().each(function(data) {
     return totalKhmer += parseInt(data);
   });
-
-  $('#totalGuest').html(totalGuest);
 
   $('#totalDollar').html(totalDollar);
 
