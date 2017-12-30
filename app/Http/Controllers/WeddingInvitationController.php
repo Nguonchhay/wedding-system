@@ -138,7 +138,6 @@ class WeddingInvitationController extends AppBaseController
         return redirect(route($this->routePath . 'index', [$weddingInvitation->wedding->id]));
     }
 
-
     /**
      * @param string $wedding_id
      * @return Response
@@ -247,6 +246,11 @@ class WeddingInvitationController extends AppBaseController
 
         if ((string) $guestInfo->phone !== '') {
             $data[] = $guestInfo->phone;
+        }
+
+        $guestGroup = $this->guestGroupRepository->findWithoutFail($guestInfo->guest_group_id);
+        if (!empty($guestGroup)) {
+            $data[] = $guestGroup->name;
         }
 
         if (count($data) > 1) {

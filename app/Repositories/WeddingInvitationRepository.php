@@ -36,6 +36,7 @@ class WeddingInvitationRepository extends BaseRepository
                 'wedding_invitations.id',
                 'weddings.id AS wedding_id',
                 'guests.id AS guest_id',
+                'guests.guest_group_id AS guest_group_id',
                 'guests.khmer_name AS khmer_name',
                 'guests.english_name AS english_name',
                 'guests.phone AS phone',
