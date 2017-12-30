@@ -3,20 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Wedding Management System</title>
-
-    <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
-    <!-- Bootstrap 3.3.6 -->
+    <title>Wedding Management System</title>
+
     <link rel="stylesheet" href="{!! asset('theme/bootstrap/css/bootstrap.min.css') !!}">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <!-- Theme style -->
+    <link rel="stylesheet" href="{!! asset('theme/plugins/font-awesome/css/font-awesome.min.css') !!}">
     <link rel="stylesheet" href="{!! asset('theme/dist/css/AdminLTE.min.css') !!}">
-
     <link rel="stylesheet" href="{!! asset('css/reasei.min.css') !!}">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

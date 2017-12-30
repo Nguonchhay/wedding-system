@@ -9,8 +9,8 @@
     @include('partials.favicon')
 
     <link rel="stylesheet" href="{!! asset('theme/bootstrap/css/bootstrap.min.css') !!}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="{!! asset('theme/plugins/font-awesome/css/font-awesome.min.css') !!}">
+    <link rel="stylesheet" href="{!! asset('theme/dist/css/ionicons.min.css') !!}">
     <link rel="stylesheet" href="{!! asset('theme/plugins/daterangepicker/daterangepicker.css') !!}">
     <link rel="stylesheet" href="{!! asset('theme/plugins/datepicker/datepicker3.css') !!}">
     <link rel="stylesheet" href="{!! asset('theme/plugins/iCheck/all.css') !!}">
