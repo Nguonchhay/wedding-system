@@ -2,6 +2,7 @@
     <table class="table table-responsive list-data12" id="weddingBook">
         <thead>
             <th>No</th>
+            <th>Group name</th>
             <th>Khmer name</th>
             <th>English name</th>
             <th>Dollar</th>
@@ -14,6 +15,7 @@
                 @if($weddingInvitation->guest)
                     <tr>
                         <td>{!! $key + 1 !!}</td>
+                        <td>{!! $weddingInvitation->guest->guest_group->name !!}</td>
                         <td>{!! $weddingInvitation->guest->khmer_name !!}</td>
                         <td>{!! $weddingInvitation->guest->english_name !!}</td>
                         <td class="gift-dollar">{!! $weddingInvitation->dollar !!}</td>

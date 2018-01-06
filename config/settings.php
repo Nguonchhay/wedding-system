@@ -23,5 +23,10 @@ return [
 			'dollar' => 'Dollar',
 			'khmer' => 'Khmer'
 		]
-	]
+	],
+    'wedding_gifts' => [
+        'all' => 'All',
+        'has' => 'Has gift',
+        'no' => 'No gift'
+    ]
 ];

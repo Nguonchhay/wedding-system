@@ -63,12 +63,37 @@ class WeddingInvitationRepository extends BaseRepository
      */
     public function filterByGuestGroup($weddingInvitations, $guestGroupId)
     {
-        $filterdWeddingInvitations =  [];
+        $filteredWeddingInvitations =  [];
         foreach ($weddingInvitations as $weddingInvitation) {
             if ($weddingInvitation->guest && $weddingInvitation->guest->guest_group_id == $guestGroupId) {
-                $filterdWeddingInvitations[] = $weddingInvitation;
+                $filteredWeddingInvitations[] = $weddingInvitation;
             }
         }
-        return $filterdWeddingInvitations;
+        return $filteredWeddingInvitations;
+    }
+
+    /**
+     * @param array $weddingInvitations
+     * @param string $selectedGiftStatus
+     *
+     * @return array
+     */
+    public function filterByGift($weddingInvitations, $selectedGiftStatus)
+    {
+        $filteredWeddingInvitations =  [];
+        if ($selectedGiftStatus == 'has') {
+            foreach ($weddingInvitations as $weddingInvitation) {
+                if ($weddingInvitation->dollar > 0 || $weddingInvitation->khmer > 0 || $weddingInvitation->other != '' ) {
+                    $filteredWeddingInvitations[] = $weddingInvitation;
+                }
+            }
+        } else {
+            foreach ($weddingInvitations as $weddingInvitation) {
+                if ($weddingInvitation->dollar == 0 && $weddingInvitation->khmer == 0 && $weddingInvitation->other == '' ) {
+                    $filteredWeddingInvitations[] = $weddingInvitation;
+                }
+            }
+        }
+        return $filteredWeddingInvitations;
     }
 }

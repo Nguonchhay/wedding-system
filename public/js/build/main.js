@@ -320,7 +320,7 @@
 
   weddingBook = $('#weddingBook').DataTable();
 
-  totalDollar = 0;
+  totalDollar = 0.0;
 
   weddingBook.column(3).data().each(function(data) {
     return totalDollar += parseFloat(data);

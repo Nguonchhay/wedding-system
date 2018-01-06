@@ -280,7 +280,7 @@ $('#btnEditGift').on('click', ->
 weddingBook =  $('#weddingBook').DataTable()
 
 # Total dollar
-totalDollar = 0
+totalDollar = 0.0
 weddingBook.column(3).data().each((data)->
   totalDollar += parseFloat(data)
 )

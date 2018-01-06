@@ -66,9 +66,15 @@ class WeddingInvitationController extends AppBaseController
             $weddingInvitations = $this->weddingInvitationRepository->filterByGuestGroup($weddingInvitations, $selectedGroup);
         }
 
+        $selectedGiftStatus = $request->get('gift_status', 'all');
+        if ($selectedGiftStatus != 'all') {
+            $weddingInvitations = $this->weddingInvitationRepository->filterByGift($weddingInvitations, $selectedGiftStatus);
+        }
+
         return $this->assignToView('Wedding book', 'index', [
             'guestGroups' => $guestGroups,
             'selectedGroup' => $selectedGroup,
+            'selectedGiftStatus' => $selectedGiftStatus,
             'wedding' => $wedding,
             'weddingInvitations' => $weddingInvitations
         ]);
