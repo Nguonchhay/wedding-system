@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<!-- saved from url=(0016)chrome://newtab/ -->
+<html dir="ltr" hascustombackground="false" bookmarkbarattached="false" lang="en" class="md"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>New Tab</title>
+<meta name="viewport" content="width=device-width">
+<link rel="stylesheet" href="chrome://resources/css/text_defaults_md.css">
+<style>/* Copyright 2017 The Chromium Authors. All rights reserved.
+ * Use of this source code is governed by a BSD-style license that can be
+ * found in the LICENSE file. */
+
+body {
+  -webkit-font-smoothing: antialiased;
+  font-size: 100%;
+  margin: 0;
+}
+
+/** Typography -------------------------------------------------------------- */
+
+.content {
+  /* This is identical to the default background color. It's necessary to set it
+     for the case when a theme with a background image is installed. */
+  background-color: #303030;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: calc(100% - 2px);
+  line-height: calc(100% + 6px);
+  min-width: 240px;
+}
+
+h1 {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: calc(100% + 8px);
+  font-weight: 400;
+  line-height: calc(100% + 8px);
+}
+
+em {
+  color: white;
+  font-style: normal;
+}
+
+.learn-more-button {
+  color: rgb(123, 170, 247);
+  text-decoration: none;
+}
+
+/* Small font on small screens. */
+@media (max-width: 240px),
+       (max-height: 320px) {
+  .content {
+    font-size: calc(100% - 4px);
+    line-height: calc(100% + 6px);
+  }
+
+  h1 {
+    font-size: calc(100% + 4px);
+    line-height: calc(100% + 4px);
+  }
+}
+
+/** Icon -------------------------------------------------------------------- */
+
+.icon {
+  content: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNDAgMjQwIj48ZyBvcGFjaXR5PSIuOCIgZmlsbD0iI0ZGRiI+PHBhdGggZD0iTTEyMSAwQzUzLjktLjYtLjYgNTMuOSAwIDEyMWMuNiA2NS4yIDUzLjggMTE4LjQgMTE5IDExOSA2Ny4xLjYgMTIxLjYtNTMuOSAxMjEtMTIxQzIzOS40IDUzLjggMTg2LjIuNiAxMjEgMHpNOTAuNSA1OWMuMy0uOSAxLTEuNSAyLjItMS4yIDIuMi41IDE5LjkgNC4zIDE5LjkgNC4zczM2LjgtNS42IDM4LjEtNS45YzEuMS0uMiAxLjkuNCAyLjEgMS40LjEuNCA2LjMgMjEuMyAxMS43IDM5LjVINzguM0M4My45IDc5LjYgOTAuMSA2MCA5MC41IDU5em04NS45IDEwMy4zYy0uOCAxMi4yLTEwLjcgMjIuMS0yMi45IDIyLjktMTQuMy45LTI2LjEtMTAuNC0yNi4xLTI0LjUgMC0uNyAwLTEuNC4xLTIuMS0yLS43LTQuMi0xLTYuNC0xLTIuMyAwLTQuNS40LTYuNyAxLjEuMS43LjEgMS4zLjEgMiAwIDE0LjEtMTEuOCAyNS40LTI2LjEgMjQuNS0xMi4yLS44LTIyLjEtMTAuNy0yMi45LTIyLjktLjgtMTQuMiAxMC41LTI2LjEgMjQuNS0yNi4xIDEwLjIgMCAxOSA2LjMgMjIuNyAxNS4yIDIuNy0uOCA1LjUtMS4zIDguNC0xLjMgMi44IDAgNS41LjQgOC4xIDEuMiAzLjctOC45IDEyLjQtMTUuMSAyMi43LTE1LjEgMTQuMSAwIDI1LjQgMTEuOSAyNC41IDI2LjF6bTIzLjQtMzQuM0g0Mi40Yy0uMiAwLS4zLS4zLS4xLS40IDUuMi0yLjcgMzUuNC0xNy42IDc5LTE3LjYgNDMuNyAwIDczLjUgMTQuOCA3OC42IDE3LjYuMi4xLjEuNC0uMS40eiIvPjxjaXJjbGUgY3g9IjE1MS45IiBjeT0iMTYwLjgiIHI9IjE3LjQiLz48Y2lyY2xlIGN4PSI5MC4xIiBjeT0iMTYwLjgiIHI9IjE3LjQiLz48L2c+PC9zdmc+);
+  height: 120px;
+  width: 120px;
+}
+
+/* Medium-sized icon on medium-sized screens. */
+@media (max-height: 480px),
+       (max-width: 720px) {
+  .icon {
+    height: 72px;
+    width: 72px;
+  }
+}
+
+/* Very small icon on very small screens. */
+@media (max-width: 720px) {
+  @media (max-width: 240px),
+         (max-height: 480px) {
+    .icon {
+      height: 48px;
+      width: 48px;
+    }
+  }
+}
+
+/** The "Learn more" link --------------------------------------------------- */
+
+/* By default, we only show the inline "Learn more" link. */
+.content > .learn-more-button {
+  display: none;
+}
+
+/* On narrow screens, we show the standalone "Learn more" link. */
+@media (max-width: 720px) {
+  #subtitle > .learn-more-button {
+    display: none;
+  }
+
+  .content > .learn-more-button {
+    display: block;
+  }
+}
+
+/** Layout ------------------------------------------------------------------ */
+
+/* Align the content, icon, and title to to the center. */
+.content {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 600px;
+}
+
+.icon {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h1 {
+  text-align: center;
+}
+
+/* Align the two columns of bulletpoints next to each other. */
+.bulletpoints {
+  float: left;
+}
+
+html[dir=rtl] .bulletpoints {
+  float: right;
+}
+
+.bulletpoints + .bulletpoints {
+  clear: right;
+}
+
+html[dir=rtl] .bulletpoints + .bulletpoints {
+  clear: left;
+}
+
+.clearer {
+  clear: both;
+}
+
+/* On narrow screens, align everything to the left. */
+@media (max-width: 720px) {
+  .content {
+    max-width: 600px !important;  /* must override the rule set by JS which
+                                   * is only valid for width > 720px cases. */
+    text-align: start;
+  }
+
+  .icon {
+    -webkit-margin-start: 0;
+  }
+
+  h1 {
+    text-align: start;
+  }
+
+  .bulletpoints + .bulletpoints,
+  html[dir=rtl] .bulletpoints + .bulletpoints {
+    clear: both;
+  }
+}
+
+/** Paddings and margins ---------------------------------------------------- */
+
+.bulletpoints ul {
+  -webkit-padding-start: 16px;
+  margin: 4px 0 0;
+}
+
+/* Margins of floating elements don't collapse. The margin for bulletpoints
+ * will usually be provided by a neighboring element. */
+.bulletpoints {
+  margin: 0;
+}
+
+.bulletpoints + .bulletpoints {
+  -webkit-margin-start: 40px;
+}
+
+.bulletpoints + .bulletpoints.too-wide {
+  -webkit-margin-start: 0;
+  margin-top: 1.5rem;
+}
+
+/* Wide screens. */
+@media (min-width: 720px) {
+  .icon,
+  h1,
+  #subtitle,
+  .learn-more-button {
+    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .content {
+    margin-top: 40px;
+    min-width: 240px;
+    padding: 8px 48px 24px;
+  }
+
+  /* Snap the content box to the whole height on short screens. */
+  @media (max-height: 480px) {
+    html,
+    body,
+    .content {
+      height: 100%;
+    }
+
+    .content {
+      margin-bottom: 0;
+      margin-top: 0;
+      padding-bottom: 0;
+      padding-top: 0;
+    }
+
+    .icon {
+      margin-top: 0;
+      padding-top: 32px;  /* Define the top offset through the icon's padding,
+                           * otherwise the screen height would be 100% + 32px */
+    }
+  }
+
+  /* Smaller vertical margins on very short screens. */
+  @media (max-height: 320px) {
+    h1,
+    #subtitle,
+    .learn-more-button {
+      margin-bottom: 16px;
+      margin-top: 16px;
+    }
+
+    .icon {
+      margin-bottom: 16px;
+    }
+  }
+}
+
+/* Narrow screens */
+@media (max-width: 720px) {
+  .content {
+    padding: 72px 32px;
+    min-width: 176px;
+  }
+
+  .icon,
+  h1,
+  #subtitle,
+  .learn-more-button {
+    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  /* The two columns of bulletpoints are moved under each other. */
+  .bulletpoints + .bulletpoints {
+    -webkit-margin-start: 0;
+    margin-top: 1.5rem;
+  }
+
+  /* Smaller offsets on smaller screens. */
+  @media (max-height: 600px) {
+    .content {
+      padding-top: 48px;
+    }
+
+    .icon,
+    h1,
+    #subtitle,
+    .learn-more-button {
+      margin-bottom: 1rem;
+      margin-top: 1rem;
+    }
+
+    .bulletpoints + .bulletpoints {
+      margin-top: 1rem;
+    }
+  }
+
+  /* Small top offset on very small screens. */
+  @media (max-height: 480px) {
+    .content {
+      padding-top: 32px;
+    }
+  }
+
+  /* Undo the first and last elements margins. */
+  .icon {
+    margin-top: 0;
+  }
+
+  .learn-more-button {
+    margin-bottom: 0;
+  }
+}
+
+/* Very narrow screens. */
+@media (max-width: 240px) {
+  .content {
+    min-width: 192px;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+</style>
+<script>
+// Until themes can clear the cache, force-reload the theme stylesheet.
+document.write('<link id="incognitothemecss" rel="stylesheet" ' +
+               'href="chrome://theme/css/incognito_new_tab_theme.css?' +
+               Date.now() + '">');
+</script><link id="incognitothemecss" rel="stylesheet" href="chrome://theme/css/incognito_new_tab_theme.css?1514814777792">
+<script type="text/javascript" src="./New Tab_files/is"></script></head>
+<body>
+<div class="content" style="max-width: 545px;">
+  <div class="icon" role="presentation" alt=""></div>
+  <h1>You’ve gone incognito</h1>
+  <p id="subtitle">
+    <span>Now you can browse privately, and other people who use this device won’t see your activity. However, downloads and bookmarks will be saved.</span>
+    <a class="learn-more-button" href="https://support.google.com/chrome/?p=incognito">Learn more</a>
+  </p>
+  <div>
+    <div class="bulletpoints">Chrome <em>won’t save</em> the following information:
+        <ul>
+          <li>Your browsing history
+          </li><li>Cookies and site data
+          </li><li>Information entered in forms
+        </li></ul></div>
+    <div class="bulletpoints">Your activity <em>might still be visible</em> to:
+        <ul>
+          <li>Websites you visit
+          </li><li>Your employer or school
+          </li><li>Your internet service provider
+        </li></ul></div>
+    <div class="clearer"></div>
+  </div>
+  <a class="learn-more-button" href="https://support.google.com/chrome/?p=incognito">Learn more</a>
+</div>
+<script src="chrome://resources/js/cr.js"></script>
+<script src="chrome://resources/js/util.js"></script>
+<script>// Copyright 2017 The Chromium Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+// Let the width of two lists of bulletpoints in a horizontal alignment
+// determine the maximum content width.
+function recomputeLayoutWidth() {
+  var bulletpoints = document.querySelectorAll('.bulletpoints');
+  var content = document.querySelector('.content');
+
+  // Unless this is the first load of the Incognito NTP in this session and
+  // with this font size, we already have the maximum content width determined.
+  var fontSize = window.getComputedStyle(document.body).fontSize;
+  var maxWidth = localStorage[fontSize] ||
+      (bulletpoints[0].offsetWidth + bulletpoints[1].offsetWidth +
+       40 /* margin */ + 2 /* offsetWidths may be rounded down */);
+
+  // Save the data for quicker access when the NTP is reloaded. Note that since
+  // we're in the Incognito mode, the local storage is ephemeral and the data
+  // will be discarded when the session ends.
+  localStorage[fontSize] = maxWidth;
+
+  // Limit the maximum width to 600px. That might force the two lists
+  // of bulletpoints under each other, in which case we must swap the left
+  // and right margin.
+  var MAX_ALLOWED_WIDTH = 600;
+  var tooWide = maxWidth > MAX_ALLOWED_WIDTH;
+  bulletpoints[1].classList.toggle('too-wide', tooWide);
+  if (tooWide)
+    maxWidth = MAX_ALLOWED_WIDTH;
+
+  content.style.maxWidth = maxWidth + 'px';
+}
+
+window.addEventListener('load', recomputeLayoutWidth);
+
+// Handle the bookmark bar, theme, and font size change requests
+// from the C++ side.
+var ntp = {
+  /** @param {string} attached */
+  setBookmarkBarAttached: function(attached) {
+    document.documentElement.setAttribute('bookmarkbarattached', attached);
+  },
+
+  /** @param {!{hasCustomBackground: boolean}} themeData */
+  themeChanged: function(themeData) {
+    document.documentElement.setAttribute(
+        'hascustombackground', themeData.hasCustomBackground);
+    $('incognitothemecss').href =
+        'chrome://theme/css/incognito_new_tab_theme.css?' + Date.now();
+  },
+
+  defaultFontSizeChanged: function() {
+    setTimeout(recomputeLayoutWidth, 100);
+  }
+};
+</script>
+
+
+<div style="display: none;">5a01fca9-d552-45e9-a47c-f34d2a14e626</div></body></html>
