@@ -8,7 +8,7 @@
  */
 
 (function() {
-  var previewImage, totalDollar, totalKhmer, weddingBook;
+  var previewImage, weddingBook, weddingTotalGif;
 
   jQuery.fn.onlyDigit = function() {
     return this.each(function() {
@@ -320,20 +320,44 @@
 
   weddingBook = $('#weddingBook').DataTable();
 
-  totalDollar = 0.0;
+  weddingTotalGif = function(dollarIndex, KhmerIndex, search) {
+    var totalDollar, totalKhmer;
+    totalDollar = 0.0;
+    totalKhmer = 0;
+    if (search === '') {
+      weddingBook.column(dollarIndex).data().each(function(data) {
+        return totalDollar += parseFloat(data);
+      });
+      weddingBook.column(KhmerIndex).data().each(function(data) {
+        return totalKhmer += parseInt(data);
+      });
+    } else {
+      weddingBook.column(dollarIndex, {
+        'search': 'applied'
+      }).data().each(function(data) {
+        return totalDollar += parseFloat(data);
+      });
+      weddingBook.column(KhmerIndex, {
+        'search': 'applied'
+      }).data().each(function(data) {
+        return totalKhmer += parseInt(data);
+      });
+    }
+    $('#totalDollar').html(totalDollar);
+    return $('#totalKhmer').html(totalKhmer);
+  };
 
-  weddingBook.column(3).data().each(function(data) {
-    return totalDollar += parseFloat(data);
+  weddingTotalGif(4, 5, '');
+
+
+  /*
+    Trigger Search box event of wedding book DataTable
+   */
+
+  $('#weddingBook_filter input[type="search"]').on('keyup', function(event) {
+    var searchValue;
+    searchValue = $(this).val() + '';
+    return weddingTotalGif(4, 5, searchValue);
   });
-
-  totalKhmer = 0;
-
-  weddingBook.column(4).data().each(function(data) {
-    return totalKhmer += parseInt(data);
-  });
-
-  $('#totalDollar').html(totalDollar);
-
-  $('#totalKhmer').html(totalKhmer);
 
 }).call(this);

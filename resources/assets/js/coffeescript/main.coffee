@@ -277,18 +277,38 @@ $('#btnEditGift').on('click', ->
 ###
   Summary of wedding book
 ###
-weddingBook =  $('#weddingBook').DataTable()
+weddingBook = $('#weddingBook').DataTable()
 
-# Total dollar
-totalDollar = 0.0
-weddingBook.column(3).data().each((data)->
-  totalDollar += parseFloat(data)
-)
+weddingTotalGif = (dollarIndex, KhmerIndex, search)->
+  totalDollar = 0.0
+  totalKhmer = 0
 
-# Total khmer
-totalKhmer = 0
-weddingBook.column(4).data().each((data)->
-  totalKhmer += parseInt(data)
+  if search is ''
+    weddingBook.column(dollarIndex).data().each((data)->
+      totalDollar += parseFloat(data)
+    )
+
+    weddingBook.column(KhmerIndex).data().each((data)->
+      totalKhmer += parseInt(data)
+    )
+  else
+    weddingBook.column(dollarIndex, {'search': 'applied'}).data().each((data)->
+      totalDollar += parseFloat(data)
+    )
+
+    weddingBook.column(KhmerIndex, {'search': 'applied'}).data().each((data)->
+      totalKhmer += parseInt(data)
+    )
+
+  $('#totalDollar').html(totalDollar)
+  $('#totalKhmer').html(totalKhmer)
+
+weddingTotalGif(4, 5, '')
+
+###
+  Trigger Search box event of wedding book DataTable
+###
+$('#weddingBook_filter input[type="search"]').on('keyup', (event)->
+  searchValue = $(this).val() + ''
+  weddingTotalGif(4,5, searchValue)
 )
-$('#totalDollar').html(totalDollar)
-$('#totalKhmer').html(totalKhmer)
