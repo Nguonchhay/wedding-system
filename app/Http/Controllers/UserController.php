@@ -180,8 +180,8 @@ class UserController extends AppBaseController
     public function destroy($id)
     {
         $user = $this->checkExistUser($id);
-        $superAdmin = $this->userRepository->findWhere(['role' => 'super_admin']);
-        if (count($superAdmin) == 1) {
+        $superAdmin = $this->userRepository->findWhere(['role' => 'super_admin'])->first();
+        if ($superAdmin && $superAdmin->id === $id) {
             Flash::success('System needs at least one Super admin. You cannot delete this user.');
             return $this->redirectToIndex();
         }
