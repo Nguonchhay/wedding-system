@@ -8,7 +8,7 @@
  */
 
 (function() {
-  var previewImage, weddingBook, weddingTotalGif;
+  var previewImage, weddingTotalGif;
 
   jQuery.fn.onlyDigit = function() {
     return this.each(function() {
@@ -194,7 +194,7 @@
     self = $(this);
     giftKhmer = self.val();
     if (parseInt(self.val()) > 0) {
-      return self.val(self.val() + '0000');
+      return self.val(self.val() + '000');
     }
   });
 
@@ -203,7 +203,7 @@
     self = $(this);
     giftKhmer = self.val();
     if (parseInt(self.val()) > 0) {
-      return self.val(giftKhmer.slice(0, -4));
+      return self.val(giftKhmer.slice(0, -3));
     }
   });
 
@@ -318,30 +318,31 @@
     Summary of wedding book
    */
 
-  weddingBook = $('#weddingBook').DataTable();
-
   weddingTotalGif = function(dollarIndex, KhmerIndex, search) {
-    var totalDollar, totalKhmer;
+    var totalDollar, totalKhmer, weddingBook;
     totalDollar = 0.0;
     totalKhmer = 0;
-    if (search === '') {
-      weddingBook.column(dollarIndex).data().each(function(data) {
-        return totalDollar += parseFloat(data);
-      });
-      weddingBook.column(KhmerIndex).data().each(function(data) {
-        return totalKhmer += parseInt(data);
-      });
-    } else {
-      weddingBook.column(dollarIndex, {
-        'search': 'applied'
-      }).data().each(function(data) {
-        return totalDollar += parseFloat(data);
-      });
-      weddingBook.column(KhmerIndex, {
-        'search': 'applied'
-      }).data().each(function(data) {
-        return totalKhmer += parseInt(data);
-      });
+    if ($('#weddingBook').length) {
+      weddingBook = $('#weddingBook').DataTable();
+      if (search === '') {
+        weddingBook.column(dollarIndex).data().each(function(data) {
+          return totalDollar += parseFloat(data);
+        });
+        weddingBook.column(KhmerIndex).data().each(function(data) {
+          return totalKhmer += parseInt(data);
+        });
+      } else {
+        weddingBook.column(dollarIndex, {
+          'search': 'applied'
+        }).data().each(function(data) {
+          return totalDollar += parseFloat(data);
+        });
+        weddingBook.column(KhmerIndex, {
+          'search': 'applied'
+        }).data().each(function(data) {
+          return totalKhmer += parseInt(data);
+        });
+      }
     }
     $('#totalDollar').html(totalDollar);
     return $('#totalKhmer').html(totalKhmer);

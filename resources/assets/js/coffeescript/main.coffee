@@ -161,14 +161,14 @@ $('.input_gift_khmer').on('blur', ->
   self = $(this)
   giftKhmer = self.val()
   if parseInt(self.val()) > 0
-    self.val(self.val() + '0000')
+    self.val(self.val() + '000')
 )
 
 $('.input_gift_khmer').on('focus', ->
   self = $(this)
   giftKhmer = self.val()
   if parseInt(self.val()) > 0
-    self.val(giftKhmer.slice(0, -4))
+    self.val(giftKhmer.slice(0, -3))
 )
 
 $('#btnWeddingRecordAjax').on('click', ->
@@ -277,28 +277,29 @@ $('#btnEditGift').on('click', ->
 ###
   Summary of wedding book
 ###
-weddingBook = $('#weddingBook').DataTable()
-
 weddingTotalGif = (dollarIndex, KhmerIndex, search)->
   totalDollar = 0.0
   totalKhmer = 0
 
-  if search is ''
-    weddingBook.column(dollarIndex).data().each((data)->
-      totalDollar += parseFloat(data)
-    )
+  if $('#weddingBook').length
+    weddingBook = $('#weddingBook').DataTable()
 
-    weddingBook.column(KhmerIndex).data().each((data)->
-      totalKhmer += parseInt(data)
-    )
-  else
-    weddingBook.column(dollarIndex, {'search': 'applied'}).data().each((data)->
-      totalDollar += parseFloat(data)
-    )
+    if search is ''
+      weddingBook.column(dollarIndex).data().each((data)->
+        totalDollar += parseFloat(data)
+      )
 
-    weddingBook.column(KhmerIndex, {'search': 'applied'}).data().each((data)->
-      totalKhmer += parseInt(data)
-    )
+      weddingBook.column(KhmerIndex).data().each((data)->
+        totalKhmer += parseInt(data)
+      )
+    else
+      weddingBook.column(dollarIndex, {'search': 'applied'}).data().each((data)->
+        totalDollar += parseFloat(data)
+      )
+
+      weddingBook.column(KhmerIndex, {'search': 'applied'}).data().each((data)->
+        totalKhmer += parseInt(data)
+      )
 
   $('#totalDollar').html(totalDollar)
   $('#totalKhmer').html(totalKhmer)
