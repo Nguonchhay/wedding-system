@@ -157,20 +157,6 @@ $('#isInviteImportingGuest').on('click', ->
     weddingForGuest.addClass('hide')
 )
 
-$('.input_gift_khmer').on('blur', ->
-  self = $(this)
-  giftKhmer = self.val()
-  if parseInt(self.val()) > 0
-    self.val(self.val() + '000')
-)
-
-$('.input_gift_khmer').on('focus', ->
-  self = $(this)
-  giftKhmer = self.val()
-  if parseInt(self.val()) > 0
-    self.val(giftKhmer.slice(0, -3))
-)
-
 $('#btnWeddingRecordAjax').on('click', ->
   self = $(this)
   weddingInvitation = $("#weddingInvitation option:selected")

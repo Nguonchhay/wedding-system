@@ -17,8 +17,7 @@
 
         <div class="col-sm-6">
             <label for="gift_khmer">Riel (<i class="fa fa-money" aria-hidden="true"></i>)</label>
-            {!! Form::text('khmer', null, ['class' => 'form-control only-number input_gift_khmer', 'id' => 'gift_khmer']) !!}
-            <p>System will append <strong>000</strong> to identify hundred. Ex: If you input "4" then system will generate "4000"</p>
+            {!! Form::text('khmer', null, ['class' => 'form-control only-number', 'id' => 'gift_khmer']) !!}
         </div>
 
         <div class="col-sm-12">

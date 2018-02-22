@@ -1,4 +1,6 @@
+/bower_components
 /node_modules
+package-lock.json
 /.sass-cache
 /public/storage
 /storage/*.key

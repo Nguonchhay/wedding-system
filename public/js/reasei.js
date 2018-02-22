@@ -189,24 +189,6 @@
     }
   });
 
-  $('.input_gift_khmer').on('blur', function() {
-    var giftKhmer, self;
-    self = $(this);
-    giftKhmer = self.val();
-    if (parseInt(self.val()) > 0) {
-      return self.val(self.val() + '000');
-    }
-  });
-
-  $('.input_gift_khmer').on('focus', function() {
-    var giftKhmer, self;
-    self = $(this);
-    giftKhmer = self.val();
-    if (parseInt(self.val()) > 0) {
-      return self.val(giftKhmer.slice(0, -3));
-    }
-  });
-
   $('#btnWeddingRecordAjax').on('click', function() {
     var data, dollar, khmer, other, self, url, weddingInvitation, weddingInvitationId;
     self = $(this);

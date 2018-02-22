@@ -1,24 +1,24 @@
 {
-  "name": "reasei-package-json",
-  "version": "0.0.1",
-  "description": "Loading neccessary grunt modules",
-  "main": "index.js",
-  "scripts": {
-	"test": ""
-  },
-  "repository": "",
-  "author": "Nguonchhay",
-  "license": "MIT",
-  "dependencies": {
-	"grunt": "latest",
-	"grunt-contrib-clean": "^1.0.0",
-	"grunt-contrib-copy": "^1.0.0",
-	"grunt-contrib-uglify": "^1.0.1",
-	"grunt-contrib-compass": "^1.1.1",
-	"grunt-contrib-cssmin": "^1.0.1",
-	"grunt-contrib-concat": "^1.0.0",
-	"grunt-contrib-imagemin": "^1.0.0",
-	"grunt-contrib-coffee": "^1.0.0",
-	"grunt-contrib-watch": "^1.0.0"
-  }
+ "name": "reasei-package-json",
+ "version": "0.0.1",
+ "description": "Loading neccessary grunt modules",
+ "main": "index.js",
+ "scripts": {
+  "test": ""
+ },
+ "repository": "",
+ "author": "Nguonchhay",
+ "license": "MIT",
+ "dependencies": {
+  "grunt": "latest",
+  "grunt-contrib-clean": "^1.0.0",
+  "grunt-contrib-copy": "^1.0.0",
+  "grunt-contrib-uglify": "^1.0.1",
+  "grunt-contrib-compass": "^1.1.1",
+  "grunt-contrib-cssmin": "^1.0.1",
+  "grunt-contrib-concat": "^1.0.0",
+  "grunt-contrib-imagemin": "^1.0.0",
+  "grunt-contrib-coffee": "^1.0.0",
+  "grunt-contrib-watch": "^1.0.0"
+ }
 }
