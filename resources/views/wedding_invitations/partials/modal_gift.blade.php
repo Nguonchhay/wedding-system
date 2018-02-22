@@ -13,12 +13,12 @@
                         <div class="col-sm-12">
                             <div class=" col-sm-6">
                                 <label for="edit_gift_dollar">Dollar (<i class="fa fa-usd" aria-hidden="true"></i>)</label>
-                                <input class="form-control only-digit" id="edit_gift_dollar" maxlength="4" value="" type="text">
+                                <input class="form-control gif-recording" id="edit_gift_dollar" maxlength="4" value="" type="text">
                             </div>
 
                             <div class="col-sm-6">
                                 <label for="edit_gift_khmer">Riel (<i class="fa fa-money" aria-hidden="true"></i>)</label>
-                                <input class="form-control only-number" id="edit_gift_khmer" type="text" value="">
+                                <input class="form-control gif-recording" id="edit_gift_khmer" type="text" value="">
                             </div>
 
                             <div class="col-sm-12">

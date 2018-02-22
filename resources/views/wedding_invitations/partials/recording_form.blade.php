@@ -12,12 +12,12 @@
     <div class="col-sm-12">
         <div class=" col-sm-6">
             <label for="gift_dollar">Dollar (<i class="fa fa-usd" aria-hidden="true"></i>)</label>
-            {!! Form::text('dollar', null, ['class' => 'form-control only-digit', 'id' => 'gift_dollar', 'maxlength' => 4]) !!}
+            {!! Form::text('dollar', null, ['class' => 'form-control gif-recording', 'id' => 'gift_dollar']) !!}
         </div>
 
         <div class="col-sm-6">
             <label for="gift_khmer">Riel (<i class="fa fa-money" aria-hidden="true"></i>)</label>
-            {!! Form::text('khmer', null, ['class' => 'form-control only-number', 'id' => 'gift_khmer']) !!}
+            {!! Form::text('khmer', null, ['class' => 'form-control gif-recording', 'id' => 'gift_khmer']) !!}
         </div>
 
         <div class="col-sm-12">

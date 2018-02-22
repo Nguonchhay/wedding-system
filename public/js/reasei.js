@@ -8,7 +8,7 @@
  */
 
 (function() {
-  var previewImage, weddingTotalGif;
+  var convertKhmerToLatinNumber, isKhmerNumber, isLatinNumber, previewImage, weddingTotalGif;
 
   jQuery.fn.onlyDigit = function() {
     return this.each(function() {
@@ -96,6 +96,66 @@
   $('.image-preview-option').on('change', function() {
     previewImage(this);
   });
+
+
+  /*
+    Check whether the input is latin (0-9)
+   */
+
+  isLatinNumber = function(keyCode) {
+    if (keyCode >= 48 && keyCode <= 57) {
+      return true;
+    }
+    return false;
+  };
+
+
+  /*
+    Check whether the input is khmer (១-៩)
+   */
+
+  isKhmerNumber = function(keyCode) {
+    if (keyCode >= 6112 && keyCode <= 6121) {
+      return true;
+    }
+    return false;
+  };
+
+
+  /*
+    Convert khmer number to latin number
+   */
+
+  convertKhmerToLatinNumber = function(number) {
+    var latinNumber;
+    latinNumber = (function() {
+      switch (false) {
+        case number !== '០':
+          return 0;
+        case number !== '១':
+          return 1;
+        case number !== '២':
+          return 2;
+        case number !== '៣':
+          return 3;
+        case number !== '៤':
+          return 4;
+        case number !== '៥':
+          return 5;
+        case number !== '៦':
+          return 6;
+        case number !== '៧':
+          return 7;
+        case number !== '៨':
+          return 8;
+        case number !== '៩':
+          return 9;
+        default:
+          return '';
+      }
+    })();
+    return latinNumber;
+  };
 
 
   /*
@@ -187,6 +247,30 @@
     } else {
       return weddingForGuest.addClass('hide');
     }
+  });
+
+
+  /*
+    Recording gif
+  
+    Note: By apply this converter, it will restrict the default functionality of updating the between digit of text.
+    It means it allows only update the character on the end of text.
+   */
+
+  $(document).find('input.gif-recording').keypress(function(e) {
+    var char, self;
+    self = $(this);
+    char = String.fromCharCode(e.keyCode);
+    if (isLatinNumber(e.keyCode)) {
+      self.val(self.val() + char);
+    } else {
+      if (isKhmerNumber(e.keyCode)) {
+        self.val(self.val() + convertKhmerToLatinNumber(char));
+      } else {
+        self.val(self.val() + '');
+      }
+    }
+    return e.preventDefault();
   });
 
   $('#btnWeddingRecordAjax').on('click', function() {

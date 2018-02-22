@@ -1,6 +1,6 @@
-#############################################
+###################
 ### Jquery plug in
-#############################################
+###################
 
 ###
   Only digit
@@ -75,6 +75,41 @@ $('.image-preview-option').on('change', ->
   previewImage(this)
   return
 )
+
+###
+  Check whether the input is latin (0-9)
+###
+isLatinNumber = (keyCode)->
+  if keyCode >= 48 and keyCode <= 57
+    return true
+  return false
+
+###
+  Check whether the input is khmer (១-៩)
+###
+isKhmerNumber = (keyCode)->
+  if keyCode >= 6112 and keyCode <= 6121
+    return true
+  return false
+
+###
+  Convert khmer number to latin number
+###
+convertKhmerToLatinNumber = (number)->
+  latinNumber = switch
+    when number is '០' then 0
+    when number is '១' then 1
+    when number is '២' then 2
+    when number is '៣' then 3
+    when number is '៤' then 4
+    when number is '៥' then 5
+    when number is '៦' then 6
+    when number is '៧' then 7
+    when number is '៨' then 8
+    when number is '៩' then 9
+    else ''
+
+  return latinNumber
 
 ###
   Remove image button action
@@ -155,6 +190,25 @@ $('#isInviteImportingGuest').on('click', ->
     weddingForGuest.removeClass('hide')
   else
     weddingForGuest.addClass('hide')
+)
+
+###
+  Recording gif
+
+  Note: By apply this converter, it will restrict the default functionality of updating the between digit of text.
+  It means it allows only update the character on the end of text.
+###
+$(document).find('input.gif-recording').keypress((e)->
+  self = $(this)
+  char = String.fromCharCode(e.keyCode)
+  if isLatinNumber(e.keyCode)
+    self.val(self.val() + char)
+  else
+    if isKhmerNumber(e.keyCode)
+      self.val(self.val() + convertKhmerToLatinNumber(char))
+    else
+      self.val(self.val() + '')
+  e.preventDefault()
 )
 
 $('#btnWeddingRecordAjax').on('click', ->
