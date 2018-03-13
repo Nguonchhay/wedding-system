@@ -58,4 +58,28 @@ class WeddingInvitation extends Model
     {
         return $this->belongsTo('App\Models\Guest');
     }
+
+    /**
+     * @return bool
+     */
+    public function hasGift()
+    {
+        $has = false;
+        if ($this->dollar > 0 || $this->khmer > 0 || $this->other != '') {
+            $has = true;
+        }
+        return $has;
+    }
+
+    /**
+     * @return bool
+     */
+    public function noGift()
+    {
+        $has = false;
+        if ($this->dollar == 0 && $this->khmer == 0 && $this->other == '') {
+            $has = true;
+        }
+        return $has;
+    }
 }

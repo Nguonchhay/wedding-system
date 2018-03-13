@@ -18,8 +18,8 @@
                         <td>{!! $weddingInvitation->guest->guest_group->name !!}</td>
                         <td>{!! $weddingInvitation->guest->khmer_name !!}</td>
                         <td>{!! $weddingInvitation->guest->english_name !!}</td>
-                        <td class="gift-dollar">{!! $weddingInvitation->dollar !!}</td>
-                        <td class="gift-khmer">{!! $weddingInvitation->khmer !!}</td>
+                        <td class="gift-dollar">{!! ($weddingInvitation->dollar > 0) ? $weddingInvitation->dollar : '' !!}</td>
+                        <td class="gift-khmer">{!! ($weddingInvitation->khmer > 0) ? $weddingInvitation->khmer : '' !!}</td>
                         <td>{!! $weddingInvitation->other !!}</td>
                         <td>
                             {!! Form::open(['route' => ['wedding_invitations.destroy', $weddingInvitation->id], 'method' => 'delete']) !!}

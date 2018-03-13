@@ -82,14 +82,16 @@ class WeddingInvitationRepository extends BaseRepository
     {
         $filteredWeddingInvitations =  [];
         if ($selectedGiftStatus == 'has') {
+            /** @var WeddingInvitation $weddingInvitation */
             foreach ($weddingInvitations as $weddingInvitation) {
-                if ($weddingInvitation->dollar > 0 || $weddingInvitation->khmer > 0 || $weddingInvitation->other != '' ) {
+                if ($weddingInvitation->hasGift() ) {
                     $filteredWeddingInvitations[] = $weddingInvitation;
                 }
             }
         } else {
+            /** @var WeddingInvitation $weddingInvitation */
             foreach ($weddingInvitations as $weddingInvitation) {
-                if ($weddingInvitation->dollar == 0 && $weddingInvitation->khmer == 0 && $weddingInvitation->other == '' ) {
+                if ($weddingInvitation->noGift()) {
                     $filteredWeddingInvitations[] = $weddingInvitation;
                 }
             }

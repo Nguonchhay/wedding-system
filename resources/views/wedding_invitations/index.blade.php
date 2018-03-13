@@ -41,6 +41,10 @@
                     <a class="btn btn-primary" href="{!! route('wedding_invitations.export_guest_list_excel', [$wedding->id]) !!}">
                         <i class="fa fa-download" aria-hidden="true"></i> Export guest name for wedding invitation letter
                     </a>
+
+                    <a class="btn btn-primary" href="{!! route('wedding_invitations.export_wedding_book_excel', ['wedding_id' => $wedding->id, 'group' => $selectedGroup, 'gift_status' => $selectedGiftStatus]) !!}">
+                        <i class="fa fa-download" aria-hidden="true"></i> Export guests by filter
+                    </a>
                 </div>
             </div>
         </div>

@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Guest;
 use App\Models\Wedding;
 use App\Models\WeddingInvitation;
 use App\Models\GuestGroup;
@@ -191,6 +192,123 @@ class WeddingInvitationController extends AppBaseController
 
                 $sheet->cells('A3:B3', function($cells) {
                     $cells->setFontWeight('bold');
+                });
+
+                $sheet->fromArray($data);
+            });
+        })->export('xlsx');
+
+        return redirect(route($this->routePath . 'index', $wedding_id)) ;
+    }
+
+    /**
+     * @param string $wedding_id
+     * @param Request $request
+     * @return Response
+     */
+    public function exportWeddingBookToExcel($wedding_id, Request $request)
+    {
+        /** @var Wedding $wedding */
+        $wedding = $this->weddingRepository->findWithoutFail($wedding_id);
+        if (empty($wedding)) {
+            return redirect(route($this->routePath . 'index'));
+        }
+
+        $weddingInvitations = $wedding->wedding_invitations;
+
+        $selectedGroup = $request->get('group', null);
+        if ($selectedGroup !== null) {
+            $weddingInvitations = $this->weddingInvitationRepository->filterByGuestGroup($weddingInvitations, $selectedGroup);
+        }
+
+        $selectedGiftStatus = $request->get('gift_status', 'all');
+        if ($selectedGiftStatus != 'all') {
+            $weddingInvitations = $this->weddingInvitationRepository->filterByGift($weddingInvitations, $selectedGiftStatus);
+        }
+
+        $tempExcel = $wedding->title . date('d-m-Y');
+        /* Set header */
+        $data[0] = [$wedding->title . ': Guest List'];
+        $data[] = [];
+        $data[] = ['No', 'Group Name', 'Khmer Name', 'English Name', 'Dollar', 'Khmer', 'Other'];
+
+        $index = 1;
+        $highLightRows = [];
+        $totalDollar = 0;
+        $totalRiel = 0;
+        /** @var WeddingInvitation $weddingInvitation */
+        foreach ($weddingInvitations as $weddingInvitation) {
+            /** @var null|Guest $guest */
+            $guest = $weddingInvitation->guest;
+            if ($guest) {
+                $data[] = [
+                    $index++,
+                    ($guest->guest_group ? $guest->guest_group->name : ''),
+                    $guest->khmer_name,
+                    $guest->english_name,
+                    $weddingInvitation->dollar,
+                    $weddingInvitation->khmer,
+                    $weddingInvitation->other
+                ];
+
+                $totalDollar += intval($weddingInvitation->dollar);
+                $totalRiel += intval($weddingInvitation->khmer);
+
+                if ($weddingInvitation->noGift()) {
+                    $highLightRows [] = $index + 3;
+                }
+            }
+        }
+
+        $data[] = [
+            '',
+            '',
+            '',
+            'Total:',
+            $totalDollar,
+            $totalRiel,
+            ''
+        ];
+
+        Excel::create($tempExcel, function($excel) use($data, $index, $highLightRows) {
+            $excel->sheet('Wedding Guest List', function($sheet) use($data, $index, $highLightRows) {
+                $sheet->setWidth([
+                    'A'     =>  5,
+                    'B'     =>  20,
+                    'C'     =>  20,
+                    'D'     =>  20,
+                    'E'     =>  20,
+                    'F'     =>  20,
+                    'G'     =>  20
+                ]);
+
+                $sheet->mergeCells('A2:G2');
+                $sheet->cells('A2:G2', function($cells) {
+                    $cells->setFont([
+                        'family' => 'KhmerOs',
+                        'size'   => '16',
+                        'bold'   =>  true
+                    ]);
+                });
+
+                $sheet->cells('A4:G4', function($cells) {
+                    $cells->setFontWeight('bold');
+                });
+
+                // Highlight row of guest who has no gif
+                foreach ($highLightRows as $selectHighLightRow) {
+                    $sheet->cells('A' . $selectHighLightRow . ':G' . $selectHighLightRow, function($cells) {
+                        $cells->setBackground('#FFF3C3');
+                    });
+                }
+
+                // Adjust total column
+                $totalColumnIndex = $index + 4;
+                $sheet->cells('D' . $totalColumnIndex . ':F' . $totalColumnIndex, function($cells) {
+                    $cells->setFont([
+                        'size'   => '14',
+                        'bold'   =>  true
+                    ]);
                 });
 
                 $sheet->fromArray($data);

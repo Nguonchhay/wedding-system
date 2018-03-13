@@ -47,6 +47,7 @@ Route::group([
     ], function() {
         Route::get('/{wedding_id}/index', 'WeddingInvitationController@index')->name('wedding_invitations.index');
         Route::get('/{wedding_id}/export-guest-list-excel', 'WeddingInvitationController@exportGuestNameForWeddingLetter')->name('wedding_invitations.export_guest_list_excel');
+        Route::get('/{wedding_id}/export-wedding-book-excel', 'WeddingInvitationController@exportWeddingBookToExcel')->name('wedding_invitations.export_wedding_book_excel');
         Route::get('/{wedding_id}/record', 'WeddingInvitationController@record')->name('wedding_invitations.record');
         Route::post('/{wedding_id}/recordAjax', 'WeddingInvitationController@recordAjax')->name('wedding_invitations.record_ajax');
     });

@@ -43,7 +43,7 @@
         </div>
 
         <footer class="main-footer" style="max-height: 100px;text-align: center">
-            <strong>Copyright © {{ date('Y') }} <a href="http://www.reasei.com" target="_blank">REASEI</a>.</strong> All rights reserved.
+            <strong>Copyright © {{ date('Y') }} <a href="http://www.reasei.co" target="_blank">REASEI</a>.</strong> All rights reserved.
         </footer>
 
     </div>
